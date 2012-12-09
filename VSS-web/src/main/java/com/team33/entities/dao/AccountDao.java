@@ -13,4 +13,6 @@ public interface AccountDao {
 
 	 
 	  public void saveAccount(Account account) throws DataAccessException;
+          
+          public void removeAccount(Long accountID);
 }
