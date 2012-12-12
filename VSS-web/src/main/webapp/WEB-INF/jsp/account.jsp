@@ -32,7 +32,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <input type="submit" value="<spring:message code="label.addcontact"/>"/>
+            <input type="submit" value="<spring:message code="label.saveaccount"/>"/>
         </td>
     </tr>
 </table>  
@@ -53,7 +53,7 @@
         <td>${account.name} </td>
         <td>${account.email}</td>
         <td>${account.salt}</td>
-        <td><a href="delete/${account.id}">delete</a></td>
+        <td><a href="remove/${account.id}">remove</a></td>
     </tr>
 </c:forEach>
 </table>

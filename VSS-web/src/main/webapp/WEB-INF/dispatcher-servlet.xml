@@ -29,6 +29,12 @@
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp" />
           
+   <bean  id="accountService" class="com.team33.services.AccountServiceImpl">
+   </bean>
+          
+   <bean  id="accountDao" class="com.team33.entities.dao.AccountDaoImpl">
+   </bean>
+   
     <!--
     The index controller.
     -->
