@@ -9,12 +9,16 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          p:location="/WEB-INF/jdbc.properties" />
+          
     <bean id="dataSource"
           class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-          p:driverClassName="${hibernate.connection.driver_class}"
-          p:url="${hibernate.connection.url}" 
-          p:username="${hibernate.connection.username}"
-          p:password="${hibernate.connection.password}" />
+          p:driverClassName="${jdbc.driverClassName}"
+          p:url="${jdbc.databaseurl}" 
+          p:username="${jdbc.username}"
+          p:password="${jdbc.password}" />
         
     <!-- Hibernate SessionFactory -->
     <bean id="sessionFactory"
@@ -31,7 +35,7 @@
         <property name="configurationClass">
             <value>org.hibernate.cfg.AnnotationConfiguration</value>
         </property>
-        
+     
         <property name="annotatedClasses">
             <list>
  
@@ -40,21 +44,8 @@
 
         <property name="hibernateProperties">
             <value>
-                hibernate.dialect=${hibernate.dialect}
-                hibernate.jdbc.batch_size=${hibernate.jdbc.batch_size}
-                hibernate.c3p0.max_size=${hibernate.c3p0.max_size}
-                hibernate.c3p0.min_size=${hibernate.c3p0.min_size}
-                hibernate.c3p0.timeout=${hibernate.c3p0.timeout}
-                hibernate.c3p0.max_statements=${hibernate.c3p0.max_statements}
-                hibernate.c3p0.idle_test_period=${hibernate.c3p0.idle_test_period}
-                hibernate.c3p0.acquire_increment=${hibernate.c3p0.acquire_increment}
-                hibernate.c3p0.validate=${hibernate.c3p0.validate}
-                hibernate.cache.provider_class=${hibernate.cache.provider_class}
-                hibernate.connection.provider_class=${hibernate.connection.provider_class}
-                hibernate.show_sql=${hibernate.show_sql}
-                hibernate.hbm2ddl.auto=update
-                hibernate.cache.use_second_level_cache=true
-                hibernate.cache.use_query_cache=true
+                hibernate.dialect=${jdbc.dialect}
+                hibernate.show_sql=true
             </value>
         </property>
     </bean>
