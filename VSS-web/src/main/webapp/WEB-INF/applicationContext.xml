@@ -25,7 +25,5 @@
     p:url="${jdbc.url}"
     p:username="${jdbc.username}"
     p:password="${jdbc.password}" /-->
-<!-- Context Initialization failes here methinks! /-->
-   <import resource="../../resources:spring-hibernate.xml" /> 
-
+   <import resource="classpath:spring-hibernate.xml"></import>
 </beans>
