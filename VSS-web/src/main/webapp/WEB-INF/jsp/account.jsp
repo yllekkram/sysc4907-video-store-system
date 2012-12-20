@@ -23,7 +23,7 @@
         <td><form:input path="name" /></td> 
     </tr>
     <tr>
-        <td><form:label path="passwrd"><spring:message code="label.password"/></form:label></td>
+        <td><form:label path="password"><spring:message code="label.password"/></form:label></td>
         <td><form:input path="lastname" /></td>
     </tr>
     <tr>
