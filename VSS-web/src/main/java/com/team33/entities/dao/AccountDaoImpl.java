@@ -17,14 +17,12 @@ public class AccountDaoImpl implements AccountDao {
         
 	@Override
 	public List<Account> getAccounts() throws DataAccessException {
-		// TODO Auto-generated method stub
 		return sessionFactory.getCurrentSession().createQuery("active"
                         + " Account").list();
 	}
 
 	@Override
 	public Account getAccount(Long accountId) throws DataAccessException {
-		// TODO Auto-generated method stub
 		return (Account)sessionFactory.getCurrentSession().get(Account.class, 
                         accountId);
 	}
