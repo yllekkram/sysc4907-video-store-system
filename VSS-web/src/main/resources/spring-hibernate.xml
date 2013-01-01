@@ -9,15 +9,6 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-    <!-- Data Source -->
-    <bean   id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/videostoredb?zeroDateTimeBehavior=convertToNull"/>
-    	<property name="username" value=""/>
-    	<property name="password" value=""/>       
-        
-    </bean>
-    
     <!-- Hibernate SessionFactory -->
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
@@ -31,8 +22,7 @@
 
         <property name="hibernateProperties">
             <value>
-                <!--hibernate.dialect=${hibernate.dialect}-->
-                hibernate.dialect=org.hibernate.dialect.MySQLDialect
+                hibernate.dialect=${hibernate.dialect}
                 hibernate.jdbc.batch_size=${hibernate.jdbc.batch_size}
                 hibernate.c3p0.max_size=${hibernate.c3p0.max_size}
                 hibernate.c3p0.min_size=${hibernate.c3p0.min_size}
@@ -45,8 +35,8 @@
                 hibernate.connection.provider_class=${hibernate.connection.provider_class}
                 hibernate.show_sql=${hibernate.show_sql}
                 hibernate.hbm2ddl.auto=update
-                <!--hibernate.cache.use_second_level_cache=true
-                hibernate.cache.use_query_cache=true-->
+                hibernate.cache.use_second_level_cache=true
+                hibernate.cache.use_query_cache=true
             </value>
         </property>
     </bean>
