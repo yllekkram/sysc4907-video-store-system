@@ -9,6 +9,6 @@
     </head>
     <body>
         <h1>Welcome to our On-Line Video Store!!!</h1>
-        <a href="account.jsp">Login</a>
+        <a href="registerAccountView.jsp">Login</a>
     </body>
 </html>
