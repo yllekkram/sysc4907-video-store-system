@@ -25,7 +25,7 @@ public class AccountServiceImpl implements AccountService {
     private AccountDao accountDao;
     
     @Transactional
-    public void saveAccount(Account account) throws DataAccessException {
+    public void registerAccount(Account account) throws DataAccessException {
          accountDao.saveAccount(account);
     }
     

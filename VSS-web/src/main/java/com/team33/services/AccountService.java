@@ -18,7 +18,7 @@ public interface AccountService {
 	  public Account getAccount(Long accountId) throws DataAccessException;
 
 	 
-	  public void saveAccount(Account account) throws DataAccessException;
+	  public void registerAccount(Account account) throws DataAccessException;
           
           public void removeAccount(Long accountID);
 }

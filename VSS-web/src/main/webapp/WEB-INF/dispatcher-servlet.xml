@@ -19,7 +19,7 @@
     <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
-                <prop key="index.htm">indexController</prop>
+                <prop key="/index.htm">indexController</prop>
             </props>
         </property>
     </bean>
@@ -28,9 +28,9 @@
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp" />
+   <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>          
+   <bean class="com.team33.controllers.AccountController" p:accountService-ref="accountService"/>
           
-   <bean  id="accountService" class="com.team33.services.AccountServiceImpl">
-   </bean>
           
    <bean  id="accountDao" class="com.team33.entities.dao.AccountDaoImpl">
    </bean>

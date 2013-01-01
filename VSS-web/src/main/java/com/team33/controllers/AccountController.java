@@ -20,10 +20,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.portlet.mvc.AbstractController;
 
 @Controller
-public class AccountController {
+public class AccountController extends AbstractController{
   
+    public AccountController() {
+        //Initialize controller properties here or 
+        //in the Web Application Context
+
+//        setCommandClass(Account.class);
+//        setCommandName("MyCommandName");
+//        setSuccessView("accountView");
+//        setFormView("accountView");
+    }
+    
  
 
 
@@ -40,11 +51,11 @@ public class AccountController {
         return "account";
     }
  
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/registerAccount", method = RequestMethod.POST)
     public String saveAccount(@ModelAttribute("account")
     Account account, BindingResult result) {
  
-        accountService.saveAccount(account);
+        accountService.registerAccount(account);
  
         return "redirect:/index";
     }

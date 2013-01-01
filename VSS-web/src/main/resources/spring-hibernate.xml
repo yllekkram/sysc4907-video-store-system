@@ -50,6 +50,8 @@
         </property>
     </bean>
 
+    <bean name="accountService" class="com.team33.services.AccountServiceImpl"/>
+    
     <!-- Database LOB Handling -->
 
     <bean id="defaultLobHandler"
