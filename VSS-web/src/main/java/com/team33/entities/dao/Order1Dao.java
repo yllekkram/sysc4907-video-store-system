@@ -13,4 +13,6 @@ public interface Order1Dao {
 
 	 
 	  public void saveOrder(Order1 order) throws DataAccessException;
+          
+          public void removeOrder(Long orderId);
 }
