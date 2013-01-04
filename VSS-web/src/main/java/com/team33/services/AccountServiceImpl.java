@@ -19,27 +19,36 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AccountServiceImpl implements AccountService {
 
+    @Transactional
+    public Account loginAccount(String Username, String Password) throws AuthenticationException {         
+        return accountDao.getAccount(Username);
+    }
+
     
 
     @Autowired
     private AccountDao accountDao;
     
     @Transactional
+    @Override
     public void registerAccount(Account account) throws DataAccessException {
          accountDao.saveAccount(account);
     }
     
     @Transactional
+    @Override
     public Account getAccount(Long accountId) throws DataAccessException{
         return accountDao.getAccount(accountId);
     }
 
     @Transactional
+    @Override
     public List<Account> getAccounts() throws DataAccessException {
         return accountDao.getAccounts();
     }
 
     @Transactional
+    @Override
     public void removeAccount(Long accountID) {
        accountDao.removeAccount(accountID);
     }

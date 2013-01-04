@@ -4,15 +4,26 @@
  */
 package com.team33.controllers;
 
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import com.team33.entities.Account;
+import com.team33.services.AccountService;
+import com.team33.services.AuthenticationException;
+import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
- * @author LaFamiglia
+ * @author Samual Martelli
  */
-public class NewSimpleFormController extends SimpleFormController {
+@Controller
+@RequestMapping(value = "/login")
+public class LoginController {
     
-    public NewSimpleFormController() {
+    public LoginController() {
         //Initialize controller properties here or 
         //in the Web Application Context
 
@@ -22,16 +33,27 @@ public class NewSimpleFormController extends SimpleFormController {
         //setFormView("formView");
     }
     
-    @Override
-    protected void doSubmitAction(Object command) throws Exception {
-        throw new UnsupportedOperationException("Not yet implemented");
+     public static final String ACCOUNT_ATTRIBUTE = "account";
+
+    @Autowired
+    private AccountService accountService;
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public String login() {
+        return "login";
     }
-    //Use onSubmit instead of doSubmitAction 
-    //when you need access to the Request, Response, or BindException objects
-    /*
-     * @Override protected ModelAndView onSubmit( HttpServletRequest request,
-     * HttpServletResponse response, Object command, BindException errors)
-     * throws Exception { ModelAndView mv = new ModelAndView(getSuccessView());
-     * //Do something... return mv; }
-     */
+    
+     @RequestMapping(method = RequestMethod.POST)
+    public String handleLogin(@RequestParam String username, 
+    @RequestParam String password, RedirectAttributes redirect,HttpSession session)
+    throws AuthenticationException {
+        try {
+             Account account = this.accountService.loginAccount(username, password);
+             session.setAttribute(ACCOUNT_ATTRIBUTE, account);
+             return "redirect:/index.htm";
+         } catch (AuthenticationException ae) {
+             redirect.addFlashAttribute("exception", ae);
+             return "redirect:/login";
+         }
+    }
 }

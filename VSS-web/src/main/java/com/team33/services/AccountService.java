@@ -20,5 +20,7 @@ public interface AccountService {
 	 
 	  public void registerAccount(Account account) throws DataAccessException;
           
+          public Account loginAccount(String Username,String Password) throws AuthenticationException;
+          
           public void removeAccount(Long accountID);
 }
