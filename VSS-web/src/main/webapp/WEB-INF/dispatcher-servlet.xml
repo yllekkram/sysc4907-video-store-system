@@ -17,29 +17,35 @@
     define an explicit mapping for it.
     -->
     <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="mappings">
-            <props>
-                <prop key="/index.htm">indexController</prop>
-            </props>
+        <property name="urlMap">
+            <map>
+                <entry key="/index.htm">
+                    <ref bean="indexController"/>
+                </entry>
+                <entry key="/login.htm">
+                    <ref bean="loginController"/>
+                </entry>
+            </map>
         </property>
     </bean>
-
     <bean id="viewResolver"
-          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix="/WEB-INF/jsp/"
-          p:suffix=".jsp" />
-   <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>          
-   <bean class="com.team33.controllers.AccountController" p:accountService-ref="accountService"/>
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+    <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>   
           
-          
-   <bean  id="accountDao" class="com.team33.entities.dao.AccountDaoImpl">
-   </bean>
-   
-    <!--
-    The index controller.
-    -->
+    <!-- Controller beans -->
     <bean name="indexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index" />
-
+    <bean name="loginController" 
+          class="com.team33.controllers.LoginController">
+        <property name="accountService" ref="accountService" />
+    </bean>        
+          
+    <bean  id="accountDao" class="com.team33.entities.dao.AccountDaoImpl">
+    </bean>
+   
+    
 </beans>
