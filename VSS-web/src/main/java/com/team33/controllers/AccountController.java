@@ -24,23 +24,13 @@ import org.springframework.web.portlet.mvc.AbstractController;
 
 @Controller
 public class AccountController extends AbstractController{
-  
-    public AccountController() {
-        //Initialize controller properties here or 
-        //in the Web Application Context
 
-//        setCommandClass(Account.class);
-//        setCommandName("MyCommandName");
-//        setSuccessView("accountView");
-//        setFormView("accountView");
-    }
-    
- 
-
-
- 
     @Autowired
     private AccountService accountService;
+    
+    public void setAccountService(AccountService service) {
+        this.accountService = service;
+    }
  
     @RequestMapping("/index")
     public String getAccounts(Map<String, Object> map) {

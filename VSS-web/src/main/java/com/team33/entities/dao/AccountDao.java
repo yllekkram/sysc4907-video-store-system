@@ -11,7 +11,8 @@ public interface AccountDao {
 
 	  public Account getAccount(Long accountId) throws DataAccessException;
 
-	 
+	  public Account getAccount(String username) throws  DataAccessException;
+          
 	  public void saveAccount(Account account) throws DataAccessException;
           
           public void removeAccount(Long accountID);

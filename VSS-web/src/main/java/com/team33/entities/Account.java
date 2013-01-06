@@ -5,22 +5,10 @@
 package com.team33.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,56 +19,46 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
-    @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.accountPK.id = :id"),
+    @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id"),
     @NamedQuery(name = "Account.findByName", query = "SELECT a FROM Account a WHERE a.name = :name"),
     @NamedQuery(name = "Account.findByPassword", query = "SELECT a FROM Account a WHERE a.password = :password"),
-    @NamedQuery(name = "Account.findBySalt", query = "SELECT a FROM Account a WHERE a.salt = :salt"),
-    @NamedQuery(name = "Account.findByStatusid", query = "SELECT a FROM Account a WHERE a.accountPK.statusid = :statusid")})
+    @NamedQuery(name = "Account.findByActivated", query = "SELECT a FROM Account a WHERE a.activated = :activated")})
 public class Account implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected AccountPK accountPK;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "name")
     private String name;
-    @Size(max = 120)
+    @Size(max = 20)
     @Column(name = "password")
     private String password;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "salt")
-    private int salt;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
-    private Collection<Order1> order1Collection;
-    @JoinColumn(name = "Status_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private Status status;
+    @Column(name = "activated")
+    private Boolean activated;
 
     public Account() {
     }
 
-    public Account(AccountPK accountPK) {
-        this.accountPK = accountPK;
+    public Account(Integer id) {
+        this.id = id;
     }
 
-    public Account(AccountPK accountPK, String name, int salt) {
-        this.accountPK = accountPK;
+    public Account(Integer id, String name) {
+        this.id = id;
         this.name = name;
-        this.salt = salt;
     }
 
-    public Account(int id, int statusid) {
-        this.accountPK = new AccountPK(id, statusid);
+    public Integer getId() {
+        return id;
     }
 
-    public AccountPK getAccountPK() {
-        return accountPK;
-    }
-
-    public void setAccountPK(AccountPK accountPK) {
-        this.accountPK = accountPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -99,35 +77,18 @@ public class Account implements Serializable {
         this.password = password;
     }
 
-    public int getSalt() {
-        return salt;
+    public Boolean getActivated() {
+        return activated;
     }
 
-    public void setSalt(int salt) {
-        this.salt = salt;
-    }
-
-    @XmlTransient
-    public Collection<Order1> getOrder1Collection() {
-        return order1Collection;
-    }
-
-    public void setOrder1Collection(Collection<Order1> order1Collection) {
-        this.order1Collection = order1Collection;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (accountPK != null ? accountPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -138,7 +99,7 @@ public class Account implements Serializable {
             return false;
         }
         Account other = (Account) object;
-        if ((this.accountPK == null && other.accountPK != null) || (this.accountPK != null && !this.accountPK.equals(other.accountPK))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -146,7 +107,7 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.Account[ accountPK=" + accountPK + " ]";
+        return "com.team33.entities.Account[ id=" + id + " ]";
     }
     
 }
