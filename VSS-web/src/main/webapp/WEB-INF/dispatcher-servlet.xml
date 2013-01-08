@@ -25,6 +25,12 @@
                 <entry key="/login.htm">
                     <ref bean="loginController"/>
                 </entry>
+                <entry key="/registerAccountView.htm">
+                    <ref bean="registerAccountController"/>
+                </entry>
+                <entry key="/registerAccountView/add.htm">
+                    <ref bean="registerAccountController"/>
+                </entry>
             </map>
         </property>
     </bean>
@@ -33,9 +39,12 @@
         <property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" />
     </bean>
-    <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>   
           
     <!-- Controller beans -->
+    <bean name="registerAccountController"
+          class="com.team33.controllers.AccountController">
+        <property name="accountService" ref="accountService" />
+    </bean>
     <bean name="indexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index" />
@@ -43,9 +52,5 @@
           class="com.team33.controllers.LoginController">
         <property name="accountService" ref="accountService" />
     </bean>        
-          
-    <bean  id="accountDao" class="com.team33.entities.dao.AccountDaoImpl">
-    </bean>
-   
-    
+              
 </beans>

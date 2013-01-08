@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author LaFamiglia
  */
 @Entity
-@Table(name = "account")
+@Table(name = "Account")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
@@ -25,19 +25,24 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Account.findByActivated", query = "SELECT a FROM Account a WHERE a.activated = :activated")})
 public class Account implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "name")
     private String name;
+    
     @Size(max = 20)
     @Column(name = "password")
     private String password;
+    
     @Column(name = "activated")
     private Boolean activated;
 
@@ -107,7 +112,7 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.Account[ id=" + id + " ]";
+        return "com.team33.entities.Account[ id=" + id + ", name=" + name + ", password=" + password + " ]";
     }
     
 }
