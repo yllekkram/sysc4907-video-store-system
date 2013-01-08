@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.team33.entities.VideoInfo" table="video_info">
+      <id name="id" type="integer" column="id">
+          <generator class="native" />
+      </id>
+      
+      <property name="title" type="string" column="title" />
+      <property name="description" type="string" column="description" />
+      <property name="durationInSeconds" type="integer" column="durationInSeconds" />
+      
+      <many-to-one name="Screen_Rating_id" 
+                  class="com.team33.entities.ScreenRating" 
+                  column="Screen_Rating.id" 
+                  not-null="true"
+                  cascade="all" />
+  </class>
+</hibernate-mapping>
