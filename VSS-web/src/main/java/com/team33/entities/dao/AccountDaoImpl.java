@@ -30,7 +30,8 @@ public class AccountDaoImpl implements AccountDao {
         @Override
 	public Account getAccount(String username) throws DataAccessException {
                 Query queryAccounts = sessionFactory.getCurrentSession().
-                        getNamedQuery("Account.findByName");
+                        getNamedQuery("Account.findByName").setString
+                        ("name",username);
                 if (queryAccounts.list().isEmpty()){
                     return null;
                 }

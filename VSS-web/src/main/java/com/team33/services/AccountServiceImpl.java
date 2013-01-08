@@ -32,7 +32,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Transactional
     public Account loginAccount(String username, String password) throws AuthenticationException, AccountNotFoundException, AccountNotActivatedException { 
-        Account account = accountDao.getAccount(username);
+        Account account = this.accountDao.getAccount(username);
         if (account == null)
             throw new AccountNotFoundException("Account was not found");
         if (account.getActivated() != Boolean.TRUE) {

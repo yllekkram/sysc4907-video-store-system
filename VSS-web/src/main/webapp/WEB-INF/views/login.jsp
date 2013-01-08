@@ -12,6 +12,27 @@
         <title>Login Page</title>
     </head>
     <body>
-        <p> Finally got here</p>
-    </body>
+        <form action="login.htm" value="/login" method="post"/>
+        <fieldset>
+            <legend>Account Login</legend>
+            <table>
+                <tr>
+                    <td>Username</td>
+                    <td>
+                        <input type="text" id="username" name="username"
+                               placeholder="Username"/></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>
+                        <input type="password" id="password" name="password"
+                               placeholder="Password"/></td>
+                </tr>
+                <tr><td colspan="2" align="center">
+                        <button id="login">Login</button>
+                    </td></tr>
+            </table>
+        </fieldset>
+    </form>
+</body>
 </html>
