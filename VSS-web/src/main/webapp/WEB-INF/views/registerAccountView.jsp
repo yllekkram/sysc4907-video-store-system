@@ -15,23 +15,23 @@
  
 <h2>Account Manager</h2>
  
-<form:form method="post" action="register.html" commandName="registerAccount">
+<form:form method="post" action="registerAccountView/add.htm" commandName="account">
  
     <table>
-    <tr>
-        <td><form:label path="name"><spring:message code="label.name"/></form:label></td>
-        <td><form:input path="name" /></td> 
-    </tr>
-    <tr>
-        <td><form:label path="password"><spring:message code="label.password"/></form:label></td>
-        <td><form:input path="lastname" /></td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <input type="submit" value="<spring:message code="label.registerAccount"/>"/>
-        </td>
-    </tr>
-</table>  
+        <tr>
+            <td><form:label path="name">Name</form:label></td>
+            <td><form:input path="name" /></td> 
+        </tr>
+        <tr>
+            <td><form:label path="password">Password</form:label></td>
+            <td><form:input path="password" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Submit"/>
+            </td>
+        </tr>
+    </table>  
 </form:form>
  
      
