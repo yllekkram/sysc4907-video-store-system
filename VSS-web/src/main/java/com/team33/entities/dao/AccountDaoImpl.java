@@ -18,6 +18,10 @@ public class AccountDaoImpl implements AccountDao {
             this.sessionFactory = sessionFactory;
         }
         
+        public SessionFactory getSessionFactory(){
+            return this.sessionFactory;
+        }
+        
 	@Override
 	public List<Account> getAccounts() throws DataAccessException {
 		return sessionFactory.getCurrentSession().createQuery("from" + " Account").list();

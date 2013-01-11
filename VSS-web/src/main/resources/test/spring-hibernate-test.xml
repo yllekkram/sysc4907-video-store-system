@@ -8,24 +8,11 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
     
-    <tx:annotation-driven
-        transaction-manager="transactionManager"/>
-
-    <!-- Transaction manager -->
-    <bean id="transactionManager"
-          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    
-    <bean  id="accountDao" class="com.team33.entities.dao.AccountDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-          <property name="location" value="/WEB-INF/jdbc.properties"/> 
+          <property name="location" value="file:src/main/webapp/WEB-INF/jdbc.properties"/> 
     </bean>
-          
+    
     <bean id="dataSource"
           class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
           <property name="driverClassName" value="${jdbc.driverClassName}"/>
@@ -33,7 +20,7 @@
           <property name="username" value="${jdbc.username}"/>
           <property name="password" value="${jdbc.password}" />
     </bean>
-    <!-- Hibernate SessionFactory -->
+    
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
         <property name="lobHandler" ref="defaultLobHandler"/>
@@ -63,5 +50,25 @@
             </value>
         </property>
     </bean>
-
+    
+    <bean  id="accountDao" class="com.team33.entities.dao.AccountDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean  id="accountDaoTest" class="com.team33.entities.dao.AccountDaoImplTest">
+        <property name="accountDaoImpl" ref="accountDao"/>
+    </bean>
+    
+    <tx:annotation-driven
+        transaction-manager="transactionManager"/>
+    
+    <!-- Transaction manager -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="defaultLobHandler"
+          class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
+    
 </beans>
