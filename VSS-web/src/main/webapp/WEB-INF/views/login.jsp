@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,27 +13,32 @@
         <title>Login Page</title>
     </head>
     <body>
-        <form action="login.htm" value="/login" method="post"/>
-        <fieldset>
-            <legend>Account Login</legend>
-            <table>
-                <tr>
-                    <td>Username</td>
-                    <td>
-                        <input type="text" id="username" name="username"
-                               placeholder="Username"/></td>
-                </tr>
-                <tr>
-                    <td>Password</td>
-                    <td>
-                        <input type="password" id="password" name="password"
-                               placeholder="Password"/></td>
-                </tr>
-                <tr><td colspan="2" align="center">
-                        <button id="login">Login</button>
-                    </td></tr>
-            </table>
-        </fieldset>
-    </form>
-</body>
+        <c:if test="${exception ne null}">
+            <div class="error">
+                ${exception.message}
+            </div>
+        </c:if>
+        <form action="<c:url value="/login.htm"/>" method="post">
+            <fieldset>
+                <legend>Account Login</legend>
+                <table>
+                    <tr>
+                        <td>Username</td>
+                        <td>
+                            <input type="text" id="username" name="username"
+                                   placeholder="Username"/></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td>
+                            <input type="password" id="password" name="password"
+                                   placeholder="Password"/></td>
+                    </tr>
+                    <tr><td colspan="2" align="center">
+                            <button id="login">Login</button>
+                        </td></tr>
+                </table>
+            </fieldset>
+        </form>
+    </body>
 </html>
