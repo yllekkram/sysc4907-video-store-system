@@ -27,6 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "Video_Info")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "VideoInfo.findAll", query = "SELECT v FROM VideoInfo v")
+})
 public class VideoInfo implements Serializable {
     private static final long serialVersionUID = 1L;
     

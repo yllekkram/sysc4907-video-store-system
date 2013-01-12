@@ -17,13 +17,7 @@ public interface VideoInfoDao {
     
     public VideoInfo getVideoInfo(int videoInfoId) throws DataAccessException;
     
-    public VideoInfo getVideoInfo(String name) throws DataAccessException;
-    
     public void saveVideoInfo(int videoInfoId) throws DataAccessException;
     
-    public void saveVideoInfo(String name) throws DataAccessException;
-    
     public void removeVideoInfo(int videoInfoId) throws DataAccessException;
-    
-    public void removeVideoInfo(String name) throws DataAccessException;
 }
