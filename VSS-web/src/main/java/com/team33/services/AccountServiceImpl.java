@@ -28,7 +28,10 @@ public class AccountServiceImpl implements AccountService {
     public void setAccountDAO(AccountDao dao) {
         this.accountDao = dao;
     }
-
+    
+    public AccountDao getAccountDAO(){
+        return this.accountDao;
+    }
 
     @Transactional
     public Account loginAccount(String username, String password) throws AuthenticationException, AccountNotFoundException, AccountNotActivatedException { 

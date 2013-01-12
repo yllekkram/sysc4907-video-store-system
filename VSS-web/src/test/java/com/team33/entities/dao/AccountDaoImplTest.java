@@ -149,6 +149,12 @@ public class AccountDaoImplTest {
     @Transactional
     public void testGetAccount_String() {
         System.out.println("getAccount");
+        try{
+            this.accountDaoImpl.getAccount((String)null);
+            fail("Did not throw error for null input");
+        }catch(DataAccessException e){
+            // Suppose to fail
+        }
         
         Account testAccount = new Account(0, "Test1");
         testAccount.setPassword("1234");
@@ -178,6 +184,14 @@ public class AccountDaoImplTest {
     @Transactional
     public void testSaveAccount() {
         System.out.println("saveAccount");
+        
+        try{
+            this.accountDaoImpl.saveAccount(null);
+            fail("Did not throw an error for null input");
+        }catch(DataAccessException e){
+            // Suppose to happen
+        }
+        
         Account testAccount = new Account(0, "Test1");
         testAccount.setPassword("1234");
         try{
@@ -205,6 +219,12 @@ public class AccountDaoImplTest {
     @Transactional
     public void testRemoveAccount() {
         System.out.println("removeAccount");
+        try{
+            this.accountDaoImpl.removeAccount(0L);
+            fail("Error thrown while removing non-exsisting account id");
+        }catch(DataAccessException e){
+            // Suppose to happen
+        }
         
         Account testAccount = new Account(0, "Test1");
         testAccount.setPassword("1234");
