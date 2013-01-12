@@ -45,10 +45,13 @@
         <property name="accountServiceImpl" ref="accountServiceImpl" />
     </bean>  
          
+    <!-- Inject  sessionfactory here --> 
     <bean  id="accountDaoImpl" class="com.team33.entities.dao.AccountDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
+    
     <bean id = "accountServiceImpl" class = "com.team33.services.AccountServiceImpl">
-    </bean>
+    </bean>   
     <mvc:annotation-driven /> 
     
 </beans>

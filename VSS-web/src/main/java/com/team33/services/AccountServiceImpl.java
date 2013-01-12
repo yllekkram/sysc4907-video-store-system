@@ -22,7 +22,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountDaoImpl accountDaoImpl;
-
+    
     public void setAccountDAO(AccountDaoImpl dao) {
         this.accountDaoImpl = dao;
     }
@@ -33,6 +33,7 @@ public class AccountServiceImpl implements AccountService {
                     || password == null || password.equals("")) {
                 throw new LoginException("Invalid login info!");
             }
+            this.setAccountDAO(new AccountDaoImpl());
         Account account = this.accountDaoImpl.getAccount(username);
         if (account == null) {
             throw new AccountNotFoundException("Account was not found");

@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class LoginController {
     public static final String ACCOUNT_ATTRIBUTE = "account";
 
+     // tells the application context to inject an instance of AccountServiceImpl here
     @Autowired
     private AccountServiceImpl accountServiceImpl;
 
@@ -51,6 +52,7 @@ public class LoginController {
                     || password == null || password.equals("")) {
                 throw new LoginException("Invalid login info!");
             }
+            this.setAccountServiceImpl(new AccountServiceImpl());
             Account account = this.accountServiceImpl.loginAccount(username, password);
             session.setAttribute(ACCOUNT_ATTRIBUTE, account);
             return "redirect:/index.htm";
