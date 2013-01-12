@@ -13,10 +13,12 @@ import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.dao.DataAccessException;
+import org.springframework.test.annotation.Rollback;
 
 /**
  *
@@ -39,6 +41,7 @@ public class AccountServiceImplTest {
     
     @Before
     public void setUp() {
+        this.accountServiceImpl = new AccountServiceImpl();
         this.accountServiceImpl.setAccountDAO(new AccountDaoImplTestStub());
     }
     
@@ -62,6 +65,7 @@ public class AccountServiceImplTest {
      * Test of loginAccount method, of class AccountServiceImpl.
      */
     @Test
+    @Rollback(true)
     public void testLoginAccount() throws Exception {
         System.out.println("loginAccount");
         try{
@@ -93,6 +97,7 @@ public class AccountServiceImplTest {
      * Test of registerAccount method, of class AccountServiceImpl.
      */
     @Test
+    @Rollback(true)
     public void testRegisterAccount() {
         System.out.println("registerAccount");
         
@@ -126,29 +131,73 @@ public class AccountServiceImplTest {
      * Test of getAccount method, of class AccountServiceImpl.
      */
     @Test
+    @Rollback(true)
     public void testGetAccount() {
         System.out.println("getAccount");
-        Long accountId = null;
-        AccountServiceImpl instance = new AccountServiceImpl();
-        Account expResult = null;
-        Account result = instance.getAccount(accountId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        try{
+            this.accountServiceImpl.getAccount(0L);
+            fail("DataAccessException was not thrown");
+        }catch(DataAccessException e){
+            // Suppose to happen
+        }
+        
+        Account testAccount = new Account(15, "Test1");
+        testAccount.setPassword("1234");
+        try{
+            this.accountServiceImpl.registerAccount(testAccount);
+        }catch(DataAccessException e){
+            Assume.assumeNoException(e);
+        }
+
+        Account account = null;
+        try{
+            account = this.accountServiceImpl.getAccount(15L);
+        }catch(DataAccessException e){
+            fail("Exception Thrown (Data in Test): " + e.getLocalizedMessage());
+        }
+        assertNotNull("AssertNotNull - Expected Output : account != NULL, Output : " + account, account);
+        assertTrue("AssertTrue - Expected Output : account.getId() == 15, Output : " + account.getId(), account.getId() == 15);
+        assertTrue("AssertTrue - Expected Output : account.getName() == Test1, Output : " + account.getName(), account.getName().equals("Test1"));
+        assertTrue("AssertTrue - Expected Output : account.getPassword() == 1234, Output : " + account.getPassword(), account.getPassword().equals("1234"));
     }
 
     /**
      * Test of getAccounts method, of class AccountServiceImpl.
      */
     @Test
+    @Rollback(true)
     public void testGetAccounts() {
         System.out.println("getAccounts");
-        AccountServiceImpl instance = new AccountServiceImpl();
-        List expResult = null;
-        List result = instance.getAccounts();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        List<Account> expResult = null;
+        try{
+            expResult = this.accountServiceImpl.getAccounts();  
+        }catch(DataAccessException e){
+            fail("Exception Thrown (Empty Test): " + e.getLocalizedMessage());
+        }
+        
+        assertNotNull("AssertNotNull - Expected Output : expResult != NULL, Output : " + expResult, expResult);
+        assertTrue("AssertTrue - Expected Output : expResult.isEmpty() == TRUE, Output : " + expResult.isEmpty(), expResult.isEmpty());
+        
+        Account testAccount = new Account(0, "Test1");
+        testAccount.setPassword("1234");
+        try{
+            this.accountServiceImpl.registerAccount(testAccount);
+        }catch(DataAccessException e){
+            Assume.assumeNoException(e);
+        }
+        
+        try{
+            expResult = this.accountServiceImpl.getAccounts();
+        }catch(DataAccessException e){
+            fail("Exception Thrown (Data in Test): " + e.getLocalizedMessage());
+        }
+        assertTrue("AssertTrue - Expected Output : expResult.size() == 1, Output : " + expResult.size(), expResult.size() == 1);
+        Account account = expResult.get(0);
+        assertNotNull("AssertNotNull - Expected Output : account != NULL, Output : " + account, account);
+        assertTrue("AssertTrue - Expected Output : account.getId() == 0, Output : " + account.getId(), account.getId() == 0);
+        assertTrue("AssertTrue - Expected Output : account.getName() == Test1, Output : " + account.getName(), account.getName().equals("Test1"));
+        assertTrue("AssertTrue - Expected Output : account.getPassword() == 1234, Output : " + account.getPassword(), account.getPassword().equals("1234"));
     }
 
     /**
@@ -157,10 +206,35 @@ public class AccountServiceImplTest {
     @Test
     public void testRemoveAccount() {
         System.out.println("removeAccount");
-        Long accountID = null;
-        AccountServiceImpl instance = new AccountServiceImpl();
-        instance.removeAccount(accountID);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try{
+            this.accountServiceImpl.removeAccount(0L);
+            fail("Error thrown while removing non-exsisting account id");
+        }catch(DataAccessException e){
+            // Suppose to happen
+        }
+        
+        Account testAccount = new Account(0, "Test1");
+        testAccount.setPassword("1234");
+        try{
+            this.accountServiceImpl.registerAccount(testAccount);
+        }catch(DataAccessException e){
+            Assume.assumeNoException(e);
+        }
+        
+        try{
+            this.accountServiceImpl.removeAccount((long)testAccount.getId());
+        }catch(DataAccessException e){
+            fail("Exception Thrown : " + e.getLocalizedMessage());
+        }
+        
+        List<Account> expResult = null;
+        try{
+            expResult = this.accountServiceImpl.getAccounts();  
+        }catch(DataAccessException e){
+            fail("Exception Thrown (Empty Test): " + e.getLocalizedMessage());
+        }
+        
+        assertNotNull("AssertNotNull - Expected Output : expResult != NULL, Output : " + expResult, expResult);
+        assertTrue("AssertTrue - Expected Output : expResult.size() == 0, Output : " + expResult.size(), expResult.isEmpty());
     }
 }
