@@ -28,6 +28,8 @@
         <property name="mappingResources">
             <list>
                 <value>com/team33/entities/account.hbm.xml</value>
+                <value>com/team33/entities/videoInfo.hbm.xml</value>
+                <value>com/team33/entities/screenRating.hbm.xml</value>
             </list>
         </property>
         <property name="configLocation">

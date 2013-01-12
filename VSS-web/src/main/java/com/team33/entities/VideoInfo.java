@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -32,7 +34,7 @@ public class VideoInfo implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Column(name = "id")
     @Basic(optional = false)
@@ -53,6 +55,39 @@ public class VideoInfo implements Serializable {
     @NotNull
     @Column(name = "durationInSeconds")
     private int durationInSeconds;
+    
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private int Screen_Rating_id;
+    
+    public VideoInfo(){
+    }
+    
+    public VideoInfo(int id){
+        this.id = id;
+    }
+    
+    public VideoInfo(int id, String title){
+        this(id);
+        this.title = title;
+    }
+
+    public VideoInfo(int id, String title, String description){
+        this(id, title);
+        this.description = description;
+    }
+    
+    public VideoInfo(int id, String title, String description, int duration){
+        this(id, title, description);
+        this.durationInSeconds = duration;
+    }
+    public int getScreen_Rating_id() {
+        return Screen_Rating_id;
+    }
+
+    public void setScreen_Rating_id(int Screen_Rating_id) {
+        this.Screen_Rating_id = Screen_Rating_id;
+    }
     
     public String getTitle() {
         return title;
