@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.team33.services.exception.DataAccessException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao {
@@ -30,15 +31,20 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao {
 
     @Override
     public Account getAccount(String username) throws DataAccessException {
-        Account currentUser = new Account();
-        currentUser.setName(username);
-        this.sessionFactory = this.getSessionFactory();
+        Session curSession = this.getSessionFactory().getCurrentSession();
+        Query accountQuery;
         try {
-            return (Account) sessionFactory.getCurrentSession().getNamedQuery("Account.findByName").setString("name", username).list().get(FIRST);
+            if (curSession == null) {
+                throw new DataAccessException("Data Access invalid");
+            }
         } catch (DataAccessException dae) {
-            throw new DataAccessException("Data Access invalid"
-                    + dae.getMessage());
+            dae.toString();
+            return null;
         }
+        curSession.beginTransaction();
+        accountQuery = curSession.getNamedQuery("Account.findByName");
+        return (Account) accountQuery.setParameter("name", username).list().get(FIRST);
+
 
 
     }
