@@ -52,7 +52,6 @@ public class LoginController {
                     || password == null || password.equals("")) {
                 throw new LoginException("Invalid login info!");
             }
-            this.setAccountServiceImpl(new AccountServiceImpl());
             Account account = this.accountServiceImpl.loginAccount(username, password);
             session.setAttribute(ACCOUNT_ATTRIBUTE, account);
             return "redirect:/index.htm";
