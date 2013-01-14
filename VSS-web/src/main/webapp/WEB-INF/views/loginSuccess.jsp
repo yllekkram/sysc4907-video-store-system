@@ -8,21 +8,21 @@
 <!DOCTYPE html>
 <html>
 
-<head>
+    <head>
 
-<title>Success</title>
+        <title>Login Successful</title>
 
-</head>
+    </head>
 
-<body>
+    <body>
 
-<center>
+    <center>
 
-<h1>Welcome <core:out value="${name}"/></h1><br>
+        <h1>Welcome <core:out value="${name}"/></h1><br>
 
-<a href="login.htm">Back</a>
+        <a href="index.htm">Home Page</a>
 
-</center>
+    </center>
 
 </body>
 

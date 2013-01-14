@@ -41,9 +41,11 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao {
             dae.toString();
             return null;
         }
+        //tell the session to start a new transaction 
         curSession.beginTransaction();
         accountQuery = curSession.getNamedQuery("Account.findByName");
-        return (Account) accountQuery.setParameter("name", username).list().get(FIRST);
+        accountQuery.setParameter("name", username);
+        return (Account) accountQuery.list().get(FIRST);
 
 
 
