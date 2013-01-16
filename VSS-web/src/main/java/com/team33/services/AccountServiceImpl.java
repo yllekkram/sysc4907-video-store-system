@@ -22,17 +22,21 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountDaoImpl accountDaoImpl;
-    
+
     public void setAccountDaoImpl(AccountDaoImpl dao) {
         this.accountDaoImpl = dao;
     }
 
+    public AccountDaoImpl getAccountDaoImpl() {
+        return this.accountDaoImpl;
+    }
+
     @Transactional
     public Account loginAccount(String username, String password) throws AuthenticationException, AccountNotFoundException, AccountNotActivatedException, LoginException {
-            if (username == null || username.equals("")
-                    || password == null || password.equals("")) {
-                throw new LoginException("Invalid login info!");
-            }
+        if (username == null || username.equals("")
+                || password == null || password.equals("")) {
+            throw new LoginException("Invalid login info!");
+        }
         Account account = this.accountDaoImpl.getAccount(username);
         if (account == null) {
             throw new AccountNotFoundException("Account was not found");
@@ -49,27 +53,27 @@ public class AccountServiceImpl implements AccountService {
         return account;
     }
 
-@Transactional
-        @Override
-        public void registerAccount(Account account) throws DataAccessException {
+    @Transactional
+    @Override
+    public void registerAccount(Account account) throws DataAccessException {
         accountDaoImpl.saveAccount(account);
     }
 
     @Transactional
-        @Override
-        public Account getAccount(Long accountId) throws DataAccessException {
+    @Override
+    public Account getAccount(Long accountId) throws DataAccessException {
         return accountDaoImpl.getAccount(accountId);
     }
 
     @Transactional
-        @Override
-        public List<Account> getAccounts() throws DataAccessException {
+    @Override
+    public List<Account> getAccounts() throws DataAccessException {
         return accountDaoImpl.getAccounts();
     }
 
     @Transactional
-        @Override
-        public void removeAccount(Long accountID) {
+    @Override
+    public void removeAccount(Long accountID) {
         accountDaoImpl.removeAccount(accountID);
     }
 }

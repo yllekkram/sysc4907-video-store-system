@@ -18,9 +18,12 @@
 
     <center>
 
-        <h1>Welcome <core:out value="${name}"/></h1><br>
+       <!-- <h1>Welcome <core:out value="${a.name}"/></h1><br> 
+        This line commented out for now-->
+        
+        <h1> Login Successful! </h1><br>
 
-        <a href="index.htm">Home Page</a>
+        <a href="index.jsp">Home Page</a>
 
     </center>
 

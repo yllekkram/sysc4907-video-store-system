@@ -34,9 +34,7 @@
                             <input type="password" id="password" name="password"
                                    placeholder="Password"/></td>
                     </tr>
-                    <tr><td colspan="2" align="center">
-                            <button id="login">Login</button>
-                        </td></tr>
+                    <input type="submit" name="Submit" value="Login">
                 </table>
             </fieldset>
         </form>

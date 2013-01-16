@@ -43,6 +43,9 @@
     <bean name="loginController" 
           class="com.team33.controllers.LoginController">
         <property name="accountServiceImpl" ref="accountServiceImpl" />
+        <property name="successView" value = "loginSuccess"     />
+        <property name="commandName" value = "account" />
+        <property name="commandClass" value ="com.team33.entities.Account"/>
     </bean>  
          
     <!-- Inject  sessionfactory here --> 
