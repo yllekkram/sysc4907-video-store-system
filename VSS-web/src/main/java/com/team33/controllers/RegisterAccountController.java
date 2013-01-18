@@ -82,8 +82,12 @@ public class RegisterAccountController {
             if (this.getAccountServiceImpl().getAccountDaoImpl().getAccount(username) != null) {
                 throw new RegistrationException("Username already exists, please try another.");
             }
-             //save the account 
-            this.getAccountServiceImpl().getAccountDaoImpl().saveAccount(username);
+             //save password. id is autoincremental so should be fine, then save the account 
+            Account acc = new Account();
+            acc.setName(username);
+            acc.setPassword(password);
+            acc.setActivated(Boolean.TRUE);
+            this.getAccountServiceImpl().getAccountDaoImpl().saveAccount(acc);
             return this.getSuccessView();
         } catch (RegistrationException re) {
             redirect.addFlashAttribute("exception", re);
@@ -105,7 +109,6 @@ public class RegisterAccountController {
             a.setPassword(account.getPassword());
             //auto activate account for now and set new id
             a.setActivated(Boolean.TRUE);
-            a.setId(this.getAccountServiceImpl().getAccountDaoImpl().getAccounts().size() + 1);
 
             modelAndView = new ModelAndView(getSuccessView());
         } catch (Exception e) {

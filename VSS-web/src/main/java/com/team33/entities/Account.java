@@ -28,6 +28,7 @@ public class Account implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
+    @GeneratedValue
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
