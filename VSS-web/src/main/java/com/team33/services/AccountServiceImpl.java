@@ -61,7 +61,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Transactional
     @Override
-    public Account getAccount(Long accountId) throws DataAccessException {
+    public Account getAccount(Integer accountId) throws DataAccessException {
         return accountDaoImpl.getAccount(accountId);
     }
 

@@ -8,12 +8,18 @@
 
 
 <html>
-<head> <title>Online Video Store System</title> </head>
-<body>
-<form action="<c:url value="/registerAccountView.htm"/>" method="post">
-<h3>Please fill in account information.</h3> 
-
- <legend>Account Registration</legend>
+    <head> <title>Online Video Store System</title> </head>
+    <body>
+        <!--Used to capture the exceptions -->
+        <c:if test="${exception ne null}">
+            <div class="error">
+                ${exception.message}
+            </div>
+        </c:if>
+        <form action="<c:url value="/registerAccountView.htm"/>" method="post">
+            <h3>Please fill in account information.</h3> 
+            <fieldset>
+                <legend>Account Registration</legend>
                 <table>
                     <tr>
                         <td>Username</td>
@@ -29,6 +35,7 @@
                     </tr>
                     <input type="submit" name="Submit" value="Register">
                 </table>
-</form>
-</body>
+            </fieldset>
+        </form>
+    </body>
 </html>

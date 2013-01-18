@@ -10,7 +10,7 @@
 
     <head>
 
-        <title>Register Success</title>
+        <title>Account Created</title>
 
     </head>
 

@@ -13,4 +13,7 @@
     <query name="Account.findByName">
         <![CDATA[from Account a where a.name = :name]]>
     </query>
+    <query name="Account.findAll">
+        <![CDATA[from Account a]]>
+    </query>
 </hibernate-mapping>

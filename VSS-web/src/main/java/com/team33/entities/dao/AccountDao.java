@@ -9,7 +9,7 @@ public interface AccountDao {
 
 	  public List<Account> getAccounts() throws DataAccessException;
 
-	  public Account getAccount(Long accountId) throws DataAccessException;
+	  public Account getAccount(Integer accountId) throws DataAccessException;
 
 	  public Account getAccount(String username) throws  DataAccessException;
           

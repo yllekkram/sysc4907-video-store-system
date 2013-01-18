@@ -14,18 +14,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao {
 
     private static final int FIRST = 0;
+    private static final int NEW_ID= 1;
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
+    /*Finds all accounts and returns the list of accounts*/
     public List<Account> getAccounts() throws DataAccessException {
-        return sessionFactory.getCurrentSession().createQuery("from"
-                + " Account").list();
+        Session curSession = this.getSessionFactory().getCurrentSession();
+        Query accountQuery;
+        accountQuery = curSession.getNamedQuery("Account.findAll");
+        return accountQuery.list();
     }
 
     @Override
-    public Account getAccount(Long accountId) throws DataAccessException {
-        return (Account) sessionFactory.getCurrentSession().get(Account.class,
+    public Account getAccount(Integer accountId) throws DataAccessException {
+        Session curSession = this.getSessionFactory().getCurrentSession();
+        return (Account) curSession.get(Account.class,
                 accountId);
     }
 
@@ -45,6 +50,9 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao {
         curSession.beginTransaction();
         accountQuery = curSession.getNamedQuery("Account.findByName");
         accountQuery.setParameter("name", username);
+        if(accountQuery.list().isEmpty()){
+            return null;
+        }
         return (Account) accountQuery.list().get(FIRST);
 
 
@@ -53,6 +61,14 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao {
 
     @Override
     public void saveAccount(Account account) throws DataAccessException {
+        sessionFactory.getCurrentSession().save(account);
+
+    }
+    /*Given a username and password save the account
+     Null pointer occurs here in line 71*/
+      public void saveAccount(String username){
+          //Id should be 1 greater than the getaccounts size
+          Account account = this.getAccount((this.getAccounts().size() + NEW_ID));
         sessionFactory.getCurrentSession().save(account);
 
     }
