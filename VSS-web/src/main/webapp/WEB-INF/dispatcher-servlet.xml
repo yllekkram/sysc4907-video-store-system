@@ -30,6 +30,9 @@
                 <entry key="/registerAccountView.htm">
                     <ref bean="registerAccountController"/>
                 </entry>
+                <entry key="/orderVideoView.htm">
+                    <ref bean="orderController"/>
+                </entry>
             </map>
         </property>
     </bean>
@@ -57,13 +60,25 @@
         <property name="commandName" value = "account" />
         <property name="commandClass" value ="com.team33.entities.Account"/>
     </bean>
+    <bean name = "orderController"
+         class = "com.team33.controllers.OrderController" >
+        <property name="orderServiceImpl" ref="orderServiceImpl" />
+        <property name="commandName" value = "order1" />
+        <property name="commandClass" value ="com.team33.entities.Order1"/>
+    </bean>
          
     <!-- Inject  sessionfactory here --> 
     <bean id = "accountServiceImpl" class = "com.team33.services.AccountServiceImpl">
         <property name = "accountDaoImpl" ref = "accountDaoImpl"/>
     </bean> 
+    <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
+        <property name = "Order1DaoImpl" ref = "Order1DaoImpl"/>
+    </bean> 
     
     <bean  id="accountDaoImpl" class="com.team33.entities.dao.AccountDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />  
+    </bean>
+    <bean  id="order1DaoImpl" class="com.team33.entities.dao.Order1DaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
     

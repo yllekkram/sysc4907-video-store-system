@@ -26,16 +26,16 @@ public class Order1PK implements Serializable {
     private int accountid;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Account_Status_id")
-    private int accountStatusid;
+    @Column(name = "Account_activated")
+    private boolean accountActivated;
 
     public Order1PK() {
     }
 
-    public Order1PK(int id, int accountid, int accountStatusid) {
+    public Order1PK(int id, int accountid, boolean accountActivated) {
         this.id = id;
         this.accountid = accountid;
-        this.accountStatusid = accountStatusid;
+        this.accountActivated = accountActivated;
     }
 
     public int getId() {
@@ -54,12 +54,12 @@ public class Order1PK implements Serializable {
         this.accountid = accountid;
     }
 
-    public int getAccountStatusid() {
-        return accountStatusid;
+    public boolean getAccountActivated() {
+        return accountActivated;
     }
 
-    public void setAccountStatusid(int accountStatusid) {
-        this.accountStatusid = accountStatusid;
+    public void setAccountActivated(boolean accountActivated) {
+        this.accountActivated = accountActivated;
     }
 
     @Override
@@ -67,7 +67,6 @@ public class Order1PK implements Serializable {
         int hash = 0;
         hash += (int) id;
         hash += (int) accountid;
-        hash += (int) accountStatusid;
         return hash;
     }
 
@@ -84,7 +83,7 @@ public class Order1PK implements Serializable {
         if (this.accountid != other.accountid) {
             return false;
         }
-        if (this.accountStatusid != other.accountStatusid) {
+        if (this.accountActivated != other.accountActivated) {
             return false;
         }
         return true;
@@ -92,7 +91,7 @@ public class Order1PK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.Order1PK[ id=" + id + ", accountid=" + accountid + ", accountStatusid=" + accountStatusid + " ]";
+        return "com.team33.entities.Order1PK[ id=" + id + ", accountid=" + accountid + ", accountActivated=" + accountActivated + " ]";
     }
     
 }
