@@ -52,7 +52,7 @@ public class AccountController extends AbstractController{
  
     @RequestMapping("/delete/{accountId}")
     public String removeAccount(@PathVariable("accountId")
-    Long accountId) {
+    Integer accountId) {
  
         accountService.removeAccount(accountId);
  

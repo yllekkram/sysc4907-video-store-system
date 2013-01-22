@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao {
 
     private static final int FIRST = 0;
+    //tells Spring to inject the dependency
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -68,7 +69,7 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao {
     }
 
     @Override
-    public void removeAccount(Long accountId) {
+    public void removeAccount(Integer accountId) {
         Account account = (Account) sessionFactory.getCurrentSession().load(
                 Account.class, accountId);
         if (null != account) {

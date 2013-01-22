@@ -10,10 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class Order1DaoImpl extends HibernateDaoSupport implements Order1Dao {
-
-   
-
-    
+    //tells Spring to inject the dependency
     @Autowired
     private SessionFactory sessionFactory;
 

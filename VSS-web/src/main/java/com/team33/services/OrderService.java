@@ -18,10 +18,10 @@ public interface OrderService {
 	  public Order1 getOrder(Integer orderId) throws DataAccessException,AccountNotActivatedException,LoginException;
 
 	 
-	  public void addOrder(Order1 order) throws DataAccessException;
+	  public void addOrder(Order1 order,Integer accountId) throws DataAccessException;
           
           public void confirmPayment(Integer orderId) throws  AccountNotActivatedException,LoginException;
           
           public void removeOrder(Integer orderID);
-          public void removeOrders(Integer accountID,Boolean accountActivated) throws  AccountNotActivatedException,LoginException;
+          public void removeOrders(Integer accountId,Boolean accountActivated) throws  AccountNotActivatedException,LoginException;
 }

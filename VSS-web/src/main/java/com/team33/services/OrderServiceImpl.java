@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Samual
  */
 public class OrderServiceImpl implements OrderService {
-
+    
+    //tells Spring to inject the dependency
     @Autowired
     private Order1DaoImpl order1DaoImpl;
 
@@ -23,12 +24,12 @@ public class OrderServiceImpl implements OrderService {
         this.order1DaoImpl = dao;
     }
 
-    public Order1DaoImpl getOrder1daoImpl() {
+    public Order1DaoImpl getOrder1DaoImpl() {
         return this.order1DaoImpl;
     }
 
     @Override
-    public void addOrder(Order1 order) throws DataAccessException {
+    public void addOrder(Order1 order,Integer accountId) throws DataAccessException {
     }
 
     @Override
@@ -48,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order1> getOrders(Integer accountId, Boolean accountActivated) throws DataAccessException, AccountNotActivatedException, LoginException {
-        return this.order1DaoImpl.getOrders(accountId, accountActivated);
+        return this.getOrder1DaoImpl().getOrders(accountId, accountActivated);
     }
 
     @Override
