@@ -33,14 +33,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void confirmPayment(Integer orderId) throws AccountNotActivatedException, LoginException {
+    public void confirmPayment(Integer orderId) throws AccountNotActivatedException {
         if (!this.getOrder(orderId).getOrder1PK().getAccountActivated()) {
             throw new AccountNotActivatedException("Please activate the account before ordering videos.");
         }
     }
 
     @Override
-    public Order1 getOrder(Integer orderId) throws DataAccessException, AccountNotActivatedException, LoginException {
+    public Order1 getOrder(Integer orderId) throws DataAccessException, AccountNotActivatedException {
         if (!this.getOrder(orderId).getOrder1PK().getAccountActivated()) {
             throw new AccountNotActivatedException("Please activate the account before ordering videos.");
         }
@@ -48,20 +48,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order1> getOrders(Integer accountId, Boolean accountActivated) throws DataAccessException, AccountNotActivatedException, LoginException {
-        return this.getOrder1DaoImpl().getOrders(accountId, accountActivated);
+    public List<Order1> getOrders(Integer orderId) throws DataAccessException, AccountNotActivatedException{
+        return this.getOrder1DaoImpl().getOrders(orderId);
     }
+    
 
     @Override
-    public void removeOrder(Integer orderID) {
+    public void removeOrder(Integer orderID) throws AccountNotActivatedException {
         this.order1DaoImpl.removeOrder(orderID);
     }
-
-    @Override
-    /*
-     * Clears all orders from a users session
-     */
-    public void removeOrders(Integer accountID, Boolean accountActivated) throws AccountNotActivatedException, LoginException {
-        this.order1DaoImpl.removeOrders(accountID, accountActivated);
-    }
+    
 }

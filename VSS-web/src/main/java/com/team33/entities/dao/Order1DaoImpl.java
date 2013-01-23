@@ -16,17 +16,17 @@ public class Order1DaoImpl extends HibernateDaoSupport implements Order1Dao {
 
     @Override
     /*Find all orders of a particular account that is activated*/
-    public List<Order1> getOrders(Integer accountId, Boolean accountActivated) throws DataAccessException, AccountNotActivatedException, LoginException {
+    public List<Order1> getOrders(Integer orderId) throws DataAccessException, AccountNotActivatedException {
         Session curSession = this.getSessionFactory().getCurrentSession();
         Query orderQuery;
         orderQuery = curSession.getNamedQuery("Order1.findByActiveAccount");
-        orderQuery.setParameter("accountid", accountId);
-        orderQuery.setParameter("accountActivated", accountActivated);
+        orderQuery.setParameter("accountid", this.getOrder(orderId).getAccount().getId());
+        orderQuery.setParameter("accountActivated", this.getOrder(orderId).getAccount().getActivated());
         return orderQuery.list();
     }
 
     @Override
-    public Order1 getOrder(Long orderId) throws DataAccessException, AccountNotActivatedException, LoginException {
+    public Order1 getOrder(Integer orderId) throws DataAccessException, AccountNotActivatedException {
         return (Order1) sessionFactory.getCurrentSession().get(Order1.class, orderId);
     }
 
@@ -37,21 +37,12 @@ public class Order1DaoImpl extends HibernateDaoSupport implements Order1Dao {
     }
 
     @Override
-    public void removeOrder(Integer orderId) {
+    public void removeOrder(Integer orderId) throws AccountNotActivatedException {
         Order1 order = (Order1) sessionFactory.getCurrentSession().load(
                 Order1.class, orderId);
         if (null != order) {
             sessionFactory.getCurrentSession().delete(order);
         }
 
-    }
-    
-     @Override
-     /*Clears all orders from an account*/
-    public void removeOrders(Integer accountid, Boolean accountActivated) throws AccountNotActivatedException, LoginException {
-         List<Order1> orders = this.getOrders(accountid, accountActivated);
-         for(int i = 0; i < orders.size();i++){
-             this.removeOrder(orders.get(i).getOrder1PK().getId());
-         }
-    }
+    }  
 }

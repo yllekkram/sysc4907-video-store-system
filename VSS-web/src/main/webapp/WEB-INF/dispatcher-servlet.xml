@@ -33,6 +33,9 @@
                 <entry key="/orderVideoView.htm">
                     <ref bean="orderController"/>
                 </entry>
+                <entry key="/browseView.htm">
+                    <ref bean="orderController"/>
+                </entry>
             </map>
         </property>
     </bean>
@@ -66,6 +69,14 @@
         <property name="commandName" value = "order1" />
         <property name="commandClass" value ="com.team33.entities.Order1"/>
     </bean>
+    <bean name = "browseController"
+         class = "com.team33.controllers.BrowseController" >
+        <property name="browseServiceImpl" ref="browseServiceImpl" />
+        <!-- Entity not established yet
+        <property name="commandName" value = "order1" />
+        <property name="commandClass" value ="com.team33.entities.Order1"/>
+        -->
+    </bean>
          
     <!-- Inject  sessionfactory here --> 
     <bean id = "accountServiceImpl" class = "com.team33.services.AccountServiceImpl">
@@ -74,11 +85,17 @@
     <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
         <property name = "Order1DaoImpl" ref = "Order1DaoImpl"/>
     </bean> 
+    <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
+        <property name = "BrowseDaoImpl" ref = "BrowseDaoImpl"/>
+    </bean> 
     
     <bean  id="accountDaoImpl" class="com.team33.entities.dao.AccountDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
     <bean  id="order1DaoImpl" class="com.team33.entities.dao.Order1DaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />  
+    </bean>
+    <bean  id="browseDaoImpl" class="com.team33.entities.dao.BrowseDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
     

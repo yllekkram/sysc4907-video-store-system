@@ -5,7 +5,6 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sql" uri="http://java.sun.com/jstl/sql_rt" %>
 
 <html>
     <head> <title>Online Video Store System</title> </head>
@@ -16,20 +15,13 @@
                 ${exception.message}
             </div>
         </c:if>
-        <!-- Will attempt to get the orders for the current user-->
-        <sql:setDataSource var="dataSource"
-                           driver="com.mysql.jdbc.Driver"
-                           url="localhost:8080/VSS-Web/orderVideoView"
-                           user="${userName}" password="${password}"/>
+        
         <form action="<c:url value="/orderVideoView.htm"/>" method="post">
             <h3>Please confirm the payment option for your video orders</h3> 
             <fieldset>
                 <legend>Video Orders</legend>
                 <table>
                     <!--Need a way to display the users video orders-->
-                    <sql:query var="videoOrders" dataSource="${datasource}">
-                        SELECT id, accountid, price FROM orders
-                    </sql:query>
                     <c:forEach items="${videoOrders.rows}" var="row">
                         <tr>
                             <td><c:out value="${row.id}" /></td>
