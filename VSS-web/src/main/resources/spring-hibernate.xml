@@ -22,7 +22,16 @@
     </bean>
     <!-- Hibernate SessionFactory -->
     <bean id="sessionFactory"
-          scope="singleton" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">  
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="lobHandler" ref="defaultLobHandler"/>
+        <property name="dataSource" ref="dataSource" />
+        <property name="mappingResources">
+            <list>
+                <value>com/team33/entities/account.hbm.xml</value>
+                <value>com/team33/entities/videoInfo.hbm.xml</value>
+                <value>com/team33/entities/screenRating.hbm.xml</value>
+            </list>
+        </property>
         <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
         <property name="configurationClass">
             <value>org.hibernate.cfg.AnnotationConfiguration</value>
@@ -41,7 +50,6 @@
         <property name="exposeTransactionAwareSessionFactory"><value>false</value></property>
     </bean>
     
-     
     <!-- Database LOB Handling -->
 
     <bean id="defaultLobHandler"
@@ -49,7 +57,7 @@
 
     <tx:annotation-driven
         transaction-manager="transactionManager"/>
-        
+
     <!-- Transaction manager -->
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate3.HibernateTransactionManager">

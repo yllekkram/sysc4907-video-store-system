@@ -1,8 +1,7 @@
 package com.team33.entities.dao;
 
-import java.util.List;
-
 import com.team33.entities.Account;
+import java.util.List;
 import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.team33.services.exception.DataAccessException;
