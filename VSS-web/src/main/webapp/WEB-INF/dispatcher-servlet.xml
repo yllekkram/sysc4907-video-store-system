@@ -56,7 +56,7 @@
         <property name="accountService" ref="accountService" />
     </bean>
     <bean name="browseVideoController"
-        class="com.team33.controllers.BrowseVideosController">
+        class="com.team33.controllers.VideoInfoController">
     </bean>
               
 </beans>

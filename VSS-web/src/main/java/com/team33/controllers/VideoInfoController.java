@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Mark
  */
 @Controller
-public class BrowseVideosController {
+public class VideoInfoController {
     @RequestMapping(value = "/browseVideos", method = RequestMethod.GET)
     public String getVideos(Map<String,Object> map) {
         return "/browseVideos";
