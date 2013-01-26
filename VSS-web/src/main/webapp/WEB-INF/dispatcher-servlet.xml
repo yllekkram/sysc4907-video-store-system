@@ -66,8 +66,10 @@
     <bean name = "orderController"
          class = "com.team33.controllers.OrderController" >
         <property name="orderServiceImpl" ref="orderServiceImpl" />
+        <!-- No setter or getter methods set yet to suppor this
         <property name="commandName" value = "order1" />
         <property name="commandClass" value ="com.team33.entities.Order1"/>
+        -->
     </bean>
     <bean name = "browseController"
          class = "com.team33.controllers.BrowseController" >
@@ -83,10 +85,10 @@
         <property name = "accountDaoImpl" ref = "accountDaoImpl"/>
     </bean> 
     <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
-        <property name = "Order1DaoImpl" ref = "Order1DaoImpl"/>
+        <property name = "Order1DaoImpl" ref = "order1DaoImpl"/>
     </bean> 
     <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
-        <property name = "BrowseDaoImpl" ref = "BrowseDaoImpl"/>
+        <property name = "browseDaoImpl" ref = "browseDaoImpl"/>
     </bean> 
     
     <bean  id="accountDaoImpl" class="com.team33.entities.dao.AccountDaoImpl">

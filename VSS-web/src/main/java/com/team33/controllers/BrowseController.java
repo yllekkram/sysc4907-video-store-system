@@ -8,18 +8,20 @@ import com.team33.services.BrowseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.portlet.mvc.AbstractController;
+// Causing java.lang.NoClassDefFoundError
+//import org.springframework.web.portlet.mvc.AbstractController;
 
 /**
  * This is the controller for the browsing feature
  * @author Samual
  */
 @Controller
-public class BrowseController extends AbstractController{
+// Removed. Causing java.lang.NoClassDefFoundError
+public class BrowseController/* extends AbstractController*/{
     @Autowired
     private BrowseService browseService;
     
-    public void setBrowseService(BrowseService browseService){
+    public void setBrowseServiceImpl(BrowseService browseService){
         this.browseService = browseService;
     }
     
