@@ -118,7 +118,7 @@ public class AccountDaoImplTest {
     @Test
     @Rollback(true)
     @Transactional
-    public void testGetAccount_Long() {
+    public void testGetAccount_Integer() {
         System.out.println("getAccount");
         
         Account testAccount = new Account(15, "Test1");
