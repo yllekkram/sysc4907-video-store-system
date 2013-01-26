@@ -17,22 +17,9 @@
         <title>Video Store Home</title>
     </head>
     <body>
-        <div id="headerView">
-            <h1>On-Line Video Store !!!!</h1>
-            <div id="bannerSearch">
-                <input type="text"/>
-                <input type="button" value="Search" onclick=""/>
-            </div>
-            <div id="bannerLogin">
-                <input type="button" value="Register" onclick="changeMainContentView('registerAccountView.htm')"/>
-                <input id="loginButton" type="button" value="Login" onclick="changeMainContentView('login.htm')" />
-            </div>
-        </div>
-        
-        <div id="mainView">
-            <div id="mainContentView">
-                <h1>DEFAULT START VIEW</h1>
-            </div>
-        </div>
+        <h1>Welcome to our On-Line Video Store!!!</h1>
+        <a href="login.htm">Account Login</a>
+        <br>
+        <a href="registerAccountView.htm">Register Account</a>
     </body>
 </html>

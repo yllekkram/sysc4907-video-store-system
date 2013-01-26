@@ -4,11 +4,10 @@
  */
 package com.team33.services;
 
-import com.team33.services.exception.AuthenticationException;
 import com.team33.entities.Account;
-import com.team33.entities.dao.AccountDao;
-import com.team33.services.exception.AccountNotActivatedException;
-import com.team33.services.exception.AccountNotFoundException;
+import com.team33.entities.Order1;
+import com.team33.entities.dao.AccountDaoImpl;
+import com.team33.services.exception.*;
 import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,29 +20,49 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class AccountServiceImpl implements AccountService {
+   
 
+    //tells Spring to inject the dependency
+    //be sure to include setter method
     @Autowired
-    private AccountDao accountDao;
+    private AccountDaoImpl accountDaoImpl;
     
-    public void setAccountDAO(AccountDao dao) {
-        this.accountDao = dao;
+    @Autowired
+    private List<Order1> orders;
+
+    public void setAccountDaoImpl(AccountDaoImpl dao) {
+        this.accountDaoImpl = dao;
     }
-    
-    public AccountDao getAccountDAO(){
-        return this.accountDao;
+
+    public AccountDaoImpl getAccountDaoImpl() {
+        return this.accountDaoImpl;
+    }
+    public void setOrders(List<Order1> orders) {
+        this.orders = orders;
+    }
+
+    public List<Order1> getOrders() {
+        return this.orders;
     }
 
     @Transactional
-    public Account loginAccount(String username, String password) throws AuthenticationException, AccountNotFoundException, AccountNotActivatedException { 
-        Account account = accountDao.getAccount(username);
-        if (account == null)
+    public Account loginAccount(String username, String password) throws AuthenticationException, AccountNotFoundException, AccountNotActivatedException, LoginException {
+        if (username == null || username.equals("")
+                || password == null || password.equals("")) {
+            throw new LoginException("Invalid login info!");
+        }
+        Account account = this.accountDaoImpl.getAccount(username);
+        if (account == null) {
             throw new AccountNotFoundException("Account was not found");
+        }
         if (account.getActivated() != Boolean.TRUE) {
             throw new AccountNotActivatedException("Account not activated!");
         } else {
-            if (account.getName().matches(username))
-                if (!account.getPassword().matches(password))
+            if (account.getName().matches(username)) {
+                if (!account.getPassword().matches(password)) {
                     throw new AuthenticationException("Unable to authenticate the account");
+                }
+            }
         }
         return account;
     }
@@ -51,26 +70,42 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public void registerAccount(Account account) throws DataAccessException {
-         accountDao.saveAccount(account);
+        accountDaoImpl.saveAccount(account);
     }
-    
+
     @Transactional
     @Override
-    public Account getAccount(Long accountId) throws DataAccessException{
-        return accountDao.getAccount(accountId);
+    public Account getAccount(Integer accountId) throws DataAccessException {
+        return accountDaoImpl.getAccount(accountId);
     }
 
     @Transactional
     @Override
     public List<Account> getAccounts() throws DataAccessException {
-        return accountDao.getAccounts();
+        return accountDaoImpl.getAccounts();
     }
 
     @Transactional
     @Override
-    public void removeAccount(Long accountID) {
-       accountDao.removeAccount(accountID);
+    public void removeAccount(Integer accountID) {
+        accountDaoImpl.removeAccount(accountID);
+    }
+    @Override
+    // Will add an order to the account only if it is active
+    public void addOrder(Integer accountId, Order1 order) throws AccountNotActivatedException {
+        if( this.getAccount(accountId).getActivated()){
+            //Is the order already tied to the account?
+            if(!this.getOrders().contains(order)){
+                this.getOrders().add(order);
+            }
+        }
+        throw new AccountNotActivatedException("Please activate the account before ordering videos");
     }
     
+     @Override
+    public void removeOrder(Integer accountId, Order1 order) {
+        if(this.getOrders().contains(order)){
+                this.getOrders().remove(order);
+            }
+    }
 }
-
