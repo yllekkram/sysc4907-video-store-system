@@ -19,7 +19,7 @@ public class OrderController extends AbstractController {
     @Autowired
     private OrderService orderService;
     
-     public void setOrderService(OrderService orderService){
+     public void setOrderServiceImpl(OrderService orderService){
         this.orderService = orderService;
     }
 }

@@ -83,10 +83,10 @@
         <property name = "accountDaoImpl" ref = "accountDaoImpl"/>
     </bean> 
     <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
-        <property name = "Order1DaoImpl" ref = "Order1DaoImpl"/>
+        <property name = "order1DaoImpl" ref = "order1DaoImpl"/>
     </bean> 
     <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
-        <property name = "BrowseDaoImpl" ref = "BrowseDaoImpl"/>
+        <property name = "browseDaoImpl" ref = "browseDaoImpl"/>
     </bean> 
     
     <bean  id="accountDaoImpl" class="com.team33.entities.dao.AccountDaoImpl">
