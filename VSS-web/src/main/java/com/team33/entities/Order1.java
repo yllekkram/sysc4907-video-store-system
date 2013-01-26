@@ -31,8 +31,7 @@ public class Order1 implements Serializable {
     @EmbeddedId
     protected Order1PK order1PK;
     @JoinColumns({
-        @JoinColumn(name = "Account_id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "Account_activated", referencedColumnName = "activated", insertable = false, updatable = false)})
+        @JoinColumn(name = "Account_id", referencedColumnName = "id", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private Account account;
 
@@ -43,8 +42,8 @@ public class Order1 implements Serializable {
         this.order1PK = order1PK;
     }
 
-    public Order1(int id, int accountid, boolean accountActivated) {
-        this.order1PK = new Order1PK(id, accountid, accountActivated);
+    public Order1(int id, int accountid) {
+        this.order1PK = new Order1PK(id, accountid);
     }
 
     public Order1PK getOrder1PK() {

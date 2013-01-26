@@ -5,19 +5,20 @@
 package com.team33.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author LaFamiglia
+ * @author Samual
  */
-@Embeddable
-public class Order1PK implements Serializable {
+@Entity
+public class LoginTokenPK implements Serializable {
+
     @Basic(optional = false)
     @NotNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid-hex")
     @Column(name = "id")
     private int id;
     @Basic(optional = false)
@@ -25,10 +26,10 @@ public class Order1PK implements Serializable {
     @Column(name = "Account_id")
     private int accountid;
 
-    public Order1PK() {
+    public LoginTokenPK() {
     }
 
-    public Order1PK(int id, int accountid) {
+    public LoginTokenPK(int id, int accountid) {
         this.id = id;
         this.accountid = accountid;
     }
@@ -65,7 +66,7 @@ public class Order1PK implements Serializable {
         if (!(object instanceof Order1PK)) {
             return false;
         }
-        Order1PK other = (Order1PK) object;
+        LoginTokenPK other = (LoginTokenPK) object;
         if (this.id != other.id) {
             return false;
         }
@@ -79,5 +80,4 @@ public class Order1PK implements Serializable {
     public String toString() {
         return "com.team33.entities.Order1PK[ id=" + id + ", accountid=" + accountid + " ]";
     }
-    
 }

@@ -4,6 +4,7 @@
  */
 package com.team33.services;
 
+import com.team33.entities.LoginToken;
 import com.team33.entities.Order1;
 import com.team33.entities.dao.Order1DaoImpl;
 import com.team33.services.exception.*;
@@ -29,33 +30,42 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void addOrder(Order1 order,Integer accountId) throws DataAccessException {
-    }
-
-    @Override
-    public void confirmPayment(Integer orderId) throws AccountNotActivatedException {
-        if (!this.getOrder(orderId).getOrder1PK().getAccountActivated()) {
-            throw new AccountNotActivatedException("Please activate the account before ordering videos.");
+    public void addOrder(Order1 order,LoginToken loginToken) throws DataAccessException,AccountNotActivatedException {
+         if(!loginToken.getAccount().getActivated()){
+            throw new AccountNotActivatedException("Account Inactive");
         }
     }
 
     @Override
-    public Order1 getOrder(Integer orderId) throws DataAccessException, AccountNotActivatedException {
-        if (!this.getOrder(orderId).getOrder1PK().getAccountActivated()) {
-            throw new AccountNotActivatedException("Please activate the account before ordering videos.");
+    public void confirmPayment(Integer orderId,LoginToken loginToken) throws AccountNotActivatedException{
+         if(!loginToken.getAccount().getActivated()){
+            throw new AccountNotActivatedException("Account Inactive");
         }
-        return this.getOrder(orderId);
     }
 
     @Override
-    public List<Order1> getOrders(Integer orderId) throws DataAccessException, AccountNotActivatedException{
-        return this.getOrder1DaoImpl().getOrders(orderId);
+    public Order1 getOrder(Integer orderId,LoginToken loginToken) throws DataAccessException,AccountNotActivatedException{
+         if(!loginToken.getAccount().getActivated()){
+            throw new AccountNotActivatedException("Account Inactive");
+        }
+        return this.getOrder(orderId,loginToken);
+    }
+
+    @Override
+    public List<Order1> getOrders(LoginToken loginToken) throws DataAccessException,AccountNotActivatedException{
+         if(!loginToken.getAccount().getActivated()){
+            throw new AccountNotActivatedException("Account Inactive");
+        }
+        return this.getOrder1DaoImpl().getOrders(loginToken);
     }
     
 
     @Override
-    public void removeOrder(Integer orderID) throws AccountNotActivatedException {
-        this.order1DaoImpl.removeOrder(orderID);
+    public void removeOrder(Integer orderID,LoginToken loginToken) throws AccountNotActivatedException{
+         if(!loginToken.getAccount().getActivated()){
+            throw new AccountNotActivatedException("Account Inactive");
+        }
+        this.order1DaoImpl.removeOrder(orderID,loginToken);
     }
     
 }

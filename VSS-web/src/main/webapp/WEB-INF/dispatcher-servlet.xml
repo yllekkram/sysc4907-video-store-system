@@ -36,6 +36,12 @@
                 <entry key="/browseView.htm">
                     <ref bean="orderController"/>
                 </entry>
+                <entry key="/accessVideoOrders.htm">
+                    <ref bean="accessVideoController"/>
+                </entry>
+                <entry key="/adminView.htm">
+                    <ref bean="adminController"/>
+                </entry>
             </map>
         </property>
     </bean>
@@ -57,21 +63,37 @@
         <property name="commandClass" value ="com.team33.entities.Account"/>
     </bean>  
     <bean name = "registerAccountController"
-         class = "com.team33.controllers.RegisterAccountController" >
+          class = "com.team33.controllers.RegisterAccountController" >
         <property name="accountServiceImpl" ref="accountServiceImpl" />
         <property name="successView" value = "registerSuccess"     />
         <property name="commandName" value = "account" />
         <property name="commandClass" value ="com.team33.entities.Account"/>
     </bean>
     <bean name = "orderController"
-         class = "com.team33.controllers.OrderController" >
+          class = "com.team33.controllers.OrderController" >
         <property name="orderServiceImpl" ref="orderServiceImpl" />
         <property name="commandName" value = "order1" />
         <property name="commandClass" value ="com.team33.entities.Order1"/>
     </bean>
     <bean name = "browseController"
-         class = "com.team33.controllers.BrowseController" >
+          class = "com.team33.controllers.BrowseController" >
         <property name="browseServiceImpl" ref="browseServiceImpl" />
+        <!-- Entity not established yet
+        <property name="commandName" value = "order1" />
+        <property name="commandClass" value ="com.team33.entities.Order1"/>
+        -->
+    </bean>
+    <bean name = "adminController"
+          class = "com.team33.controllers.AdminController" >
+        <property name="adminServiceImpl" ref="adminServiceImpl" />
+        <!-- Entity not established yet
+        <property name="commandName" value = "order1" />
+        <property name="commandClass" value ="com.team33.entities.Order1"/>
+        -->
+    </bean>
+    <bean name = "accessVideoController"
+          class = "com.team33.controllers.AccessVideoController" >
+        <property name="accessVideoServiceImpl" ref="accessVideoServiceImpl" />
         <!-- Entity not established yet
         <property name="commandName" value = "order1" />
         <property name="commandClass" value ="com.team33.entities.Order1"/>
@@ -88,6 +110,12 @@
     <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
         <property name = "browseDaoImpl" ref = "browseDaoImpl"/>
     </bean> 
+    <bean id = "VideoAccessServiceImpl" class = "com.team33.services.VideoAccessServiceImpl">
+        <property name = "videoAccessDaoImpl" ref = "videoAccessDaoImpl"/>
+    </bean> 
+    <bean id = "adminServiceImpl" class = "com.team33.services.AdminServiceImpl">
+        <property name = "adminDaoImpl" ref = "adminDaoImpl"/>
+    </bean> 
     
     <bean  id="accountDaoImpl" class="com.team33.entities.dao.AccountDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
@@ -96,6 +124,12 @@
         <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
     <bean  id="browseDaoImpl" class="com.team33.entities.dao.BrowseDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />  
+    </bean>
+    <bean  id="videoAccessDaoImpl" class="com.team33.entities.dao.VideoAccessDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />  
+    </bean>
+    <bean  id="adminDaoImpl" class="com.team33.entities.dao.AdminDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
     

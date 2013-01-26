@@ -62,15 +62,22 @@ public class RegisterAccountController {
     public void setSuccessView(String successView) {
         this.successView = successView;
     }
-/*used to grab the JSP , this can be source of  404 errors if not named correctly*/
+    /*
+     * used to grab the JSP , this can be source of 404 errors if not named
+     * correctly
+     */
+
     @RequestMapping(method = RequestMethod.GET)
     public String register() {
         return "registerAccountView";
     }
 
-    /*This method handles the JSP form action request with method post*/
+    /*
+     * This method handles the JSP request and uses the login information to
+     * create a new account and set it as the session account.
+     */
     @RequestMapping(method = RequestMethod.POST)
-    public String handleLogin(@RequestParam String username,
+    public String handleRegistration(@RequestParam String username,
             @RequestParam String password, RedirectAttributes redirect, HttpSession session)
             throws RegistrationException {
         try {
@@ -82,21 +89,19 @@ public class RegisterAccountController {
             if (this.getAccountServiceImpl().getAccountDaoImpl().getAccount(username) != null) {
                 throw new RegistrationException("Username already exists, please try another.");
             }
-             //save password. id is autoincremental so should be fine, then save the account 
             Account acc = new Account();
             acc.setName(username);
             acc.setPassword(password);
-            acc.setActivated(Boolean.TRUE);
             this.getAccountServiceImpl().getAccountDaoImpl().saveAccount(acc);
             return this.getSuccessView();
         } catch (RegistrationException re) {
             redirect.addFlashAttribute("exception", re);
             return "redirect:/registerAccountView.htm";
-        } 
+        }
     }
 
     public ModelAndView onSubmit(HttpServletRequest request,
-            HttpServletResponse response, Object command, BindException errors) throws ServletException, IOException{
+            HttpServletResponse response, Object command, BindException errors) throws ServletException, IOException {
 
         ModelAndView modelAndView = null;
 
@@ -104,16 +109,13 @@ public class RegisterAccountController {
 
         try {
             Account a = new Account();
-                       
+
             a.setName(account.getName());
             a.setPassword(account.getPassword());
-            //auto activate account for now and set new id
-            a.setActivated(Boolean.TRUE);
-
             modelAndView = new ModelAndView(getSuccessView());
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
         return modelAndView;
     }
 }
