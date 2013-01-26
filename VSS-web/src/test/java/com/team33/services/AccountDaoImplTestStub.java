@@ -6,6 +6,7 @@ package com.team33.services;
 
 import com.team33.entities.Account;
 import com.team33.entities.dao.AccountDao;
+import com.team33.entities.dao.AccountDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.dao.DataAccessException;
@@ -16,7 +17,7 @@ import org.springframework.dao.DataRetrievalFailureException;
  *
  * @author Daywalker
  */
-public class AccountDaoImplTestStub implements AccountDao{
+public class AccountDaoImplTestStub extends AccountDaoImpl{
 
     @Override
     public List<Account> getAccounts() throws DataAccessException {
@@ -24,7 +25,7 @@ public class AccountDaoImplTestStub implements AccountDao{
     }
 
     @Override
-    public Account getAccount(Long accountId) throws DataAccessException {
+    public Account getAccount(Integer accountId) throws DataAccessException {
         Account a = null;
         if (accountId == 0L){
             a = new Account(0, "Test1");
@@ -66,7 +67,7 @@ public class AccountDaoImplTestStub implements AccountDao{
     }
 
     @Override
-    public void removeAccount(Long accountID) {
+    public void removeAccount(Integer accountID) {
         if (accountID != 0L){
             throw new DataAccessResourceFailureException("Stub removeAccount(Account)");
         }

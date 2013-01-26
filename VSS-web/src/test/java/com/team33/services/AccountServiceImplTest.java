@@ -5,7 +5,6 @@
 package com.team33.services;
 
 import com.team33.entities.Account;
-import com.team33.entities.dao.AccountDao;
 import com.team33.services.exception.AccountNotActivatedException;
 import com.team33.services.exception.AccountNotFoundException;
 import com.team33.services.exception.AuthenticationException;
@@ -42,7 +41,7 @@ public class AccountServiceImplTest {
     @Before
     public void setUp() {
         this.accountServiceImpl = new AccountServiceImpl();
-        this.accountServiceImpl.setAccountDAO(new AccountDaoImplTestStub());
+        this.accountServiceImpl.setAccountDaoImpl(new AccountDaoImplTestStub());
     }
     
     @After
@@ -55,10 +54,10 @@ public class AccountServiceImplTest {
     @Test
     public void testSetAccountDAO() {
         System.out.println("setAccountDAO");
-        assertNotNull("AssertNotNull - Expeceted Output : this.accountServiceImpl.getAccountDao(), Output : " + this.accountServiceImpl.getAccountDAO(), this.accountServiceImpl.getAccountDAO());
+        assertNotNull("AssertNotNull - Expeceted Output : this.accountServiceImpl.getAccountDao(), Output : " + this.accountServiceImpl.getAccountDaoImpl(), this.accountServiceImpl.getAccountDaoImpl());
         
-        this.accountServiceImpl.setAccountDAO(null);
-        assertNull("AssertNull - Expected Output : this.accountServiceImpl.getAccountDao(), Ouptput : " + this.accountServiceImpl.getAccountDAO(), this.accountServiceImpl.getAccountDAO());
+        this.accountServiceImpl.setAccountDaoImpl(null);
+        assertNull("AssertNull - Expected Output : this.accountServiceImpl.getAccountDao(), Ouptput : " + this.accountServiceImpl.getAccountDaoImpl(), this.accountServiceImpl.getAccountDaoImpl());
     }
 
     /**
@@ -117,7 +116,7 @@ public class AccountServiceImplTest {
         }
         Account account = null;
         try{
-            account = this.accountServiceImpl.getAccount(0L);
+            account = this.accountServiceImpl.getAccount(0);
         }catch(DataAccessException e){
             fail("Exception Thrown (Data in Test): " + e.getLocalizedMessage());            
         }
@@ -136,7 +135,7 @@ public class AccountServiceImplTest {
         System.out.println("getAccount");
         
         try{
-            this.accountServiceImpl.getAccount(0L);
+            this.accountServiceImpl.getAccount(0);
             fail("DataAccessException was not thrown");
         }catch(DataAccessException e){
             // Suppose to happen
@@ -152,7 +151,7 @@ public class AccountServiceImplTest {
 
         Account account = null;
         try{
-            account = this.accountServiceImpl.getAccount(15L);
+            account = this.accountServiceImpl.getAccount(15);
         }catch(DataAccessException e){
             fail("Exception Thrown (Data in Test): " + e.getLocalizedMessage());
         }
@@ -207,7 +206,7 @@ public class AccountServiceImplTest {
     public void testRemoveAccount() {
         System.out.println("removeAccount");
         try{
-            this.accountServiceImpl.removeAccount(0L);
+            this.accountServiceImpl.removeAccount(0);
             fail("Error thrown while removing non-exsisting account id");
         }catch(DataAccessException e){
             // Suppose to happen
@@ -222,7 +221,7 @@ public class AccountServiceImplTest {
         }
         
         try{
-            this.accountServiceImpl.removeAccount((long)testAccount.getId());
+            this.accountServiceImpl.removeAccount(testAccount.getId());
         }catch(DataAccessException e){
             fail("Exception Thrown : " + e.getLocalizedMessage());
         }

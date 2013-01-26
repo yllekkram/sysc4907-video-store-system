@@ -131,7 +131,7 @@ public class AccountDaoImplTest {
 
         Account account = null;
         try{
-            account = this.accountDaoImpl.getAccount(15L);
+            account = this.accountDaoImpl.getAccount(15);
         }catch(DataAccessException e){
             fail("Exception Thrown (Data in Test): " + e.getLocalizedMessage());
         }
@@ -220,7 +220,7 @@ public class AccountDaoImplTest {
     public void testRemoveAccount() {
         System.out.println("removeAccount");
         try{
-            this.accountDaoImpl.removeAccount(0L);
+            this.accountDaoImpl.removeAccount(0);
             fail("Error thrown while removing non-exsisting account id");
         }catch(DataAccessException e){
             // Suppose to happen
@@ -235,7 +235,7 @@ public class AccountDaoImplTest {
         }
         
         try{
-            this.accountDaoImpl.removeAccount((long)testAccount.getId());
+            this.accountDaoImpl.removeAccount(testAccount.getId());
         }catch(DataAccessException e){
             fail("Exception Thrown : " + e.getLocalizedMessage());
         }
