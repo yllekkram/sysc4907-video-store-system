@@ -9,7 +9,6 @@
     </head>
     <body>
         <h1>Welcome to our On-Line Video Store!!!</h1>
-        <p>Trying something new 1</p>
         <a href="login.htm">Account Login</a>
         <br>
         <a href="registerAccountView.htm">Register Account</a>

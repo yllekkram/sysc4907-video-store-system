@@ -9,11 +9,11 @@ public interface AccountDao {
 
 	  public List<Account> getAccounts() throws DataAccessException;
 
-	  public Account getAccount(Long accountId) throws DataAccessException;
+	  public Account getAccount(Integer accountId) throws DataAccessException;
 
 	  public Account getAccount(String username) throws  DataAccessException;
           
 	  public void saveAccount(Account account) throws DataAccessException;
           
-          public void removeAccount(Long accountID);
+          public void removeAccount(Integer accountID);
 }

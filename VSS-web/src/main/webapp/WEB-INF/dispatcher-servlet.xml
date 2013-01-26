@@ -3,11 +3,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
     <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
 
@@ -28,8 +30,11 @@
                 <entry key="/registerAccountView.htm">
                     <ref bean="registerAccountController"/>
                 </entry>
-                <entry key="/registerAccountView/add.htm">
-                    <ref bean="registerAccountController"/>
+                <entry key="/orderVideoView.htm">
+                    <ref bean="orderController"/>
+                </entry>
+                <entry key="/browseView.htm">
+                    <ref bean="orderController"/>
                 </entry>
             </map>
         </property>
@@ -41,16 +46,62 @@
     </bean>
           
     <!-- Controller beans -->
-    <bean name="registerAccountController"
-          class="com.team33.controllers.AccountController">
-        <property name="accountService" ref="accountService" />
-    </bean>
     <bean name="indexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index" />
     <bean name="loginController" 
           class="com.team33.controllers.LoginController">
-        <property name="accountService" ref="accountService" />
-    </bean>        
-              
+        <property name="accountServiceImpl" ref="accountServiceImpl" />
+        <property name="successView" value = "loginSuccess"     />
+        <property name="commandName" value = "account" />
+        <property name="commandClass" value ="com.team33.entities.Account"/>
+    </bean>  
+    <bean name = "registerAccountController"
+         class = "com.team33.controllers.RegisterAccountController" >
+        <property name="accountServiceImpl" ref="accountServiceImpl" />
+        <property name="successView" value = "registerSuccess"     />
+        <property name="commandName" value = "account" />
+        <property name="commandClass" value ="com.team33.entities.Account"/>
+    </bean>
+    <bean name = "orderController"
+         class = "com.team33.controllers.OrderController" >
+        <property name="orderServiceImpl" ref="orderServiceImpl" />
+        <!-- No setter or getter methods set yet to suppor this
+        <property name="commandName" value = "order1" />
+        <property name="commandClass" value ="com.team33.entities.Order1"/>
+        -->
+    </bean>
+    <bean name = "browseController"
+         class = "com.team33.controllers.BrowseController" >
+        <property name="browseServiceImpl" ref="browseServiceImpl" />
+        <!-- Entity not established yet
+        <property name="commandName" value = "order1" />
+        <property name="commandClass" value ="com.team33.entities.Order1"/>
+        -->
+    </bean>
+         
+    <!-- Inject  sessionfactory here --> 
+    <bean id = "accountServiceImpl" class = "com.team33.services.AccountServiceImpl">
+        <property name = "accountDaoImpl" ref = "accountDaoImpl"/>
+    </bean> 
+    <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
+        <property name = "Order1DaoImpl" ref = "order1DaoImpl"/>
+    </bean> 
+    <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
+        <property name = "browseDaoImpl" ref = "browseDaoImpl"/>
+    </bean> 
+    
+    <bean  id="accountDaoImpl" class="com.team33.entities.dao.AccountDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />  
+    </bean>
+    <bean  id="order1DaoImpl" class="com.team33.entities.dao.Order1DaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />  
+    </bean>
+    <bean  id="browseDaoImpl" class="com.team33.entities.dao.BrowseDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />  
+    </bean>
+    
+      
+    <mvc:annotation-driven /> 
+     
 </beans>
