@@ -6,10 +6,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="banner_style.css">
-        
+
         <title>Video Store Home</title>
     </head>
     <body>
+        <%@include file="WEB-INF/jspf/banner.jspf" %>
         <h1>Welcome to our On-Line Video Store!!!</h1>
         <a href="login.htm">Account Login</a>
         <br>
