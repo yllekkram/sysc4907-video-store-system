@@ -4,11 +4,20 @@
  */
 package com.team33.services;
 
+import com.team33.entities.ScreenRating;
+import com.team33.entities.VideoInfo;
+import java.util.List;
+
 /**
  *
  * @author Samual
  */
 public interface BrowseService {
-    public void displayFeaturedVideo();
+    public List<VideoInfo> displayFeaturedVideo();
+    //public List<VideoInfo> searchVideos(Genre genre);
+
+    public List<VideoInfo> searchVideos(ScreenRating rating);
+
+    public List<VideoInfo> searchVideos(String title);
     
 }

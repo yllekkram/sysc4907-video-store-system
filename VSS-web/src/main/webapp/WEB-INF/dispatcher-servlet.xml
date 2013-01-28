@@ -34,7 +34,7 @@
                     <ref bean="orderController"/>
                 </entry>
                 <entry key="/browseView.htm">
-                    <ref bean="orderController"/>
+                    <ref bean="browseController"/>
                 </entry>
                 <entry key="/accessVideoOrders.htm">
                     <ref bean="accessVideoController"/>
@@ -72,7 +72,7 @@
     <bean name = "orderController"
           class = "com.team33.controllers.OrderController" >
         <property name="orderServiceImpl" ref="orderServiceImpl" />
-        <property name="commandName" value = "order1" />
+        <property name="commandName" value = "orders" />
         <property name="commandClass" value ="com.team33.entities.Order1"/>
     </bean>
     <bean name = "browseController"
@@ -93,7 +93,7 @@
     </bean>
     <bean name = "accessVideoController"
           class = "com.team33.controllers.AccessVideoController" >
-        <property name="accessVideoServiceImpl" ref="accessVideoServiceImpl" />
+        <property name="videoAccessServiceImpl" ref="videoAccessServiceImpl" />
         <!-- Entity not established yet
         <property name="commandName" value = "order1" />
         <property name="commandClass" value ="com.team33.entities.Order1"/>
@@ -110,7 +110,7 @@
     <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
         <property name = "browseDaoImpl" ref = "browseDaoImpl"/>
     </bean> 
-    <bean id = "VideoAccessServiceImpl" class = "com.team33.services.VideoAccessServiceImpl">
+    <bean id = "videoAccessServiceImpl" class = "com.team33.services.VideoAccessServiceImpl">
         <property name = "videoAccessDaoImpl" ref = "videoAccessDaoImpl"/>
     </bean> 
     <bean id = "adminServiceImpl" class = "com.team33.services.AdminServiceImpl">
