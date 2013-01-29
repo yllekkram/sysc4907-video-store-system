@@ -15,5 +15,7 @@
         <a href="login.htm">Account Login</a>
         <br>
         <a href="registerAccountView.htm">Register Account</a>
+        <br>
+        <a href="viewVideo.htm">Watch Video</a>
     </body>
 </html>
