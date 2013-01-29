@@ -36,6 +36,9 @@
                 <entry key="/browseView.htm">
                     <ref bean="orderController"/>
                 </entry>
+                <entry key="/viewVideo.htm">
+                    <ref bean="videoViewController"/>
+                </entry>              
             </map>
         </property>
     </bean>
@@ -46,6 +49,8 @@
     </bean>
           
     <!-- Controller beans -->
+    <bean name="videoViewController"
+          class="com.team33.controllers.VideoViewController"/>
     <bean name="indexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index" />

@@ -1,0 +1,26 @@
+/* 
+    Document   : index_style
+    Created on : Jan 13, 2013, 1:01:11 AM
+    Author     : Caleb
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+#headerView{
+    border-bottom: solid black;
+}
+
+#bannerLogin{
+    display: inline-block;
+    float: right;
+    padding-bottom: 25px;
+}
+
+#bannerSearch{
+    display: inline-block;
+    padding-bottom: 25px;
+}
