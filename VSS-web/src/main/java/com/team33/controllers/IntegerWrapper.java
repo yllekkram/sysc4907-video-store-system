@@ -8,14 +8,14 @@ package com.team33.controllers;
  *
  * @author Caleb
  */
-class IntegerWrapper {
+public class IntegerWrapper {
     private Integer integer;
     
-    IntegerWrapper(){
+    public IntegerWrapper(){
         integer = new Integer(0);
     }
     
-    IntegerWrapper(Integer integer){
+    public IntegerWrapper(Integer integer){
         this.integer = integer;
     }
     

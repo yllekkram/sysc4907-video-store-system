@@ -26,13 +26,17 @@
             <source src="${vidLocation_mp4}" type='video/mp4'>
             <source src="${vidLocation_webm}" type='video/webm'>
         </video>
-        <form:form id="videoForm" action="viewVideo.htm" method="post" modelAttribute="currentTime">
+        <form:form id="videoForm" action="viewVideo.htm" method="post" modelAttribute="savedTime">
             <input id="input" type="submit" value="Submit" onclick=""/>
         </form:form>
         <script>
             var myPlayer = _V_("my_video_1");
             window.onbeforeunload = function(e){
-                $("#currentTime").val(myPlayer.currentTime());
+                console.log("Current time variable : ${currentTime.integer}");
+                ${savedTime.integer} = (myPlayer.currentTime() + 15);
+                console.log("Current time variable : ${currentTime.integer}");
+                console.log("Saved Time : ${savedTime.integer}");
+                console.log("Player Time is " + (myPlayer.currentTime() + 15));
                 document.getElementById("videoForm").submit();
                 var message = "Hello World";
                 if (e){

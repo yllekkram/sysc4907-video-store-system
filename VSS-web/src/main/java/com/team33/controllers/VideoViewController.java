@@ -30,13 +30,14 @@ public class VideoViewController {
         map.put("vidLocation_mp4", (videoLocation + ".mp4"));
         map.put("vidLocation_webm", (videoLocation + ".webm"));
         map.put("currentTime", new IntegerWrapper(159));
+        map.put("savedTime", new IntegerWrapper());
         //map.put("vidLocation_mp4", videoLocation_mp4);
         //map.put("currentTime", 0);
         //logger.error("Loading Video");
         return "viewVideo";
     }
     @RequestMapping(value = "/viewVideo", method = RequestMethod.POST)
-    public String saveVideoTimeLocation(@ModelAttribute("currentTime")IntegerWrapper currentTime){
+    public String saveVideoTimeLocation(@ModelAttribute("savedTime") IntegerWrapper currentTime){
         // Save currentTime
         System.out.println("--------------------------------- Current Time is : " + currentTime.getInteger());
         return "redirect:/viewVideo.htm";
