@@ -1,50 +1,51 @@
 /*
- *
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.team33.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Caleb,Samual
+ * @author Samual
  */
 @Entity
-@Table(name = "ScreenRating")
+@Table(name = "Invoice")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ScreenRating.findAll", query = "SELECT r FROM ScreenRating r"),
-    @NamedQuery(name = "ScreenRating.findByRating", query = "SELECT r FROM ScreenRating r where r.ratingType = :ratingType")
+    @NamedQuery(name = "Invoice.findAll", query = "SELECT i FROM Invoice i"),
+    @NamedQuery(name = "Invoice.findByDate", query = "SELECT i FROM Invoice I r where i.date= :date")
 })
-public class ScreenRating implements Serializable {
+public class Invoice implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
-    @Basic(optional = false)
-    @Column(name = "id")
     private int id;
-    @NotNull
     @Basic(optional = false)
-    @Size(min = 1, max = 45)
-    @Column(name = "ratingType")
-    private String ratingType;
+    @NotNull
+    @Column(name = "date")
+    private Date date;
 
+    @JoinColumns({
+        @JoinColumn(name = "Orders_id", referencedColumnName = "id", insertable = false, updatable = false),
+        @JoinColumn(name = "Orders_Account_id", referencedColumnName = "Account_id", insertable = false, updatable = false)
+    })
     public int getId() {
         return id;
     }
 
-    public String getRatingType() {
-        return ratingType;
+    public Date getDate() {
+        return this.date;
     }
 
-    public void setRatingType(String ratingType) {
-        this.ratingType = ratingType;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public void setId(int id) {
@@ -61,10 +62,10 @@ public class ScreenRating implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScreenRating)) {
+        if (!(object instanceof Invoice)) {
             return false;
         }
-        ScreenRating other = (ScreenRating) object;
+        Invoice other = (Invoice) object;
         if (this.id != other.id) {
             return false;
         }
@@ -73,6 +74,6 @@ public class ScreenRating implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.ScreenRating[ id=" + id + "ratingType=" + ratingType + " ]";
+        return "com.team33.entities.Invoice[ id=" + id + " ]";
     }
 }

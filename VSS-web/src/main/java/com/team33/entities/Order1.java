@@ -25,8 +25,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Order1.findAll", query = "SELECT o FROM Order1 o"),
     @NamedQuery(name = "Order1.findById", query = "SELECT o FROM Order1 o WHERE o.order1PK.id = :id"),
-    @NamedQuery(name = "Order1.findByActiveAccount", query = "SELECT o FROM Order1 o WHERE o.order1PK.accountActivated = :accountActivated AND o.order1PK.accountid = :accountid")})
+    @NamedQuery(name = "Order1.findByActiveAccount", query = "SELECT o FROM Order1 o WHERE o.order1PK.accountActivated = :accountActivated AND o.order1PK.accountid = :accountid")
+})
 public class Order1 implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected Order1PK order1PK;
@@ -86,5 +88,4 @@ public class Order1 implements Serializable {
     public String toString() {
         return "com.team33.entities.Order1[ order1PK=" + order1PK + " ]";
     }
-    
 }
