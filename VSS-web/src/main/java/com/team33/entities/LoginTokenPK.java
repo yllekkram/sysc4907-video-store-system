@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
  *
  * @author Samual
  */
-@Entity
+@Embeddable
 public class LoginTokenPK implements Serializable {
 
     @Basic(optional = false)

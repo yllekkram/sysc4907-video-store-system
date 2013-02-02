@@ -18,11 +18,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Invoice")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Invoice.findAll", query = "SELECT i FROM Invoice i"),
-    @NamedQuery(name = "Invoice.findByDate", query = "SELECT i FROM Invoice I r where i.date= :date")
+    @NamedQuery(name = "Invoice.findAll", query = "SELECT i FROM Invoice i")
 })
 public class Invoice implements Serializable {
 
+    @EmbeddedId
+    protected InvoicePK invoicePK;
+
+    public Invoice() {
+    }
+
+    public Invoice(int id, int accountId, int orderId) {
+        this.invoicePK = new InvoicePK(id, accountId, orderId);
+    }
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -66,7 +74,7 @@ public class Invoice implements Serializable {
             return false;
         }
         Invoice other = (Invoice) object;
-        if (this.id != other.id) {
+        if ((this.invoicePK == null && other.invoicePK != null) || (this.invoicePK != null && !this.invoicePK.equals(other.invoicePK))) {
             return false;
         }
         return true;
@@ -74,6 +82,6 @@ public class Invoice implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.Invoice[ id=" + id + " ]";
+        return "com.team33.entities.Invoice[ invoicePK=" + invoicePK + " ]";
     }
 }

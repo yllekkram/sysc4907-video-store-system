@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
  *
  * @author Samual
  */
-@Entity
+@Embeddable
 public class PurchasePK implements Serializable {
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
