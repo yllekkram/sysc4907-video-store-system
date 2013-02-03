@@ -24,43 +24,47 @@ public class OrderServiceImpl implements OrderService {
     private Order1DaoImpl order1DaoImpl;
     @Autowired
     private CreditCardValidator creditCardValidator;
-    
+
     public void setCreditCardValidator(CreditCardValidator creditCardValidator) {
         this.creditCardValidator = creditCardValidator;
     }
-    
+
     public CreditCardValidator getCreditCardValidator() {
         return creditCardValidator;
     }
-    
+
     public void setOrder1DaoImpl(Order1DaoImpl dao) {
         this.order1DaoImpl = dao;
     }
-    
+
     public Order1DaoImpl getOrder1DaoImpl() {
         return this.order1DaoImpl;
     }
-    
+
     public void isActivated(LoginToken loginToken) throws AccountNotActivatedException {
         if (!loginToken.getAccount().getActivated()) {
             throw new AccountNotActivatedException("Account Inactive");
         }
     }
-    
+
     @Override
-    public void addPurchase(Purchase purchase, Order1 order, LoginToken loginToken) throws DataAccessException, AccountNotActivatedException {
+    public void addPurchase(Integer videoInfoId, Integer orderId, LoginToken loginToken) throws DataAccessException, AccountNotActivatedException {
         this.isActivated(loginToken);
-        order.getOrder1PK().increaseCharge(purchase.getVideoInfo().getPurchasePrice());
-        this.getOrder1DaoImpl().savePurchase(order, purchase);
+        Purchase purchase = new Purchase(this.getOrder1DaoImpl().getOrder(orderId).getAccount().getId(),
+                orderId, videoInfoId);
+        this.getOrder1DaoImpl().getOrder(orderId).getOrder1PK().increaseCharge(purchase.getVideoInfo().getPurchasePrice());
+        this.getOrder1DaoImpl().savePurchase(this.getOrder1DaoImpl().getOrder(orderId), purchase);
     }
-    
+
     @Override
-    public void addRental(Rental rental, Order1 order, LoginToken loginToken) throws DataAccessException, AccountNotActivatedException {
+    public void addRental(Integer videoInfoId, Integer orderId, LoginToken loginToken) throws DataAccessException, AccountNotActivatedException {
         this.isActivated(loginToken);
-        order.getOrder1PK().increaseCharge(rental.getVideoInfo().getRentalPrice());
-        this.getOrder1DaoImpl().saveRental(order, rental);
+        Rental rental = new Rental(this.getOrder1DaoImpl().getOrder(orderId).getAccount().getId(),
+                orderId, videoInfoId);
+        this.getOrder1DaoImpl().getOrder(orderId).getOrder1PK().increaseCharge(rental.getVideoInfo().getPurchasePrice());
+        this.getOrder1DaoImpl().saveRental(this.getOrder1DaoImpl().getOrder(orderId), rental);
     }
-    
+
     @Override
     public void confirmPayment(Integer orderId, LoginToken loginToken, int validationNum, int totalCost) throws AccountNotActivatedException, PaymentException, InsufficientFundsException {
         this.isActivated(loginToken);
@@ -76,21 +80,21 @@ public class OrderServiceImpl implements OrderService {
                 this.getCreditCardValidator().charge();
             }
         }
-        
+
     }
-    
+
     @Override
     public Order1 getOrder(Integer orderId, LoginToken loginToken) throws DataAccessException, AccountNotActivatedException {
         this.isActivated(loginToken);
         return this.getOrder1DaoImpl().getOrder(orderId);
     }
-    
+
     @Override
     public List<Order1> getOrders(LoginToken loginToken) throws DataAccessException, AccountNotActivatedException {
         this.isActivated(loginToken);
         return this.getOrder1DaoImpl().getOrders(loginToken);
     }
-    
+
     @Override
     public void removeOrder(Integer orderID, LoginToken loginToken) throws AccountNotActivatedException {
         this.isActivated(loginToken);
@@ -99,19 +103,23 @@ public class OrderServiceImpl implements OrderService {
 
     //Removes a purchase from the order
     @Override
-    public void removePurchase(Purchase purchase, Integer orderID, LoginToken loginToken) throws AccountNotActivatedException {
+    public void removePurchase(Integer videoInfoId, Integer orderId, LoginToken loginToken) throws AccountNotActivatedException {
         this.isActivated(loginToken);
-        this.getOrder1DaoImpl().getOrder(orderID).getOrder1PK().
+        Purchase purchase = new Purchase(this.getOrder1DaoImpl().getOrder(orderId).getAccount().getId(),
+                orderId, videoInfoId);
+        this.getOrder1DaoImpl().getOrder(orderId).getOrder1PK().
                 decreaseCharge(purchase.getVideoInfo().getPurchasePrice());
-        this.getOrder1DaoImpl().removePurchase(this.getOrder1DaoImpl().getOrder(orderID), purchase);
+        this.getOrder1DaoImpl().removePurchase(this.getOrder1DaoImpl().getOrder(orderId), purchase);
     }
 
     //Removes a rental from the order
     @Override
-    public void removeRental(Rental rental, Integer orderID, LoginToken loginToken) throws AccountNotActivatedException {
+    public void removeRental(Integer videoInfoId, Integer orderId, LoginToken loginToken) throws AccountNotActivatedException {
         this.isActivated(loginToken);
-        this.getOrder1DaoImpl().getOrder(orderID).getOrder1PK().
+        Rental rental = new Rental(this.getOrder1DaoImpl().getOrder(orderId).getAccount().getId(),
+                orderId, videoInfoId);
+        this.getOrder1DaoImpl().getOrder(orderId).getOrder1PK().
                 decreaseCharge(rental.getVideoInfo().getRentalPrice());
-        this.getOrder1DaoImpl().removeRental(this.getOrder1DaoImpl().getOrder(orderID), rental);
+        this.getOrder1DaoImpl().removeRental(this.getOrder1DaoImpl().getOrder(orderId), rental);
     }
 }

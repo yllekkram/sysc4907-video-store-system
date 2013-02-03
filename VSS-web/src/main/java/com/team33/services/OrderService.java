@@ -21,9 +21,9 @@ public interface OrderService {
 
     public Order1 getOrder(Integer orderId, LoginToken loginToken) throws DataAccessException, AccountNotActivatedException;
 
-    public void addPurchase(Purchase purchase, Order1 order, LoginToken loginToken) throws DataAccessException, AccountNotActivatedException;
+    public void addPurchase(Integer videoInfoId, Integer orderId, LoginToken loginToken) throws DataAccessException, AccountNotActivatedException;
 
-    public void addRental(Rental rental, Order1 order, LoginToken loginToken) throws DataAccessException, AccountNotActivatedException;
+    public void addRental(Integer videoInfoId, Integer orderId, LoginToken loginToken) throws DataAccessException, AccountNotActivatedException;
 
     public void confirmPayment(Integer orderId, LoginToken loginToken, int validationNum, int totalCost) throws AccountNotActivatedException, PaymentException, InsufficientFundsException;
     /*
@@ -32,7 +32,7 @@ public interface OrderService {
 
     public void removeOrder(Integer orderID, LoginToken loginToken) throws AccountNotActivatedException;
 
-    public void removePurchase(Purchase purchase, Integer orderID, LoginToken loginToken) throws AccountNotActivatedException;
+    public void removePurchase(Integer videoInfoId, Integer orderId, LoginToken loginToken) throws AccountNotActivatedException;
 
-    public void removeRental(Rental rental, Integer orderID, LoginToken loginToken) throws AccountNotActivatedException;
+    public void removeRental(Integer videoInfoId, Integer orderId, LoginToken loginToken) throws AccountNotActivatedException;
 }
