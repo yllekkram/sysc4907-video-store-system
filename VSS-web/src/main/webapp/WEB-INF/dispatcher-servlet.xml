@@ -106,6 +106,7 @@
     </bean> 
     <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
         <property name = "order1DaoImpl" ref = "order1DaoImpl"/>
+        <property name = "creditCardValidator" value = "com.team33.services.CreditCardValidator"/>
     </bean> 
     <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
         <property name = "browseDaoImpl" ref = "browseDaoImpl"/>

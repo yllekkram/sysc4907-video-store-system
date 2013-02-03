@@ -28,8 +28,12 @@ public class Invoice implements Serializable {
     public Invoice() {
     }
 
-    public Invoice(int id, int accountId, int orderId) {
-        this.invoicePK = new InvoicePK(id, accountId, orderId);
+    public Invoice(int accountId, int orderId, int orderCharge) {
+        this.invoicePK = new InvoicePK(id, accountId, orderId, orderCharge);
+    }
+
+    public Invoice(int id, int accountId, int orderId, int orderCharge) {
+        this.invoicePK = new InvoicePK(id, accountId, orderId, orderCharge);
     }
     private static final long serialVersionUID = 1L;
     @Id

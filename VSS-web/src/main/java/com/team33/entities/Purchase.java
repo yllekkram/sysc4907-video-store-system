@@ -25,12 +25,17 @@ public class Purchase implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     private PurchasePK purchasePK;
+    private VideoInfo videoInfo;
 
     public Purchase() {
     }
 
     public Purchase(PurchasePK purchasePK) {
         this.purchasePK = purchasePK;
+    }
+
+    public Purchase(int accountId, int orderId, int videoInfoId) {
+        this.purchasePK = new PurchasePK(accountId, orderId, videoInfoId);
     }
 
     public Purchase(int id, int accountId, int orderId, int videoInfoId) {
@@ -44,6 +49,14 @@ public class Purchase implements Serializable {
     })
     public PurchasePK getPurchasePK() {
         return this.purchasePK;
+    }
+
+    public VideoInfo getVideoInfo() {
+        return videoInfo;
+    }
+
+    public void setVideoInfo(VideoInfo videoInfo) {
+        this.videoInfo = videoInfo;
     }
 
     public void setId(PurchasePK purchasePK) {

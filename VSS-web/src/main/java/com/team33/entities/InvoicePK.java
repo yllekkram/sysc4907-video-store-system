@@ -27,14 +27,25 @@ public class InvoicePK implements Serializable {
     @NotNull
     @Column(name = "Order_id")
     private int orderId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "orderCharge")
+    private int orderCharge;
 
     public InvoicePK() {
     }
 
-    public InvoicePK(int id, int accountId, int orderId) {
+    public InvoicePK(int id, int accountId, int orderId, int orderCharge) {
         this.id = id;
         this.accountId = accountId;
         this.orderId = orderId;
+        this.orderCharge = orderCharge;
+    }
+
+    public InvoicePK(int accountId, int orderId, int orderCharge) {
+        this.accountId = accountId;
+        this.orderId = orderId;
+        this.orderCharge = orderCharge;
     }
 
     public void setAccountId(int accountId) {
@@ -57,8 +68,16 @@ public class InvoicePK implements Serializable {
         return id;
     }
 
+    public int getOrderCharge() {
+        return orderCharge;
+    }
+
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setOrderCharge(int orderCharge) {
+        this.orderCharge = orderCharge;
     }
 
     @Override

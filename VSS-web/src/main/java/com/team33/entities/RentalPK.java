@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
  */
 @Embeddable
 public class RentalPK implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @GeneratedValue
@@ -32,11 +33,17 @@ public class RentalPK implements Serializable {
     @NotNull
     @Column(name = "Video_Info_id")
     private int videoInfoId;
-    
-    public RentalPK(){
-        
+
+    public RentalPK() {
     }
-    public RentalPK(int id,int accountId, int orderId, int videoInfoId){
+
+    public RentalPK(int accountId, int orderId, int videoInfoId) {
+        this.accountId = accountId;
+        this.orderId = orderId;
+        this.videoInfoId = videoInfoId;
+    }
+
+    public RentalPK(int id, int accountId, int orderId, int videoInfoId) {
         this.id = id;
         this.accountId = accountId;
         this.orderId = orderId;
@@ -46,12 +53,15 @@ public class RentalPK implements Serializable {
     public int getId() {
         return this.id;
     }
+
     public int getAccountId() {
         return this.accountId;
     }
+
     public int getOrderId() {
         return this.orderId;
     }
+
     public int getVideoInfoId() {
         return this.videoInfoId;
     }
@@ -59,12 +69,15 @@ public class RentalPK implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
     public void setAccountId(int id) {
         this.accountId = id;
     }
+
     public void setOrderId(int id) {
         this.orderId = id;
     }
+
     public void setVideoInfoId(int id) {
         this.videoInfoId = id;
     }
@@ -86,7 +99,7 @@ public class RentalPK implements Serializable {
             return false;
         }
         RentalPK other = (RentalPK) object;
-        if (this.id !=other.id) {
+        if (this.id != other.id) {
             return false;
         }
         if (this.accountId != other.accountId) {
@@ -105,5 +118,4 @@ public class RentalPK implements Serializable {
     public String toString() {
         return "com.team33.entities.RentalPK[ id=" + id + " ]";
     }
-    
 }

@@ -26,12 +26,17 @@ public class Rental implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected RentalPK rentalPK;
+    private VideoInfo videoInfo;
 
     public Rental() {
     }
 
     public Rental(RentalPK rentalPK) {
         this.rentalPK = rentalPK;
+    }
+
+    public Rental(int accountId, int orderId, int videoInfoId) {
+        this.rentalPK = new RentalPK(accountId, orderId, videoInfoId);
     }
 
     public Rental(int id, int accountId, int orderId, int videoInfoId) {
@@ -45,6 +50,14 @@ public class Rental implements Serializable {
     })
     public RentalPK getRentalPK() {
         return this.rentalPK;
+    }
+
+    public VideoInfo getVideoInfo() {
+        return videoInfo;
+    }
+
+    public void setVideoInfo(VideoInfo videoInfo) {
+        this.videoInfo = videoInfo;
     }
 
     public void setRentalPK(RentalPK rentalPK) {

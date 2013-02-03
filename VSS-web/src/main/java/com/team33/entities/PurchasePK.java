@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
  */
 @Embeddable
 public class PurchasePK implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @GeneratedValue
@@ -33,24 +34,34 @@ public class PurchasePK implements Serializable {
     @Column(name = "Video_Info_id")
     private int videoInfoId;
 
-    public PurchasePK(){
-        
+    public PurchasePK() {
     }
-    public PurchasePK(int id,int accountId, int orderId, int videoInfoId){
+
+    public PurchasePK(int accountId, int orderId, int videoInfoId) {
+        this.accountId = accountId;
+        this.orderId = orderId;
+        this.videoInfoId = videoInfoId;
+    }
+
+    public PurchasePK(int id, int accountId, int orderId, int videoInfoId) {
         this.id = id;
         this.accountId = accountId;
         this.orderId = orderId;
         this.videoInfoId = videoInfoId;
     }
+
     public int getId() {
         return this.id;
     }
+
     public int getAccountId() {
         return this.accountId;
     }
+
     public int getOrderId() {
         return this.orderId;
     }
+
     public int getVideoInfoId() {
         return this.videoInfoId;
     }
@@ -58,12 +69,15 @@ public class PurchasePK implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
     public void setAccountId(int id) {
         this.accountId = id;
     }
+
     public void setOrderId(int id) {
         this.orderId = id;
     }
+
     public void setVideoInfoId(int id) {
         this.videoInfoId = id;
     }
@@ -104,5 +118,4 @@ public class PurchasePK implements Serializable {
     public String toString() {
         return "com.team33.entities.PurchasePK[ id=" + id + " ]";
     }
-    
 }
