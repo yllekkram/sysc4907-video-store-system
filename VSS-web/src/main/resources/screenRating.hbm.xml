@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.team33.entities.ScreenRating" table="screen_rating">
+      <id name="id" type="integer" column="id">
+          <generator class="native" />
+      </id>
+      
+      <property name="screenRatingShort" type="string" column="screenRatingShort" />
+      <property name="screenRatingLong" type="string" column="screenRatingLong" />
+      <property name="description" type="string" column="description" />
+  </class>
+</hibernate-mapping>
