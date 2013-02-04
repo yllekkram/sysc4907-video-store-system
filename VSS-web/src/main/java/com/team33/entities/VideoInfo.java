@@ -22,109 +22,144 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Caleb
+ * @author Caleb,Samual
  */
 @Entity
 @Table(name = "Video_Info")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "VideoInfo.findAll", query = "SELECT v FROM VideoInfo v")
+    @NamedQuery(name = "VideoInfo.findAll", query = "SELECT v FROM VideoInfo v"),
+    @NamedQuery(name = "Genre.findByTitle", query = "SELECT v FROM VideoInfo v where v.title = :title")
 })
 public class VideoInfo implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Column(name = "id")
     @Basic(optional = false)
-    private Integer id;
-    
+    private int id;
+    @NotNull
+    @Column(name = "purchasePrice")
+    @Basic(optional = false)
+    private int purchasePrice;
+    @NotNull
+    @Column(name = "rentalPrice")
+    @Basic(optional = false)
+    private int rentalPrice;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "title")
     private String title;
-
     @Basic(optional = false)
     @NotNull
     @Column(name = "description")
     private String description;
-    
     @Basic(optional = false)
     @NotNull
-    @Column(name = "durationInSeconds")
-    private int durationInSeconds;
-    
+    @Column(name = "runningTime")
+    private int runningTime;
     @ManyToOne
     @JoinColumn(name = "id")
-    private int Screen_Rating_id;
-    
-    public VideoInfo(){
+    private int ScreenRating_id;
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private int Genre_id;
+
+    public VideoInfo() {
     }
-    
-    public VideoInfo(int id){
+
+    public VideoInfo(int id) {
         this.id = id;
     }
-    
-    public VideoInfo(int id, String title){
+
+    public VideoInfo(int id, String title) {
         this(id);
         this.title = title;
     }
 
-    public VideoInfo(int id, String title, String description){
+    public VideoInfo(int id, String title, String description) {
         this(id, title);
         this.description = description;
     }
-    
-    public VideoInfo(int id, String title, String description, int duration){
+
+    public VideoInfo(int id, String title, String description, int runningTime) {
         this(id, title, description);
-        this.durationInSeconds = duration;
-    }
-    public int getScreen_Rating_id() {
-        return Screen_Rating_id;
+        this.runningTime = runningTime;
     }
 
-    public void setScreen_Rating_id(int Screen_Rating_id) {
-        this.Screen_Rating_id = Screen_Rating_id;
-    }
-    
-    public String getTitle() {
-        return title;
+    public VideoInfo(int id, String title, String description, int runningTime, int rentalPrice, int purchasePrice) {
+        this(id, title, description, runningTime);
+        this.purchasePrice = purchasePrice;
+        this.rentalPrice = rentalPrice;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public int getScreenRating_id() {
+        return this.ScreenRating_id;
+    }
+
+    public int getGenre_id() {
+        return this.Genre_id;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public int getPurchasePrice() {
+        return this.purchasePrice;
+    }
+
+    public int getRentalPrice() {
+        return this.rentalPrice;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getRunningTime() {
+        return runningTime;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setScreenRating_id(int ScreenRating_id) {
+        this.ScreenRating_id = ScreenRating_id;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public int getDurationInSeconds() {
-        return durationInSeconds;
+    public void setRunningTime(int runningTime) {
+        this.runningTime = runningTime;
     }
 
-    public void setDurationInSeconds(int durationInSeconds) {
-        this.durationInSeconds = durationInSeconds;
-    }
-    
-    public Integer getId() {
-        return id;
+    public void setPurchasePrice(int price) {
+        this.purchasePrice = price;
     }
 
-    public void setId(Integer id) {
+    public void setRentalPrice(int price) {
+        this.rentalPrice = price;
+    }
+
+    public void setId(int id) {
         this.id = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (int) id;
         return hash;
     }
 
@@ -135,7 +170,7 @@ public class VideoInfo implements Serializable {
             return false;
         }
         VideoInfo other = (VideoInfo) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (this.id != other.id) {
             return false;
         }
         return true;
@@ -143,7 +178,6 @@ public class VideoInfo implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.VideoInfo[ id=" + id + " ]";
+        return "com.team33.entities.VideoInfo[ id=" + id + "title:" + title + "]";
     }
-    
 }

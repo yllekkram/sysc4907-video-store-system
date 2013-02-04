@@ -32,7 +32,12 @@ public class VideoInfoDaoImplTest {
     @Autowired
     private VideoInfoDaoImpl videoInfoDaoImpl;
     
+    private VideoInfo testVideoInfo1;
+    private VideoInfo testVideoInfo2;
+    
     public VideoInfoDaoImplTest() {
+        this.testVideoInfo1 = new VideoInfo(0, "Lion King");
+        this.testVideoInfo2 = new VideoInfo(1, "Happy Tree");
     }
     
     @BeforeClass
@@ -53,6 +58,9 @@ public class VideoInfoDaoImplTest {
     
     public void setVideoInfoDaoImpl(VideoInfoDaoImpl videoInfoDoaImpl){
         this.videoInfoDaoImpl = videoInfoDaoImpl;
+        
+        //this.videoInfoDaoImpl.saveVideoInfo(testVideoInfo1);
+        //this.videoInfoDaoImpl.saveVideoInfo(testVideoInfo2);
     }
 
     /**
@@ -60,18 +68,23 @@ public class VideoInfoDaoImplTest {
      */
     @Test
     public void testGetVideoInfoList() {
-        System.out.println("getVideoInfoList");
-          
-        VideoInfoDaoImpl instance = new VideoInfoDaoImpl();
+        System.out.println("getVideoInfoList() : List<VideoInfo> -> [DataAccessException]");
         
-        SessionFactory sessionFactory = null;
-        instance.setSessionFactory(sessionFactory);
-                
-        assertNull("AssertNull - Expected Output : instance.getSessionFactory() == NULL, Output : " + instance.getSessionFactory(), instance.getSessionFactory());
+        List<VideoInfo> videoList = this.videoInfoDaoImpl.getVideoInfoList();
         
-        assertNotNull("AssertNotNull - Expected Output : this.videoInfoDaoImpl != NULL, Output : " + this.videoInfoDaoImpl, this.videoInfoDaoImpl);
+        assertNotNull(videoList);
+        assertEquals(videoList.size(), 2);
         
-        assertNotNull("AssertTrue - Expected Output : this.videoInfoDaoImpl.getSessionFactory() != NULL, Output : " + this.videoInfoDaoImpl.getSessionFactory(), this.videoInfoDaoImpl.getSessionFactory());
+        
+        SessionFactory tmpFactory = this.videoInfoDaoImpl.getSessionFactory();
+        this.videoInfoDaoImpl.setSessionFactory(null);
+        try{
+            this.videoInfoDaoImpl.getVideoInfoList();
+        }catch(DataAccessException e){
+        
+        }finally{
+            this.videoInfoDaoImpl.setSessionFactory(tmpFactory);
+        }
     }
 
     /**
@@ -81,20 +94,36 @@ public class VideoInfoDaoImplTest {
     @Rollback(true)
     @Transactional
     public void testGetVideoInfo() {
-        System.out.println("getVideoInfo");
-        List<VideoInfo> expResult = null;
+        System.out.println("getVideoInfo(Integer) : VideoInfo -> [DataAccessException]");
+
+        VideoInfo videoInfo = this.videoInfoDaoImpl.getVideoInfo(0);
+        assertNotNull(videoInfo);
+        assertEquals(videoInfo.getId(), this.testVideoInfo1.getId());
+        assertEquals(videoInfo.getTitle(), this.testVideoInfo1.getTitle());
+        
         try{
-            expResult = this.videoInfoDaoImpl.getVideoInfoList();
+            videoInfo = null;
+            videoInfo = this.videoInfoDaoImpl.getVideoInfo(-1);
+            fail("Failed to throw DataAccessException");
         }catch(DataAccessException e){
-            fail("Exception Thrown(Empty Test) : " + e.getLocalizedMessage());
+            assertNull(videoInfo);
         }
         
-        assertNotNull("AssertNotNull - Expected Output : expResult != NULL, Output : " + expResult, expResult);
-        assertTrue("AssertTrue - Expected Output : expResult.size() == 0, Output : " + expResult.size(), expResult.isEmpty());
+        try{
+            videoInfo = null;
+            videoInfo = this.videoInfoDaoImpl.getVideoInfo(9999);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+            assertNull(videoInfo);
+        }
         
-        VideoInfo testVideo = new VideoInfo(0, "Test1", "Test Video", 0);
-        
-        fail("The test case is a prototype.");
+        try{
+            videoInfo = null;
+            videoInfo = this.videoInfoDaoImpl.getVideoInfo((Integer)null);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+            assertNull(videoInfo);
+        }
     }
 
     /**
@@ -104,23 +133,8 @@ public class VideoInfoDaoImplTest {
     @Rollback(true)
     @Transactional
     public void testSaveVideoInfo() {
-        System.out.println("saveVideoInfo");
-        
-        try{
-            this.videoInfoDaoImpl.saveVideoInfo(-1);
-            fail("Did not throw an error for negative input");
-        }catch(DataAccessException e){
-            // Suppose to happen
-        }
-        
-        VideoInfo testVideo = new VideoInfo(10, "Test1", "Test Video", 0);
-        try{
-            this.videoInfoDaoImpl.saveVideoInfo(10);
-        }catch(DataAccessException e){
-            fail("Exception Thrown : " + e.getLocalizedMessage());
-        }
-        
-        fail("The test case is a prototype.");
+        System.out.println("saveVideoInfo(Integer) : Void -> [DataAccessException]");
+
     }
 
     /**
@@ -128,11 +142,37 @@ public class VideoInfoDaoImplTest {
      */
     @Test
     public void testRemoveVideoInfo() {
-        System.out.println("removeVideoInfo");
-        int videoInfoId = 0;
-        VideoInfoDaoImpl instance = new VideoInfoDaoImpl();
-        instance.removeVideoInfo(videoInfoId);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("removeVideoInfo() : Void -> [DataAccessException]");
+        try{
+            this.videoInfoDaoImpl.removeVideoInfo(0);
+            List<VideoInfo> videoInfo = this.videoInfoDaoImpl.getVideoInfoList();
+            assertNotNull(videoInfo);
+            assertEquals(videoInfo.size(), 1);
+            assertEquals(videoInfo.get(0).getId(), this.testVideoInfo2.getId());
+            assertEquals(videoInfo.get(0).getTitle(), this.testVideoInfo2.getTitle());
+        }catch(DataAccessException e){
+            fail("DataAccessException was thrown");
+        }
+        
+        try{
+            this.videoInfoDaoImpl.removeVideoInfo(-1);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+        
+        }
+        
+        try{
+            this.videoInfoDaoImpl.removeVideoInfo(9999);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+        
+        }
+        
+        try{
+            this.videoInfoDaoImpl.removeVideoInfo((Integer)null);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+        
+        }
     }
 }

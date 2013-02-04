@@ -1,5 +1,6 @@
 /*
- *
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.team33.entities;
 
@@ -11,44 +12,41 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Caleb,Samual
+ * @author Samual
  */
 @Entity
-@Table(name = "ScreenRating")
+@Table(name = "Genre")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ScreenRating.findAll", query = "SELECT r FROM ScreenRating r"),
-    @NamedQuery(name = "ScreenRating.findByRating", query = "SELECT r FROM ScreenRating r where r.ratingType = :ratingType")
+    @NamedQuery(name = "Genre.findAll", query = "SELECT g FROM Genre g"),
+    @NamedQuery(name = "Genre.findByGenre", query = "SELECT g FROM Genre g where g.category = :category")
 })
-public class ScreenRating implements Serializable {
+public class Genre implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
-    @Basic(optional = false)
-    @Column(name = "id")
     private int id;
     @NotNull
     @Basic(optional = false)
     @Size(min = 1, max = 45)
-    @Column(name = "ratingType")
-    private String ratingType;
+    @Column(name = "category")
+    private String category;
 
     public int getId() {
         return id;
     }
 
-    public String getRatingType() {
-        return ratingType;
-    }
-
-    public void setRatingType(String ratingType) {
-        this.ratingType = ratingType;
+    public String getCategory() {
+        return this.category;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     @Override
@@ -61,10 +59,10 @@ public class ScreenRating implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScreenRating)) {
+        if (!(object instanceof Genre)) {
             return false;
         }
-        ScreenRating other = (ScreenRating) object;
+        Genre other = (Genre) object;
         if (this.id != other.id) {
             return false;
         }
@@ -73,6 +71,6 @@ public class ScreenRating implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.ScreenRating[ id=" + id + "ratingType=" + ratingType + " ]";
+        return "com.team33.entities.Genre[ id=" + id + "category=" + category +" ]";
     }
 }
