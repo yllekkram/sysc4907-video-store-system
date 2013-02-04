@@ -22,6 +22,7 @@ public class OrderServiceImpl implements OrderService {
     //tells Spring to inject the dependency
     @Autowired
     private Order1DaoImpl order1DaoImpl;
+    
     @Autowired
     private CreditCardValidator creditCardValidator;
 

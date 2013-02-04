@@ -39,8 +39,5 @@ public class BrowseServiceImpl implements BrowseService {
     public List<VideoInfo> displayFeaturedVideo() {
         return this.browseDaoImpl.displayFeaturedVideo();
     }
-    
-    public void setBrowseDaoImpl(BrowseDaoImpl browseDaoImpl){
-    
-    }
+
 }

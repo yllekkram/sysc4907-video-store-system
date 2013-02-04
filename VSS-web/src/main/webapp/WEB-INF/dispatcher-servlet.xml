@@ -42,6 +42,9 @@
                 <entry key="/adminView.htm">
                     <ref bean="adminController"/>
                 </entry>
+                <entry key="/viewVideo">
+                    <ref bean="viewVideoController"/>
+                </entry>
             </map>
         </property>
     </bean>
@@ -99,6 +102,10 @@
         <property name="commandClass" value ="com.team33.entities.Order1"/>
         -->
     </bean>
+    <bean name = "viewVideoController"
+          class = "com.team33.controllers.VideoViewController">
+    </bean>
+    <bean id = "creditCardValidator" class = "com.team33.services.CreditCardValidator"/>
          
     <!-- Inject  sessionfactory here --> 
     <bean id = "accountServiceImpl" class = "com.team33.services.AccountServiceImpl">
@@ -106,7 +113,7 @@
     </bean> 
     <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
         <property name = "order1DaoImpl" ref = "order1DaoImpl"/>
-        <property name = "creditCardValidator" value = "com.team33.services.CreditCardValidator"/>
+        <property name = "creditCardValidator" ref = "creditCardValidator"/>
     </bean> 
     <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
         <property name = "browseDaoImpl" ref = "browseDaoImpl"/>
