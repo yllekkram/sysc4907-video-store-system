@@ -37,13 +37,13 @@
                 <table>
                     <p><input type="radio" name="PaymentOptions" value="Visa"> Visa</input></p>
                     <input type="text" id="visaConfirmNum" name="visaNum"
-                                   placeholder="Please enter your last 4 visa digits"/></td>
+                                   placeholder="Please enter your visa authentication digits(3 numbers)"/></td>
                     <p><input type="radio" name="PaymentOptions" value="American Express"> American Express</input></p>
                     <input type="text" id="amexConfirmNum" name="amexNum"
-                                   placeholder="Please enter your american express validation numbers"/></td>
+                                   placeholder="Please enter your american express validation numbers(3 numbers)"/></td>
                     <p><input type="radio" name="PaymentOptions" value="Paypal"> Paypal</input></p>
                     <input type="text" id="paypal" name="paypal"
-                                   placeholder="Please enter your paypal id number"/></td>
+                                   placeholder="Please enter your paypal authentication code (3 numbers)"/></td>
                     <input type="submit" name="Submit" value="Confirm Video Orders">
                 </table>
             </fieldset>

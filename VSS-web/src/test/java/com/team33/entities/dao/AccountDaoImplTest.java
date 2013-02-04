@@ -10,7 +10,6 @@ import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,7 +32,17 @@ public class AccountDaoImplTest {
     @Autowired
     private AccountDaoImpl accountDaoImpl;
     
+    private Account testAccountNotActivated;
+    private Account testAccountActivated;
+    
     public AccountDaoImplTest() {
+        testAccountNotActivated = new Account(0, "Hello");
+        testAccountNotActivated.setPassword("World");
+        testAccountNotActivated.setActivated(false);
+        
+        testAccountActivated = new Account(1, "Hello");
+        testAccountActivated.setPassword("World");
+        testAccountActivated.setActivated(true);
     }
     
     @BeforeClass
@@ -53,127 +62,123 @@ public class AccountDaoImplTest {
     }
 
     public void setAccountDaoImpl(AccountDaoImpl accountDaoImpl){
-        
         this.accountDaoImpl = accountDaoImpl;
+        
+        this.accountDaoImpl.saveAccount(testAccountNotActivated);
+        this.accountDaoImpl.saveAccount(testAccountActivated);
     }
-    /**
-     * Test of setSessionFactory method, of class AccountDaoImpl.
-     */
-    @Test
-    public void testSetSessionFactory() {
-        System.out.println("setSessionFactory");
-        AccountDaoImpl instance = new AccountDaoImpl();
-        
-        SessionFactory sessionFactory = null;
-        instance.setSessionFactory(sessionFactory);
-        assertNull("AssertNull - Expected Output : instance.getSessionFactory() == NULL, Output : " + instance.getSessionFactory(), instance.getSessionFactory());
-        
-        assertNotNull("AssertNotNull - Expected Output : this.accountDaoImpl != NULL, Output : " + this.accountDaoImpl, this.accountDaoImpl);
-        
-        assertNotNull("AssertTrue - Expected Output : this.accountDaoImpl.getSessionFactory() != NULL, Output : " + this.accountDaoImpl.getSessionFactory(), this.accountDaoImpl.getSessionFactory());
-    }
-
     /**
      * Test of getAccounts method, of class AccountDaoImpl.
      */
     @Test
-    @Rollback(true)
     @Transactional
     public void testGetAccounts() {
-        System.out.println("getAccounts");
-        List<Account> expResult = null;
-        try{
-            expResult = this.accountDaoImpl.getAccounts();  
-        }catch(DataAccessException e){
-            fail("Exception Thrown (Empty Test): " + e.getLocalizedMessage());
-        }
+        System.out.println("getAccounts() : List<Account> -> [DataAccessException]");
         
-        assertNotNull("AssertNotNull - Expected Output : expResult != NULL, Output : " + expResult, expResult);
-        assertTrue("AssertTrue - Expected Output : expResult.size() == 0, Output : " + expResult.size(), expResult.isEmpty());
+        // Check if return is not null
+        assertNotNull(this.accountDaoImpl.getAccounts());
         
-        Account testAccount = new Account(0, "Test1");
-        testAccount.setPassword("1234");
-        try{
-            this.accountDaoImpl.saveAccount(testAccount);
-        }catch(DataAccessException e){
-            Assume.assumeNoException(e);
-        }
+        assertEquals(this.accountDaoImpl.getAccounts().size(), 2);
         
+        // Check for correct exception thrown
+        SessionFactory tmpFactory = this.accountDaoImpl.getSessionFactory();
+        this.accountDaoImpl.setSessionFactory(null);
         try{
-            expResult = this.accountDaoImpl.getAccounts();
+            this.accountDaoImpl.getAccounts();
+            fail("DataAccessException was not thrown");
         }catch(DataAccessException e){
-            fail("Exception Thrown (Data in Test): " + e.getLocalizedMessage());
+            
+        }finally{
+            this.accountDaoImpl.setSessionFactory(tmpFactory);
         }
-        assertTrue("AssertTrue - Expected Output : expResult.size() == 1, Output : " + expResult.size(), expResult.size() == 1);
-        Account account = expResult.get(0);
-        assertNotNull("AssertNotNull - Expected Output : account != NULL, Output : " + account, account);
-        assertTrue("AssertTrue - Expected Output : account.getId() == 0, Output : " + account.getId(), account.getId() == 0);
-        assertTrue("AssertTrue - Expected Output : account.getName() == Test1, Output : " + account.getName(), account.getName().equals("Test1"));
-        assertTrue("AssertTrue - Expected Output : account.getPassword() == 1234, Output : " + account.getPassword(), account.getPassword().equals("1234"));
     }
 
     /**
      * Test of getAccount method, of class AccountDaoImpl.
      */
     @Test
-    @Rollback(true)
     @Transactional
     public void testGetAccount_Integer() {
-        System.out.println("getAccount");
-        
-        Account testAccount = new Account(15, "Test1");
-        testAccount.setPassword("1234");
-        try{
-            this.accountDaoImpl.saveAccount(testAccount);
-        }catch(DataAccessException e){
-            Assume.assumeNoException(e);
-        }
+        System.out.println("getAccount(Integer) : Account -> [DataAccessException]");
 
-        Account account = null;
+        // Check if account was retieved correctly
+        Account account = this.accountDaoImpl.getAccount(0);
+        assertNotNull(account);
+        assertEquals(account.getName(), this.testAccountNotActivated.getName());
+        assertEquals(account.getId(), this.testAccountNotActivated.getId());
+        assertEquals(account.getPassword(), this.testAccountNotActivated.getPassword());
+        assertFalse(account.getActivated());
+        
+        // Check for negative input
         try{
-            account = this.accountDaoImpl.getAccount(15);
+            account = null;
+            account = this.accountDaoImpl.getAccount(-1);
+            fail("Failed to throw DataAccessException");
         }catch(DataAccessException e){
-            fail("Exception Thrown (Data in Test): " + e.getLocalizedMessage());
+            assertNull(account);
         }
-        assertNotNull("AssertNotNull - Expected Output : account != NULL, Output : " + account, account);
-        assertTrue("AssertTrue - Expected Output : account.getId() == 15, Output : " + account.getId(), account.getId() == 15);
-        assertTrue("AssertTrue - Expected Output : account.getName() == Test1, Output : " + account.getName(), account.getName().equals("Test1"));
-        assertTrue("AssertTrue - Expected Output : account.getPassword() == 1234, Output : " + account.getPassword(), account.getPassword().equals("1234"));
+        
+        // Check for positive input but not in system
+        try{
+            account = null;
+            account = this.accountDaoImpl.getAccount(9999);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+            assertNull(account);
+        }
+        
+        // Check for null input
+        try{
+            account = null;
+            account = this.accountDaoImpl.getAccount((Integer)null);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+            assertNull(account);
+        }
     }
 
     /**
      * Test of getAccount method, of class AccountDaoImpl.
      */
     @Test
-    @Rollback(true)
     @Transactional
     public void testGetAccount_String() {
-        System.out.println("getAccount");
+        System.out.println("getAccount(String) : Account -> [DataAccessException]");
+        
+        // Check if account was retieved correctly
+        Account account = this.accountDaoImpl.getAccount("Hello");
+        assertNotNull(account);
+        assertEquals(account.getName(), this.testAccountNotActivated.getName());
+        assertEquals(account.getId(), this.testAccountNotActivated.getId());
+        assertEquals(account.getPassword(), this.testAccountNotActivated.getPassword());
+        assertFalse(account.getActivated());
+        
+        // Check for invalid input
         try{
-            this.accountDaoImpl.getAccount((String)null);
-            fail("Did not throw error for null input");
+            account = null;
+            account = this.accountDaoImpl.getAccount("kajhdfkahdlkh");
+            fail("Failed to throw DataAccessException");
         }catch(DataAccessException e){
-            // Suppose to fail
+            assertNull(account);
         }
         
-        Account testAccount = new Account(0, "Test1");
-        testAccount.setPassword("1234");
+        // Check for null input
         try{
-            this.accountDaoImpl.saveAccount(testAccount);
+            account = null;
+            account = this.accountDaoImpl.getAccount((String)null);
+            fail("Failed to throw DataAccessException");
         }catch(DataAccessException e){
-            Assume.assumeNoException(e);
+            assertNull(account);
         }
-
-        Account account = null;
+        
+        // Check for empty string input
         try{
-            account = this.accountDaoImpl.getAccount("Test1");
+            account = null;
+            account = this.accountDaoImpl.getAccount("");
+            fail("Failed to throw DataAccessException");
         }catch(DataAccessException e){
-            fail("Exception Thrown (Data in Test): " + e.getLocalizedMessage());
+            assertNull(account);
         }
-        assertNotNull("AssertNotNull - Expected Output : account != NULL, Output : " + account, account);
-        assertTrue("AssertTrue - Expected Output : account.getId() == 15, Output : " + account.getId(), account.getId() == 0);
-        assertTrue("AssertTrue - Expected Output : account.getName() == Test1, Output : " + account.getName(), account.getName().equals("Test1"));
-        assertTrue("AssertTrue - Expected Output : account.getPassword() == 1234, Output : " + account.getPassword(), account.getPassword().equals("1234"));
     }
 
     /**
@@ -183,32 +188,42 @@ public class AccountDaoImplTest {
     @Rollback(true)
     @Transactional
     public void testSaveAccount() {
-        System.out.println("saveAccount");
+        System.out.println("saveAccount(Account) : Void -> [DataAccessException]");
         
+        // Save null account
         try{
             this.accountDaoImpl.saveAccount(null);
-            fail("Did not throw an error for null input");
+            fail("Failed to throw DataAccessException");
         }catch(DataAccessException e){
-            // Suppose to happen
+            
         }
         
-        Account testAccount = new Account(0, "Test1");
-        testAccount.setPassword("1234");
+        // Save new Account
         try{
-            this.accountDaoImpl.saveAccount(testAccount);
+            Account account = new Account(3, "World");
+            this.accountDaoImpl.saveAccount(account);
+            Account returnAccount = this.accountDaoImpl.getAccount("World");
+            assertNotNull(returnAccount);
+            assertEquals(account.getId(), returnAccount.getId());
+            assertEquals(account.getName(), returnAccount.getName());            
         }catch(DataAccessException e){
-            fail("Exception Thrown : " + e.getLocalizedMessage());
+            fail("DataAccessException was thrown");
         }
-        Account account = null;
+        
+        // Save old Account
         try{
-            account = this.accountDaoImpl.getAccount("Test1");
+            Account account = this.accountDaoImpl.getAccount(0);
+            account.setPassword("1234");
+            this.accountDaoImpl.saveAccount(account);
+            account = this.accountDaoImpl.getAccount(0);
+            assertNotNull(account);
+            assertEquals(account.getName(), this.testAccountNotActivated.getName());
+            assertEquals(account.getId(), this.testAccountNotActivated.getId());
+            assertEquals(account.getPassword(), this.testAccountNotActivated.getPassword());
+            assertFalse(account.getActivated());
         }catch(DataAccessException e){
-            fail("Exception Thrown (Data in Test): " + e.getLocalizedMessage());
+            fail("DataAccessException was thrown");
         }
-        assertNotNull("AssertNotNull - Expected Output : account != NULL, Output : " + account, account);
-        assertTrue("AssertTrue - Expected Output : account.getId() == 15, Output : " + account.getId(), account.getId() == 0);
-        assertTrue("AssertTrue - Expected Output : account.getName() == Test1, Output : " + account.getName(), account.getName().equals("Test1"));
-        assertTrue("AssertTrue - Expected Output : account.getPassword() == 1234, Output : " + account.getPassword(), account.getPassword().equals("1234"));
     }
 
     /**
@@ -218,36 +233,43 @@ public class AccountDaoImplTest {
     @Rollback(true)
     @Transactional
     public void testRemoveAccount() {
-        System.out.println("removeAccount");
+        System.out.println("removeAccount(Integer) : Void -> [DataAccessException]");
+        
+        // Check if remove is successful
         try{
             this.accountDaoImpl.removeAccount(0);
-            fail("Error thrown while removing non-exsisting account id");
+            List<Account> accounts = this.accountDaoImpl.getAccounts();
+            assertEquals(accounts.size(), 1);
+            assertEquals(accounts.get(0).getName(), this.testAccountActivated.getName());
+            assertEquals(accounts.get(0).getId(), this.testAccountActivated.getId());
+            assertEquals(accounts.get(0).getPassword(), this.testAccountActivated.getPassword());
+            assertTrue(accounts.get(0).getActivated());
         }catch(DataAccessException e){
-            // Suppose to happen
+            fail("DataAccessException was thrown");
         }
         
-        Account testAccount = new Account(0, "Test1");
-        testAccount.setPassword("1234");
+        // Check for negative input
         try{
-            this.accountDaoImpl.saveAccount(testAccount);
+            this.accountDaoImpl.removeAccount(-1);
+            fail("Failed to throw DataAccessException");
         }catch(DataAccessException e){
-            Assume.assumeNoException(e);
+            
         }
         
+        // Check for null input
         try{
-            this.accountDaoImpl.removeAccount(testAccount.getId());
+            this.accountDaoImpl.removeAccount((Integer)null);
+            fail("Failed to throw DataAccessException");
         }catch(DataAccessException e){
-            fail("Exception Thrown : " + e.getLocalizedMessage());
+            
         }
         
-        List<Account> expResult = null;
+        // Check for accounts not in db
         try{
-            expResult = this.accountDaoImpl.getAccounts();  
+            this.accountDaoImpl.removeAccount(9999);
+            fail("Failed to throw DataAccessException");
         }catch(DataAccessException e){
-            fail("Exception Thrown (Empty Test): " + e.getLocalizedMessage());
+            
         }
-        
-        assertNotNull("AssertNotNull - Expected Output : expResult != NULL, Output : " + expResult, expResult);
-        assertTrue("AssertTrue - Expected Output : expResult.size() == 0, Output : " + expResult.size(), expResult.isEmpty());
     }
 }
