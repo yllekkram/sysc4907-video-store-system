@@ -20,6 +20,14 @@ public class VideoInfoDaoImpl implements VideoInfoDao{
     
     @Autowired
     private SessionFactory sessionFactory;
+    
+    public void setSessionFactory(SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
+    }
+    
+    public SessionFactory getSessionFactory(){
+        return this.sessionFactory;
+    }
 
     @Override
     public List<VideoInfo> getVideoInfoList() throws DataAccessException {

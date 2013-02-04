@@ -51,8 +51,8 @@ public class AccountController{
     }
  
     @RequestMapping("/delete/{accountId}")
-    public String removeAccount(@PathVariable("accountId")Long accountId) {
-        logger.info("------------------- Delete Account ---------------------------");
+    public String removeAccount(@PathVariable("accountId")
+    Integer accountId) {
         accountService.removeAccount(accountId);
  
         return "redirect:/registerAccountView";

@@ -4,9 +4,11 @@
  */
 package com.team33.controllers;
 
+import com.team33.services.BrowseServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class VideoInfoController {
+    @Autowired
+    private BrowseServiceImpl browseServiceImpl;
+    
+    public void setBrowseServiceImpl(BrowseServiceImpl browseServiceImpl){
+        this.browseServiceImpl = browseServiceImpl;
+    }
+    
     @RequestMapping(value = "/browseVideos", method = RequestMethod.GET)
     public String getVideos(Map<String,Object> map) {
         List<Object> list = new ArrayList<Object>();

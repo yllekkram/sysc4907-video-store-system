@@ -1,0 +1,17 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<div id="headerView">
+    <h1>On-Line Video Store !!!!</h1>
+    <div id="bannerSearch">
+        <form action="">
+            <input type="text"/>
+            <input type="button" value="Search"/>
+        </form>
+    </div>
+    <div id="bannerLogin">
+        <form>
+            <input type="button" value="Register" onClick="parent.location='registerAccountView.htm'"/>
+            <input id="loginButton" type="button" value="Login" onClick="parent.location='login.htm'"/>
+        </form>
+    </div>
+</div>

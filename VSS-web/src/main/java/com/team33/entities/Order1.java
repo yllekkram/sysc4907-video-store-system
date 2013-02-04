@@ -17,23 +17,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author LaFamiglia
+ * @author Samual
  */
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Order1.findAll", query = "SELECT o FROM Order1 o"),
     @NamedQuery(name = "Order1.findById", query = "SELECT o FROM Order1 o WHERE o.order1PK.id = :id"),
-    @NamedQuery(name = "Order1.findByAccountid", query = "SELECT o FROM Order1 o WHERE o.order1PK.accountid = :accountid"),
-    @NamedQuery(name = "Order1.findByAccountStatusid", query = "SELECT o FROM Order1 o WHERE o.order1PK.accountStatusid = :accountStatusid")})
+    @NamedQuery(name = "Order1.findByActiveAccount", query = "SELECT o FROM Order1 o WHERE o.order1PK.accountActivated = :accountActivated AND o.order1PK.accountid = :accountid")
+})
 public class Order1 implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected Order1PK order1PK;
     @JoinColumns({
-        @JoinColumn(name = "Account_id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "Account_Status_id", referencedColumnName = "Status_id", insertable = false, updatable = false)})
+        @JoinColumn(name = "Account_id", referencedColumnName = "id", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private Account account;
 
@@ -44,8 +44,8 @@ public class Order1 implements Serializable {
         this.order1PK = order1PK;
     }
 
-    public Order1(int id, int accountid, int accountStatusid) {
-        this.order1PK = new Order1PK(id, accountid, accountStatusid);
+    public Order1(int id, int accountid) {
+        this.order1PK = new Order1PK(id, accountid);
     }
 
     public Order1PK getOrder1PK() {
@@ -88,5 +88,4 @@ public class Order1 implements Serializable {
     public String toString() {
         return "com.team33.entities.Order1[ order1PK=" + order1PK + " ]";
     }
-    
 }

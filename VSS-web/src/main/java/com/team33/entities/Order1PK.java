@@ -16,26 +16,29 @@ import javax.validation.constraints.NotNull;
  */
 @Embeddable
 public class Order1PK implements Serializable {
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
     private int id;
+    @Column(name = "pendingCharge")
+    private int pendingCharge;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Account_id")
     private int accountid;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Account_Status_id")
-    private int accountStatusid;
 
     public Order1PK() {
     }
 
-    public Order1PK(int id, int accountid, int accountStatusid) {
+    public Order1PK(int id, int accountid) {
         this.id = id;
         this.accountid = accountid;
-        this.accountStatusid = accountStatusid;
+        this.pendingCharge = 0;
+    }
+
+    public int getPendingCharge() {
+        return pendingCharge;
     }
 
     public int getId() {
@@ -54,12 +57,25 @@ public class Order1PK implements Serializable {
         this.accountid = accountid;
     }
 
-    public int getAccountStatusid() {
-        return accountStatusid;
+    public void setPendingCharge(int pendingCharge) {
+        this.pendingCharge = pendingCharge;
     }
 
-    public void setAccountStatusid(int accountStatusid) {
-        this.accountStatusid = accountStatusid;
+    /*
+     * Increases the charge when an order is added
+     */
+    public void increaseCharge(int newCharge) {
+        this.pendingCharge += newCharge;
+    }
+    /*
+     * Decreases the charge when an order is removed
+     */
+
+    public void decreaseCharge(int oldCharge) {
+        if (pendingCharge - oldCharge >= 0) {
+            this.pendingCharge -= oldCharge;
+        }
+
     }
 
     @Override
@@ -67,7 +83,6 @@ public class Order1PK implements Serializable {
         int hash = 0;
         hash += (int) id;
         hash += (int) accountid;
-        hash += (int) accountStatusid;
         return hash;
     }
 
@@ -84,15 +99,11 @@ public class Order1PK implements Serializable {
         if (this.accountid != other.accountid) {
             return false;
         }
-        if (this.accountStatusid != other.accountStatusid) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "com.team33.entities.Order1PK[ id=" + id + ", accountid=" + accountid + ", accountStatusid=" + accountStatusid + " ]";
+        return "com.team33.entities.Order1PK[ id=" + id + ", accountid=" + accountid + " ]";
     }
-    
 }

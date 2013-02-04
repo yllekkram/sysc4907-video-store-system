@@ -5,14 +5,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="banner_style.css">
+
         <title>Video Store Home</title>
     </head>
     <body>
+        <%@include file="WEB-INF/jspf/banner.jspf" %>
         <h1>Welcome to our On-Line Video Store!!!</h1>
-        <p>Trying something new 1</p>
         <a href="login.htm">Account Login</a>
         <br>
-        <a href="registerAccountView.htm">Register Account</a>
-        <a href="browseVideos.htm">Browse Videos</a>
+        <a href="registerAccountView.htm">Register Account</a><br>
+        <a href="browseVideos.htm">Browse Videos</a><br>
+        <a href="viewVideo.htm">Watch Video</a>
     </body>
 </html>

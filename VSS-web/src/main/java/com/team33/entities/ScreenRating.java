@@ -1,82 +1,60 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *
  */
 package com.team33.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Caleb
+ * @author Caleb,Samual
  */
 @Entity
+@Table(name = "ScreenRating")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "ScreenRating.findAll", query = "SELECT r FROM ScreenRating r"),
+    @NamedQuery(name = "ScreenRating.findByRating", query = "SELECT r FROM ScreenRating r where r.ratingType = :ratingType")
+})
 public class ScreenRating implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
-    
+    private int id;
     @NotNull
     @Basic(optional = false)
     @Size(min = 1, max = 45)
-    @Column(name = "id")
-    private String screenRatingShort;
-    
-    @NotNull
-    @Basic(optional = false)
-    @Size(min = 1, max = 45)
-    @Column(name = "id")
-    private String screenRatingLong;
-    
-    @NotNull
-    @Basic(optional = false)
-    @Column(name = "id")
-    private String description;
+    @Column(name = "ratingType")
+    private String ratingType;
 
-    public String getScreenRatingShort() {
-        return screenRatingShort;
-    }
-
-    public String getScreenRatingLong() {
-        return screenRatingLong;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-    
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setScreenRatingShort(String screenRatingShort) {
+    public String getRatingType() {
+        return ratingType;
     }
 
-    public void setScreenRatingLong(String screenRatingLong) {
+    public void setRatingType(String ratingType) {
+        this.ratingType = ratingType;
     }
 
-    public void setDescription(String description) {
-    }
-
-    public void setId(Integer id) {
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (int) id;
         return hash;
     }
 
@@ -87,7 +65,7 @@ public class ScreenRating implements Serializable {
             return false;
         }
         ScreenRating other = (ScreenRating) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (this.id != other.id) {
             return false;
         }
         return true;
@@ -95,7 +73,6 @@ public class ScreenRating implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.ScreenRating[ id=" + id + " ]";
+        return "com.team33.entities.ScreenRating[ id=" + id + "ratingType=" + ratingType + " ]";
     }
-    
 }

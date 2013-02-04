@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author LaFamiglia
+ * @author Samual 
  */
 @Entity
 @Table(name = "Account")
@@ -29,8 +29,8 @@ public class Account implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
+    @GeneratedValue
     @Column(name = "id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     
     @Basic(optional = false)

@@ -4,47 +4,38 @@
     Author     : Samual
 --%>
 
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <html>
-<head>
-    <title>Video Store  - Account Manager | team33 </title>
-</head>
-<body>
- 
-<h2>Account Manager</h2>
- 
-<form:form method="post" action="registerAccountView/add.htm" commandName="account">
- 
-    <table>
-        <tr>
-            <td><form:label path="name">Name</form:label></td>
-            <td><form:input path="name" /></td> 
-        </tr>
-        <tr>
-            <td><form:label path="password">Password</form:label></td>
-            <td><form:input path="password" /></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Submit"/>
-            </td>
-        </tr>
-    </table>  
-</form:form>
- 
-     
-<h3>Accounts</h3>
-<c:if  test="${!empty accountList}">
-<table class="data">
-<tr>
-    <th>Account (e-Mail)</th>
-    <th>Password</th>
-    <th>&nbsp;</th>
-</tr>
-</table>
-</c:if>
- 
-</body>
+    <head> <title>Online Video Store System</title> </head>
+    <body>
+        <!--Used to capture the exceptions -->
+        <c:if test="${exception ne null}">
+            <div class="error">
+                ${exception.message}
+            </div>
+        </c:if>
+        <form action="<c:url value="/registerAccountView.htm"/>" method="post">
+            <h3>Please fill in account information.</h3> 
+            <fieldset>
+                <legend>Account Registration</legend>
+                <table>
+                    <tr>
+                        <td>Username</td>
+                        <td>
+                            <input type="text" id="username" name="username"
+                                   placeholder="Username"/></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td>
+                            <input type="password" id="password" name="password"
+                                   placeholder="Password"/></td>
+                    </tr>
+                    <input type="submit" name="Submit" value="Register">
+                </table>
+            </fieldset>
+        </form>
+    </body>
 </html>
