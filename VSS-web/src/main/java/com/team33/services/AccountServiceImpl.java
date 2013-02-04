@@ -20,15 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class AccountServiceImpl implements AccountService {
-   
 
     //tells Spring to inject the dependency
     //be sure to include setter method
     @Autowired
     private AccountDaoImpl accountDaoImpl;
-    
     @Autowired
     private List<Order1> orders;
+  
 
     public void setAccountDaoImpl(AccountDaoImpl dao) {
         this.accountDaoImpl = dao;
@@ -37,6 +36,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDaoImpl getAccountDaoImpl() {
         return this.accountDaoImpl;
     }
+
     public void setOrders(List<Order1> orders) {
         this.orders = orders;
     }
@@ -46,6 +46,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Transactional
+    @Override
     public Account loginAccount(String username, String password) throws AuthenticationException, AccountNotFoundException, AccountNotActivatedException, LoginException {
         if (username == null || username.equals("")
                 || password == null || password.equals("")) {
@@ -90,22 +91,23 @@ public class AccountServiceImpl implements AccountService {
     public void removeAccount(Integer accountID) {
         accountDaoImpl.removeAccount(accountID);
     }
+
     @Override
     // Will add an order to the account only if it is active
     public void addOrder(Integer accountId, Order1 order) throws AccountNotActivatedException {
-        if( this.getAccount(accountId).getActivated()){
+        if (this.getAccount(accountId).getActivated()) {
             //Is the order already tied to the account?
-            if(!this.getOrders().contains(order)){
+            if (!this.getOrders().contains(order)) {
                 this.getOrders().add(order);
             }
         }
         throw new AccountNotActivatedException("Please activate the account before ordering videos");
     }
-    
-     @Override
+
+    @Override
     public void removeOrder(Integer accountId, Order1 order) {
-        if(this.getOrders().contains(order)){
-                this.getOrders().remove(order);
-            }
+        if (this.getOrders().contains(order)) {
+            this.getOrders().remove(order);
+        }
     }
 }

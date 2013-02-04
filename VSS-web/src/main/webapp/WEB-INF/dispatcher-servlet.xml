@@ -34,11 +34,14 @@
                     <ref bean="orderController"/>
                 </entry>
                 <entry key="/browseView.htm">
-                    <ref bean="orderController"/>
+                    <ref bean="browseController"/>
                 </entry>
-                <entry key="/viewVideo.htm">
-                    <ref bean="videoViewController"/>
-                </entry>              
+                <entry key="/accessVideoOrders.htm">
+                    <ref bean="accessVideoController"/>
+                </entry>
+                <entry key="/adminView.htm">
+                    <ref bean="adminController"/>
+                </entry>
             </map>
         </property>
     </bean>
@@ -46,11 +49,9 @@
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" />
-    </bean>
+    </bean>  
           
     <!-- Controller beans -->
-    <bean name="videoViewController"
-          class="com.team33.controllers.VideoViewController"/>
     <bean name="indexController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
           p:viewName="index" />
@@ -62,23 +63,37 @@
         <property name="commandClass" value ="com.team33.entities.Account"/>
     </bean>  
     <bean name = "registerAccountController"
-         class = "com.team33.controllers.RegisterAccountController" >
+          class = "com.team33.controllers.RegisterAccountController" >
         <property name="accountServiceImpl" ref="accountServiceImpl" />
         <property name="successView" value = "registerSuccess"     />
         <property name="commandName" value = "account" />
         <property name="commandClass" value ="com.team33.entities.Account"/>
     </bean>
     <bean name = "orderController"
-         class = "com.team33.controllers.OrderController" >
+          class = "com.team33.controllers.OrderController" >
         <property name="orderServiceImpl" ref="orderServiceImpl" />
-        <!-- No setter or getter methods set yet to suppor this
+        <property name="commandName" value = "orders" />
+        <property name="commandClass" value ="com.team33.entities.Order1"/>
+    </bean>
+    <bean name = "browseController"
+          class = "com.team33.controllers.BrowseController" >
+        <property name="browseServiceImpl" ref="browseServiceImpl" />
+        <!-- Entity not established yet
         <property name="commandName" value = "order1" />
         <property name="commandClass" value ="com.team33.entities.Order1"/>
         -->
     </bean>
-    <bean name = "browseController"
-         class = "com.team33.controllers.BrowseController" >
-        <property name="browseServiceImpl" ref="browseServiceImpl" />
+    <bean name = "adminController"
+          class = "com.team33.controllers.AdminController" >
+        <property name="adminServiceImpl" ref="adminServiceImpl" />
+        <!-- Entity not established yet
+        <property name="commandName" value = "order1" />
+        <property name="commandClass" value ="com.team33.entities.Order1"/>
+        -->
+    </bean>
+    <bean name = "accessVideoController"
+          class = "com.team33.controllers.AccessVideoController" >
+        <property name="videoAccessServiceImpl" ref="videoAccessServiceImpl" />
         <!-- Entity not established yet
         <property name="commandName" value = "order1" />
         <property name="commandClass" value ="com.team33.entities.Order1"/>
@@ -90,10 +105,17 @@
         <property name = "accountDaoImpl" ref = "accountDaoImpl"/>
     </bean> 
     <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
-        <property name = "Order1DaoImpl" ref = "order1DaoImpl"/>
+        <property name = "order1DaoImpl" ref = "order1DaoImpl"/>
+        <property name = "creditCardValidator" value = "com.team33.services.CreditCardValidator"/>
     </bean> 
     <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
         <property name = "browseDaoImpl" ref = "browseDaoImpl"/>
+    </bean> 
+    <bean id = "videoAccessServiceImpl" class = "com.team33.services.VideoAccessServiceImpl">
+        <property name = "videoAccessDaoImpl" ref = "videoAccessDaoImpl"/>
+    </bean> 
+    <bean id = "adminServiceImpl" class = "com.team33.services.AdminServiceImpl">
+        <property name = "adminDaoImpl" ref = "adminDaoImpl"/>
     </bean> 
     
     <bean  id="accountDaoImpl" class="com.team33.entities.dao.AccountDaoImpl">
@@ -103,6 +125,12 @@
         <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
     <bean  id="browseDaoImpl" class="com.team33.entities.dao.BrowseDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />  
+    </bean>
+    <bean  id="videoAccessDaoImpl" class="com.team33.entities.dao.VideoAccessDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />  
+    </bean>
+    <bean  id="adminDaoImpl" class="com.team33.entities.dao.AdminDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
     
