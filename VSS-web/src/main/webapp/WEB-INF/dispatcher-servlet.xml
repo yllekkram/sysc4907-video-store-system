@@ -106,7 +106,7 @@
     </bean> 
     <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
         <property name = "order1DaoImpl" ref = "order1DaoImpl"/>
-        <property name = "creditCardValidator" value = "com.team33.services.CreditCardValidator"/>
+        <property name = "creditCardValidator" ref = "creditCardValidator"/>
     </bean> 
     <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
         <property name = "browseDaoImpl" ref = "browseDaoImpl"/>
@@ -134,6 +134,8 @@
         <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
     
+    <bean id = "creditCardValidator" class = "com.team33.services.CreditCardValidator">
+    </bean>
       
     <mvc:annotation-driven /> 
      

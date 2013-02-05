@@ -15,6 +15,8 @@ public interface Order1Dao {
 
     public Order1 getOrder(Integer orderId) throws DataAccessException;
 
+    public LoginToken getLoginToken(int uuid) throws DataAccessException;
+
     public void saveOrder(Order1 order) throws DataAccessException;
 
     public void saveRental(Order1 order, Rental rental) throws DataAccessException;

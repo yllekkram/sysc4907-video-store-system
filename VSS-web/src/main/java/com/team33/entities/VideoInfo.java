@@ -29,7 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "VideoInfo.findAll", query = "SELECT v FROM VideoInfo v"),
-    @NamedQuery(name = "Genre.findByTitle", query = "SELECT v FROM VideoInfo v where v.title = :title")
+    @NamedQuery(name = "VideoInfo.findByGenre", query = "SELECT v FROM VideoInfo v where v.genre = :genre"),
+    @NamedQuery(name = "VideoInfo.findByTitle", query = "SELECT v FROM VideoInfo v where v.title = :title"),
+    @NamedQuery(name = "VideoInfo.findByScreenRating", query = "SELECT v FROM VideoInfo v where v.Screen_Rating = :ScreenRating")
 })
 public class VideoInfo implements Serializable {
 

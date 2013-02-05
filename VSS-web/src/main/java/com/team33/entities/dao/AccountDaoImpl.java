@@ -45,7 +45,7 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao {
                 throw new DataAccessException("Data Access invalid");
             }
         } catch (DataAccessException dae) {
-            dae.toString();
+            dae.printStackTrace();
             return null;
         }
         //tell the session to start a new transaction 
