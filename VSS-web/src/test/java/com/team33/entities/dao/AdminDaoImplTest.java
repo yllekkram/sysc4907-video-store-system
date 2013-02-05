@@ -11,12 +11,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.springframework.dao.DataAccessException;
 
 /**
  *
  * @author Caleb
  */
 public class AdminDaoImplTest {
+
+    private AdminDao adminDao;
     
     public AdminDaoImplTest() {
     }
@@ -36,18 +39,35 @@ public class AdminDaoImplTest {
     @After
     public void tearDown() {
     }
+    
+    public void setAdminDao(AdminDao adminDao){
+        this.adminDao = adminDao;
+    }
 
     /**
      * Test of addVideoInfo method, of class AdminDaoImpl.
      */
     @Test
     public void testAddVideoInfo() {
-        System.out.println("addVideoInfo");
-        VideoInfo videoInfo = null;
-        AdminDaoImpl instance = new AdminDaoImpl();
-        instance.addVideoInfo(videoInfo);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("addVideoInfo(VideoInfo) -> [DataAccessException]");
+        
+        try{
+            this.adminDao.addVideoInfo(null);
+            fail("Error was not thrown");
+        }catch(DataAccessException e){
+        }
+        
+        try{
+            this.adminDao.addVideoInfo(new VideoInfo(-1));
+            fail("Error was not thrown");
+        }catch(DataAccessException e){
+        }
+        
+        try{
+            this.adminDao.addVideoInfo(new VideoInfo());
+        }catch(DataAccessException e){
+            fail("Error should not be thrown");
+        }
     }
 
     /**
@@ -55,14 +75,26 @@ public class AdminDaoImplTest {
      */
     @Test
     public void testGetVideoInfo() {
-        System.out.println("getVideoInfo");
-        int videoInfoId = 0;
-        AdminDaoImpl instance = new AdminDaoImpl();
-        VideoInfo expResult = null;
-        VideoInfo result = instance.getVideoInfo(videoInfoId);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("getVideoInfo(Integer) -> [DataAccessException]");
+        try{
+            this.adminDao.getVideoInfo(-1);
+            fail("Error was not thrown");
+        }catch(DataAccessException e){
+        }
+        
+        try{
+            this.adminDao.getVideoInfo(9999);
+            fail("Error was not thrown");
+        }catch(DataAccessException e){
+        }
+        
+        try{
+            VideoInfo info = this.adminDao.getVideoInfo(0);
+            assertNotNull(info);
+            assertEquals(0, info.getId());
+        }catch(DataAccessException e){
+            fail("Error should not be thrown");
+        }
     }
 
     /**
@@ -70,11 +102,24 @@ public class AdminDaoImplTest {
      */
     @Test
     public void testRemoveVideoInfo() {
-        System.out.println("removeVideoInfo");
-        int videoInfoId = 0;
-        AdminDaoImpl instance = new AdminDaoImpl();
-        instance.removeVideoInfo(videoInfoId);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("removeVideoInfo(Integer) -> [DataAccessException]");
+        
+        try{
+            this.adminDao.removeVideoInfo(-1);
+            fail("Error was not thrown");
+        }catch(DataAccessException e){
+        }
+        
+        try{
+            this.adminDao.removeVideoInfo(9999);
+            fail("Error was not thrown");
+        }catch(DataAccessException e){
+        }
+        
+        try{
+            this.adminDao.removeVideoInfo(0);
+        }catch(DataAccessException e){
+            fail("Error should not be thrown");
+        }
     }
 }
