@@ -48,6 +48,7 @@ public class AdminDaoImplTest {
      * Test of addVideoInfo method, of class AdminDaoImpl.
      */
     @Test
+    @Transactional
     public void testAddVideoInfo() {
         System.out.println("addVideoInfo(VideoInfo) -> [DataAccessException]");
         
