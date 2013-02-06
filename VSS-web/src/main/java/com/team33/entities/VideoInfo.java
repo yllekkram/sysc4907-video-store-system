@@ -5,17 +5,9 @@
 package com.team33.entities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import java.util.Date;
+import java.util.Date;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -55,6 +47,12 @@ public class VideoInfo implements Serializable {
     @Size(min = 1, max = 80)
     @Column(name = "title")
     private String title;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 80)
+    @Column(name = "releaseDate")
+    @Temporal(TemporalType.DATE)
+    private Date releaseDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "description")
@@ -98,6 +96,13 @@ public class VideoInfo implements Serializable {
         this.rentalPrice = rentalPrice;
     }
 
+    public VideoInfo(int id, String title, String description, int runningTime, int rentalPrice, int purchasePrice, int genreId, int screenRatingId,Date releaseDate) {
+        this(id, title, description, runningTime, purchasePrice, rentalPrice);
+        this.Genre_id = genreId;
+        this.ScreenRating_id = screenRatingId;
+        this.releaseDate = releaseDate;
+    }
+
     public int getScreenRating_id() {
         return this.ScreenRating_id;
     }
@@ -122,6 +127,10 @@ public class VideoInfo implements Serializable {
         return title;
     }
 
+    public Date getReleaseDate() {
+        return releaseDate;
+    }
+
     public int getRunningTime() {
         return runningTime;
     }
@@ -134,8 +143,16 @@ public class VideoInfo implements Serializable {
         this.title = title;
     }
 
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
     public void setScreenRating_id(int ScreenRating_id) {
         this.ScreenRating_id = ScreenRating_id;
+    }
+
+    public void setGenre_id(int Genre_id) {
+        this.Genre_id = Genre_id;
     }
 
     public void setDescription(String description) {
