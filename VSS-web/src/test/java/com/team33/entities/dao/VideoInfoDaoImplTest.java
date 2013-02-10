@@ -67,6 +67,7 @@ public class VideoInfoDaoImplTest {
      * Test of getVideoInfoList method, of class VideoInfoDaoImpl.
      */
     @Test
+    @Transactional
     public void testGetVideoInfoList() {
         System.out.println("getVideoInfoList() : List<VideoInfo> -> [DataAccessException]");
         
@@ -141,6 +142,8 @@ public class VideoInfoDaoImplTest {
      * Test of removeVideoInfo method, of class VideoInfoDaoImpl.
      */
     @Test
+    @Transactional
+    @Rollback(true)
     public void testRemoveVideoInfo() {
         System.out.println("removeVideoInfo() : Void -> [DataAccessException]");
         try{

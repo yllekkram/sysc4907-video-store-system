@@ -17,6 +17,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -53,6 +55,7 @@ public class Order1DaoImplTest {
      * Test of getOrders method, of class Order1DaoImpl.
      */
     @Test
+    @Transactional
     public void testGetOrders() {
         System.out.println("getOrders");
         try{
@@ -87,6 +90,7 @@ public class Order1DaoImplTest {
      * Test of getOrder method, of class Order1DaoImpl.
      */
     @Test
+    @Transactional
     public void testGetOrder() {
         System.out.println("getOrder(Integer) -> [DataAccessException]");
         try{
@@ -114,6 +118,8 @@ public class Order1DaoImplTest {
      * Test of saveOrder method, of class Order1DaoImpl.
      */
     @Test
+    @Transactional
+    @Rollback(true)
     public void testSaveOrder() {
         System.out.println("saveOrder(Order1) -> [DataAccessException]");
         try{
@@ -139,6 +145,8 @@ public class Order1DaoImplTest {
      * Test of removeOrder method, of class Order1DaoImpl.
      */
     @Test
+    @Transactional
+    @Rollback(true)
     public void testRemoveOrder() {
         System.out.println("removeOrder(Integer) -> [DataAccessException]");
         try{
@@ -164,6 +172,8 @@ public class Order1DaoImplTest {
      * Test of createInvoice method, of class Order1DaoImpl.
      */
     @Test
+    @Transactional
+    @Rollback(true)
     public void testCreateInvoice() {
         System.out.println("createInvoice(Order1) -> [DataAccessException]");
         try{
@@ -189,6 +199,8 @@ public class Order1DaoImplTest {
      * Test of removePurchase method, of class Order1DaoImpl.
      */
     @Test
+    @Transactional
+    @Rollback(true)
     public void testRemovePurchase() {
         System.out.println("removePurchase(Order, Purchase) -> [DataAccessException]");
         try{
@@ -232,6 +244,8 @@ public class Order1DaoImplTest {
      * Test of removeRental method, of class Order1DaoImpl.
      */
     @Test
+    @Transactional
+    @Rollback(true)
     public void testRemoveRental() {
         System.out.println("removeRental(Order, Rental) -> [DataAccessException]");
         try{
@@ -275,6 +289,8 @@ public class Order1DaoImplTest {
      * Test of savePurchase method, of class Order1DaoImpl.
      */
     @Test
+    @Transactional
+    @Rollback(true)
     public void testSavePurchase() {
         System.out.println("savePurchase(Order, Purchase) -> [DataAccessException]");
         try{
@@ -318,6 +334,8 @@ public class Order1DaoImplTest {
      * Test of saveRental method, of class Order1DaoImpl.
      */
     @Test
+    @Transactional
+    @Rollback(true)
     public void testSaveRental() {
         System.out.println("saveRental(Order1, Rental) -> [DataAccessException]");
         try{

@@ -10,13 +10,14 @@ import com.team33.services.exception.DataAccessException;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -55,6 +56,7 @@ public class BrowseDaoImplTest {
      * Test of displayFeaturedVideo method, of class BrowseDaoImpl.
      */
     @Test
+    @Transactional
     public void testDisplayFeaturedVideo() {
         System.out.println("displayFeaturedVideo() : List<VideoInfo>");
         
@@ -65,6 +67,7 @@ public class BrowseDaoImplTest {
     }
     
     @Test
+    @Transactional
     public void testSearchVideos_ScreenRating(){
         System.out.println("searchVideos(ScreenRating) : List<VideoInfo>");
 
@@ -92,6 +95,7 @@ public class BrowseDaoImplTest {
     }
     
     @Test
+    @Transactional
     public void testSearchVideos_String(){
         System.out.println("searchVideos(String) : List<VideoInfo>");
         
