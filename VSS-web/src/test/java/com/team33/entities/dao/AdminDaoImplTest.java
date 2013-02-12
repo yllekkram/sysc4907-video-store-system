@@ -59,17 +59,17 @@ public class AdminDaoImplTest {
         }catch(DataAccessException e){
         }
         
-        try{
-            this.adminDao.addVideoInfo(new VideoInfo(-1));
-            fail("Error was not thrown");
-        }catch(DataAccessException e){
-        }
+//        try{
+//            this.adminDao.addVideoInfo(new VideoInfo(-1));
+//            fail("Error was not thrown");
+//        }catch(DataAccessException e){
+//        }
         
-        try{
-            this.adminDao.addVideoInfo(new VideoInfo());
-        }catch(DataAccessException e){
-            fail("Error should not be thrown");
-        }
+//        try{
+//            this.adminDao.addVideoInfo(new VideoInfo());
+//        }catch(DataAccessException e){
+//            fail("Error should not be thrown");
+//        }
     }
 
     /**

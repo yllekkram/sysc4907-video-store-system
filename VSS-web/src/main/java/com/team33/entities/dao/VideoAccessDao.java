@@ -15,8 +15,10 @@ import java.util.List;
  * @author Mark,Samual
  */
 public interface VideoAccessDao {
-    public List<VideoInfo> getVideoInfoList(LoginToken loginToken) throws DataAccessException,AccountNotActivatedException;
-    
-    public VideoInfo getVideoInfo(int videoInfoId,LoginToken loginToken) throws DataAccessException,AccountNotActivatedException;
-    
+
+    public List<VideoInfo> getVideoInfoList(int uuid) throws DataAccessException, AccountNotActivatedException;
+
+    public VideoInfo getVideoInfo(int videoInfoId, int uuid) throws DataAccessException, AccountNotActivatedException;
+
+    public LoginToken getLoginToken(int uuid) throws DataAccessException;
 }
