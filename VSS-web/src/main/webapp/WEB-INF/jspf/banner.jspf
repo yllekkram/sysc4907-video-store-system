@@ -4,7 +4,7 @@
     <h1>On-Line Video Store !!!!</h1>
     <div id="bannerSearch">
         <form action="">
-            <input type="text"/>
+            <input name="keyword" type="text"/>
             <input type="button" value="Search"/>
         </form>
     </div>
