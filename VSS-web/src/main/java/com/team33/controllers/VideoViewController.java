@@ -23,20 +23,18 @@ public class VideoViewController {
         // Load video location from DB
         
         // Tmp Until Service Layer added in
-        String videoLocation = "happy";
-        map.put("vidLocation_mp4", (videoLocation + ".mp4"));
-        map.put("vidLocation_webm", (videoLocation + ".webm"));
-        map.put("currentTime", new IntegerWrapper(159));
-        map.put("savedTime", new IntegerWrapper());
+        String videoLocation = "big_buck_bunny_480p_stereo";
+        map.put("currentTime", "60");
+        map.put("vidLocation_ogg", videoLocation + ".ogg");
         //map.put("vidLocation_mp4", videoLocation_mp4);
         //map.put("currentTime", 0);
         //logger.error("Loading Video");
         return "viewVideo";
     }
     @RequestMapping(value = "/viewVideo", method = RequestMethod.POST)
-    public String saveVideoTimeLocation(@ModelAttribute("savedTime") IntegerWrapper currentTime){
+    public String saveVideoTimeLocation(@ModelAttribute("savedTime") String currentTime){
         // Save currentTime
-        System.out.println("--------------------------------- Current Time is : " + currentTime.getInteger());
+        System.out.println("--------------------------------- Current Time is : " + currentTime);
         return "redirect:/viewVideo.htm";
     }
 }
