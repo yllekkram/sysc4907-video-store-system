@@ -19,6 +19,7 @@ import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -57,6 +58,7 @@ public class VideoAccessDaoImplTest {
      * Test of getVideoInfo method, of class VideoAccessDaoImpl.
      */
     @Test
+    @Transactional
     public void testGetVideoInfo() throws Exception {
         System.out.println("getVideoInfo(Integer, LoginToken) : VideoInfo -> [DataAccessException,AccountNotActivatedException]");
         
@@ -106,6 +108,7 @@ public class VideoAccessDaoImplTest {
      * Test of getVideoInfoList method, of class VideoAccessDaoImpl.
      */
     @Test
+    @Transactional
     public void testGetVideoInfoList() throws Exception {
         System.out.println("getVideoInfoList(LoginToken) : List<VideoInfo> -> [DataAccessException,AccountNotActivatedException]");
         
