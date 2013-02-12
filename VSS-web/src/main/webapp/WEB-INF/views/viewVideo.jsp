@@ -21,28 +21,24 @@
         <br>
             
         <video id="my_video_1" class="video-js vjs-default-skin" controls
-               preload="auto" width="640" height="264" poster="my_video_poster.png"
+               preload="auto" width="640" height="264"
                data-setup="{}">
-            <source src="${vidLocation_mp4}" type='video/mp4'>
-            <source src="${vidLocation_webm}" type='video/webm'>
+            <!--source src="${vidLocation_mp4}" type='video/mp4'>
+            <source src="${vidLocation_webm}" type='video/webm'-->
+            <source src ="${vidLocation_ogg}" type='video/ogg'/>
         </video>
-        <form:form id="videoForm" action="viewVideo.htm" method="post" modelAttribute="savedTime">
-            <input id="input" type="submit" value="Submit" onclick=""/>
-        </form:form>
         <script>
-            var myPlayer = _V_("my_video_1");
+            var myPlayer = _V_("my_video_1");         
+            var playFunct = function(){
+                myPlayer.currentTime(${currentTime});
+                myPlayer.play();
+            };
+            myPlayer.addEvent("loadeddata", playFunct);
+            
             window.onbeforeunload = function(e){
-                console.log("Current time variable : ${currentTime.integer}");
-                ${savedTime.integer} = (myPlayer.currentTime() + 15);
-                console.log("Current time variable : ${currentTime.integer}");
-                console.log("Saved Time : ${savedTime.integer}");
-                console.log("Player Time is " + (myPlayer.currentTime() + 15));
-                document.getElementById("videoForm").submit();
-                var message = "Hello World";
-                if (e){
-                    e.returnValue = message;
-                }
-                return message;
+                console.log("Player Time is " + (myPlayer.currentTime()));
+                $.post("viewVideo.htm", {savedTime:myPlayer.currentTime()});
+                return null;
             };
         </script>
     </body>
