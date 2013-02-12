@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Mark
  */
 @Controller
-public class VideoInfoController {
+public class BrowseVideosController {
     @Autowired
     private BrowseServiceImpl browseServiceImpl;
     

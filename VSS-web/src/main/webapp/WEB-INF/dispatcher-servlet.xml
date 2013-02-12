@@ -82,7 +82,7 @@
         <property name="commandClass" value ="com.team33.entities.Order1"/>
     </bean>
     <bean name="browseVideoController"
-        class="com.team33.controllers.VideoInfoController">
+        class="com.team33.controllers.BrowseVideosController">
         <property name="browseServiceImpl" ref="browseServiceImpl"/>
     </bean>
     <bean name = "browseController"
@@ -145,7 +145,7 @@
         <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
     <bean  id="adminDaoImpl" class="com.team33.entities.dao.AdminDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory" />  
+        <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     
       

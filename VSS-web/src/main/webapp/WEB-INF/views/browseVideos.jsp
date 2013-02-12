@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Videos</title>
+        <title>Browse Videos</title>
         
         <style>
             th.videoListHeader {
@@ -20,22 +20,6 @@
         </style>
     </head>
     <body>
-        <h1>Browse Videos</h1>
-        <table>
-            <tr>
-                <th class="videoListHeader">Name</th>
-                <th class="videoListHeader">Description</th>
-                <th class="videoListHeader">Rating</th>
-                <th class="videoListHeader">Genre</th>
-            </tr>
-            <c:forEach var="videoInfo" items="${videoInfoList}">
-                <tr>
-                    <td><c:out value="${videoInfo.getName()}"/></td>
-                    <td><c:out value="${videoInfo.getDescription()}"/></td>
-                    <td><c:out value="${videoInfo.getScreenRating()}"/></td>
-                    <td><c:out value="${videoInfo.getGenre()}"/></td>
-                </tr>
-            </c:forEach>
-        </table>
+        <%@include file="../jspf/video_list.jspf" %>
     </body>
 </html>
