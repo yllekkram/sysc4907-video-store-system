@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
+import com.team33.services.exception.*;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class Order1DaoImpl extends HibernateDaoSupport implements Order1Dao {
@@ -89,5 +89,13 @@ public class Order1DaoImpl extends HibernateDaoSupport implements Order1Dao {
                 sessionFactory.getCurrentSession().save(rental);
             }
         }
+    }
+
+    @Override
+    public LoginToken getLoginToken(int uuid) throws DataAccessException {
+        if (sessionFactory.getCurrentSession().get(LoginToken.class, uuid) != null) {
+            return (LoginToken) sessionFactory.getCurrentSession().get(LoginToken.class, uuid);
+        }
+        throw new DataAccessException("The activation key is invalid");
     }
 }

@@ -12,9 +12,23 @@ import com.team33.services.exception.DataAccessException;
  */
 public interface AdminDao {
 
-    public void addVideoInfo(VideoInfo videoInfo) throws DataAccessException;
+    public void addVideoInfo(String title);
 
-    public void removeVideoInfo(int videoInfoId)throws DataAccessException;
+    public void addVideoInfo(int genreId, int screenRatingId);
+
+    public void addVideoInfo(String title, String description, int rentalPrice, int purchasePrice, int genreId, int screenRatingId) throws DataAccessException;
+
+    public void updateVideoInfo(int videoInfoId, int genreId, int screenRatingId);
+
+    public void updateVideoDetail(int videoInfoId, String title, String description);
+
+    public void updateVideoDetail(int videoInfoId, String description);
+
+    public void updateVideoDetail(int videoInfoId, int genreId, String category, int screenRatingId, String rating);
+
+    public void updateVideoPricing(int videoInfoId, int purchasePrice, int rentalPrice);
+
+    public void removeVideoInfo(int videoInfoId) throws DataAccessException;
 
     public VideoInfo getVideoInfo(int videoInfoId) throws DataAccessException;
 }

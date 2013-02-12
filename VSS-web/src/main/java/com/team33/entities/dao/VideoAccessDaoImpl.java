@@ -23,18 +23,19 @@ public class VideoAccessDaoImpl extends HibernateDaoSupport implements
     private SessionFactory sessionFactory;
 
     @Override
-    public VideoInfo getVideoInfo(int videoInfoId,LoginToken loginToken) throws DataAccessException,AccountNotActivatedException {
-        if (!loginToken.getAccount().getActivated()) {
-            throw new AccountNotActivatedException("Account Inactive");
-        }
+    public VideoInfo getVideoInfo(int videoInfoId,int uuid) throws DataAccessException,AccountNotActivatedException {
         return (VideoInfo) this.sessionFactory.getCurrentSession().get(VideoInfo.class, videoInfoId);
     }
 
     @Override
-    public List<VideoInfo> getVideoInfoList(LoginToken loginToken) throws DataAccessException,AccountNotActivatedException{
-        if (!loginToken.getAccount().getActivated()) {
-            throw new AccountNotActivatedException("Account Inactive");
-        }
+    public List<VideoInfo> getVideoInfoList(int uuid) throws DataAccessException,AccountNotActivatedException{
         return sessionFactory.getCurrentSession().getNamedQuery("VideoInfo.findAll").list();
+    }
+     @Override
+    public LoginToken getLoginToken(int uuid) throws DataAccessException {
+         if(sessionFactory.getCurrentSession().get(LoginToken.class,uuid) != null){
+             return (LoginToken)sessionFactory.getCurrentSession().get(LoginToken.class,uuid);
+         }
+        throw new DataAccessException("The activation key is invalid");
     }
 }
