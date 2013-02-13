@@ -10,6 +10,7 @@
 <html>
     <head> <title>Online Video Store System</title> </head>
     <body>
+        <%@include file="../jspf/banner.jspf" %>
         <!--Used to capture the exceptions -->
         <c:if test="${exception ne null}">
             <div class="error">
