@@ -44,11 +44,9 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao {
                 throw new DataAccessException("Data Access invalid");
             }
         } catch (DataAccessException dae) {
-            dae.toString();
+            dae.printStackTrace();
             return null;
         }
-        //tell the session to start a new transaction 
-        curSession.beginTransaction();
         accountQuery = curSession.getNamedQuery("Account.findByName");
         accountQuery.setParameter("name", username);
         if (accountQuery.list().isEmpty()) {
@@ -61,10 +59,9 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao {
     }
 
     @Override
-    public void saveAccount(Account account) throws DataAccessException {
+    public void saveAccount(Account account) throws DataAccessException {        
         HibernateTemplate hibTemp = this.getHibernateTemplate();
         hibTemp.save(account);
-
     }
 
     @Override

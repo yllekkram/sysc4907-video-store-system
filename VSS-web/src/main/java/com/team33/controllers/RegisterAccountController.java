@@ -86,13 +86,7 @@ public class RegisterAccountController {
                 throw new RegistrationException("Invalid registration info!");
             }
             //if username already exists in system throw exception
-            if (this.getAccountServiceImpl().getAccountDaoImpl().getAccount(username) != null) {
-                throw new RegistrationException("Username already exists, please try another.");
-            }
-            Account acc = new Account();
-            acc.setName(username);
-            acc.setPassword(password);
-            this.getAccountServiceImpl().getAccountDaoImpl().saveAccount(acc);
+            this.getAccountServiceImpl().registerAccount(username, password);
             return this.getSuccessView();
         } catch (RegistrationException re) {
             redirect.addFlashAttribute("exception", re);

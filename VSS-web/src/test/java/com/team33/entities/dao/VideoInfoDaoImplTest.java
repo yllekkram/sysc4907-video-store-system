@@ -36,8 +36,8 @@ public class VideoInfoDaoImplTest {
     private VideoInfo testVideoInfo2;
     
     public VideoInfoDaoImplTest() {
-        this.testVideoInfo1 = new VideoInfo(0, "Lion King");
-        this.testVideoInfo2 = new VideoInfo(1, "Happy Tree");
+//        this.testVideoInfo1 = new VideoInfo(0, "Lion King");
+//        this.testVideoInfo2 = new VideoInfo(1, "Happy Tree");
     }
     
     @BeforeClass

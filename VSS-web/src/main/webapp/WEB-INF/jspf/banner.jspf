@@ -1,17 +1,81 @@
 <%-- any content can be specified here e.g.: --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page pageEncoding="UTF-8" %>
+<style type="text/css">
+    root { 
+        display: block;
+    }
+
+    #bannerLinks{
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+    }
+    li{
+        float: left;
+    }
+    .bannerNavLink{
+        display: block;
+        width: 100px;
+        background-color: red;
+        text-align: center;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    #headerView{
+        border-bottom: solid black;
+    }
+
+    #bannerLogin{
+        float: right;
+    }
+
+    #bannerSearch{
+        display: inline-block;
+    }
+
+    #searchLogin{
+        float: right;
+        display: block;
+        width: 100%;
+    }
+</style>
 <div id="headerView">
     <h1>On-Line Video Store !!!!</h1>
-    <div id="bannerSearch">
-        <form action="">
-            <input type="text"/>
-            <input type="button" value="Search"/>
-        </form>
+    <div id="searchLogin">
+        <div id="bannerLogin">
+            <form action="" id="bannerSearch">
+                <input type="text"/>
+                <input type="button" value="Search"/>
+            </form>
+            <c:if test="${alreadyLogin ne null}">
+                Username
+            </c:if>
+            <c:if test="${alreadyLogin eq null}">
+                <a href="registerAccountView.htm">Register</a>
+                <a href="login.htm">Login</a>
+            </c:if>
+        </div>
     </div>
-    <div id="bannerLogin">
-        <form>
-            <input type="button" value="Register" onClick="parent.location='registerAccountView.htm'"/>
-            <input id="loginButton" type="button" value="Login" onClick="parent.location='login.htm'"/>
-        </form>
+    <div id="navLinks">
+        <ul id="bannerLinks">
+            <li>
+                <a href="http://localhost:8080/VSS-web/" class="bannerNavLink">Home</a>
+            </li>
+            <li>
+                <a href="browseView.htm" class="bannerNavLink">Video</a>
+            </li>
+            <li>
+                <a href="viewVideo.htm" class="bannerNavLink">Watch Video</a>
+            </li>
+            <li>
+                <a href="orderVideoView.htm" class="bannerNavLink">Order</a>
+            </li>
+            <li>
+                <a href="adminView.htm" class="bannerNavLink">Admin View</a>
+            </li>
+        </ul>
     </div>
 </div>

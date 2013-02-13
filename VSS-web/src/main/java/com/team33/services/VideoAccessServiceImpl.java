@@ -9,6 +9,7 @@ import com.team33.entities.dao.VideoAccessDaoImpl;
 import com.team33.services.exception.AccountNotActivatedException;
 import com.team33.services.exception.DataAccessException;
 import java.util.List;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -20,18 +21,46 @@ public class VideoAccessServiceImpl implements VideoAccessService {
     @Autowired
     private VideoAccessDaoImpl videoAccessDaoImpl;
 
+    public VideoAccessDaoImpl getVideoAccessDaoImpl() {
+        return videoAccessDaoImpl;
+    }
+
     public void setVideoAccessDaoImpl(VideoAccessDaoImpl videoAccessDaoImpl) {
         this.videoAccessDaoImpl = videoAccessDaoImpl;
     }
 
-    @Override
-    public VideoInfo getVideoInfo(int videoInfoId,LoginToken loginToken) throws DataAccessException,AccountNotActivatedException {
-        return this.videoAccessDaoImpl.getVideoInfo(videoInfoId,loginToken);
+    public boolean isActivated(int uuid) throws AccountNotActivatedException {
+        try {
+            LoginToken loginToken = this.getVideoAccessDaoImpl().getLoginToken(uuid);
+
+            if (!loginToken.getAccount().getActivated()) {
+                throw new AccountNotActivatedException("Account Inactive");
+            }
+        } catch (DataAccessException dae) {
+            dae.printStackTrace();
+        } catch (AccountNotActivatedException ae) {
+            ae.printStackTrace();
+        }
+        return true;
     }
 
     @Override
-    public List<VideoInfo> getVideoInfoList(LoginToken loginToken) throws DataAccessException,AccountNotActivatedException{
-        return this.videoAccessDaoImpl.getVideoInfoList(loginToken);
+    public VideoInfo getVideoInfo(int videoInfoId, int uuid) throws DataAccessException, AccountNotActivatedException {
+        Session session = this.getVideoAccessDaoImpl().getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        if (this.isActivated(uuid)) {
+            return this.videoAccessDaoImpl.getVideoInfo(videoInfoId, uuid);
+        }
+        throw new DataAccessException("Incorrect activation key!");
     }
 
+    @Override
+    public List<VideoInfo> getVideoInfoList(int uuid) throws DataAccessException, AccountNotActivatedException {
+        Session session = this.getVideoAccessDaoImpl().getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        if (this.isActivated(uuid)) {
+            return this.videoAccessDaoImpl.getVideoInfoList(uuid);
+        }
+        throw new DataAccessException("Invalid activation key!");
+    }
 }
