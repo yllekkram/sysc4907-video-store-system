@@ -5,90 +5,95 @@
 package com.team33.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
- * @author Samual
+ * @author LaFamiglia
  */
 @Embeddable
 public class RentalPK implements Serializable {
-
-    private static final long serialVersionUID = 1L;
     @Basic(optional = false)
-    @GeneratedValue
-    @NotNull
     @Column(name = "id")
     private int id;
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "Order_Account_id")
-    private int accountId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "Order_id")
-    private int orderId;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "Video_Info_id")
-    private int videoInfoId;
+    private int videoInfoid;
+    @Basic(optional = false)
+    @Column(name = "Orders_id")
+    private int ordersid;
+    @Basic(optional = false)
+    @Column(name = "Orders_Account_id")
+    private int ordersAccountid;
+    @Basic(optional = false)
+    @Column(name = "rentalExpiryDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date rentalExpiryDate;
 
     public RentalPK() {
     }
 
-    public RentalPK(int accountId, int orderId, int videoInfoId) {
-        this.accountId = accountId;
-        this.orderId = orderId;
-        this.videoInfoId = videoInfoId;
-    }
-
-    public RentalPK(int id, int accountId, int orderId, int videoInfoId) {
+    public RentalPK(int id, int videoInfoid, int ordersid, int ordersAccountid, Date rentalExpiryDate) {
         this.id = id;
-        this.accountId = accountId;
-        this.orderId = orderId;
-        this.videoInfoId = videoInfoId;
+        this.videoInfoid = videoInfoid;
+        this.ordersid = ordersid;
+        this.ordersAccountid = ordersAccountid;
+        this.rentalExpiryDate = rentalExpiryDate;
     }
 
     public int getId() {
-        return this.id;
-    }
-
-    public int getAccountId() {
-        return this.accountId;
-    }
-
-    public int getOrderId() {
-        return this.orderId;
-    }
-
-    public int getVideoInfoId() {
-        return this.videoInfoId;
+        return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setAccountId(int id) {
-        this.accountId = id;
+    public int getVideoInfoid() {
+        return videoInfoid;
     }
 
-    public void setOrderId(int id) {
-        this.orderId = id;
+    public void setVideoInfoid(int videoInfoid) {
+        this.videoInfoid = videoInfoid;
     }
 
-    public void setVideoInfoId(int id) {
-        this.videoInfoId = id;
+    public int getOrdersid() {
+        return ordersid;
+    }
+
+    public void setOrdersid(int ordersid) {
+        this.ordersid = ordersid;
+    }
+
+    public int getOrdersAccountid() {
+        return ordersAccountid;
+    }
+
+    public void setOrdersAccountid(int ordersAccountid) {
+        this.ordersAccountid = ordersAccountid;
+    }
+
+    public Date getRentalExpiryDate() {
+        return rentalExpiryDate;
+    }
+
+    public void setRentalExpiryDate(Date rentalExpiryDate) {
+        this.rentalExpiryDate = rentalExpiryDate;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) id;
-        hash += (int) accountId;
-        hash += (int) orderId;
-        hash += (int) videoInfoId;
+        hash += (int) videoInfoid;
+        hash += (int) ordersid;
+        hash += (int) ordersAccountid;
+        hash += (rentalExpiryDate != null ? rentalExpiryDate.hashCode() : 0);
         return hash;
     }
 
@@ -102,13 +107,16 @@ public class RentalPK implements Serializable {
         if (this.id != other.id) {
             return false;
         }
-        if (this.accountId != other.accountId) {
+        if (this.videoInfoid != other.videoInfoid) {
             return false;
         }
-        if (this.orderId != other.orderId) {
+        if (this.ordersid != other.ordersid) {
             return false;
         }
-        if (this.videoInfoId != other.videoInfoId) {
+        if (this.ordersAccountid != other.ordersAccountid) {
+            return false;
+        }
+        if ((this.rentalExpiryDate == null && other.rentalExpiryDate != null) || (this.rentalExpiryDate != null && !this.rentalExpiryDate.equals(other.rentalExpiryDate))) {
             return false;
         }
         return true;
@@ -116,6 +124,7 @@ public class RentalPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.RentalPK[ id=" + id + " ]";
+        return "javaapplication5.RentalPK[ id=" + id + ", videoInfoid=" + videoInfoid + ", ordersid=" + ordersid + ", ordersAccountid=" + ordersAccountid + ", rentalExpiryDate=" + rentalExpiryDate + " ]";
     }
+    
 }

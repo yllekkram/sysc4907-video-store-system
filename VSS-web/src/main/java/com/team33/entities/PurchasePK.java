@@ -5,90 +5,78 @@
 package com.team33.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 /**
  *
- * @author Samual
+ * @author LaFamiglia
  */
 @Embeddable
 public class PurchasePK implements Serializable {
-
-    private static final long serialVersionUID = 1L;
     @Basic(optional = false)
-    @GeneratedValue
-    @NotNull
     @Column(name = "id")
     private int id;
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "Order_Account_id")
-    private int accountId;
+    @Column(name = "Orders_id")
+    private int ordersid;
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "Order_id")
-    private int orderId;
+    @Column(name = "Orders_Account_id")
+    private int ordersAccountid;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "Video_Info_id")
-    private int videoInfoId;
+    private int videoInfoid;
 
     public PurchasePK() {
     }
 
-    public PurchasePK(int accountId, int orderId, int videoInfoId) {
-        this.accountId = accountId;
-        this.orderId = orderId;
-        this.videoInfoId = videoInfoId;
-    }
-
-    public PurchasePK(int id, int accountId, int orderId, int videoInfoId) {
+    public PurchasePK(int id, int ordersid, int ordersAccountid, int videoInfoid) {
         this.id = id;
-        this.accountId = accountId;
-        this.orderId = orderId;
-        this.videoInfoId = videoInfoId;
+        this.ordersid = ordersid;
+        this.ordersAccountid = ordersAccountid;
+        this.videoInfoid = videoInfoid;
     }
 
     public int getId() {
-        return this.id;
-    }
-
-    public int getAccountId() {
-        return this.accountId;
-    }
-
-    public int getOrderId() {
-        return this.orderId;
-    }
-
-    public int getVideoInfoId() {
-        return this.videoInfoId;
+        return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setAccountId(int id) {
-        this.accountId = id;
+    public int getOrdersid() {
+        return ordersid;
     }
 
-    public void setOrderId(int id) {
-        this.orderId = id;
+    public void setOrdersid(int ordersid) {
+        this.ordersid = ordersid;
     }
 
-    public void setVideoInfoId(int id) {
-        this.videoInfoId = id;
+    public int getOrdersAccountid() {
+        return ordersAccountid;
+    }
+
+    public void setOrdersAccountid(int ordersAccountid) {
+        this.ordersAccountid = ordersAccountid;
+    }
+
+    public int getVideoInfoid() {
+        return videoInfoid;
+    }
+
+    public void setVideoInfoid(int videoInfoid) {
+        this.videoInfoid = videoInfoid;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) id;
-        hash += (int) accountId;
-        hash += (int) orderId;
-        hash += (int) videoInfoId;
+        hash += (int) ordersid;
+        hash += (int) ordersAccountid;
+        hash += (int) videoInfoid;
         return hash;
     }
 
@@ -102,13 +90,13 @@ public class PurchasePK implements Serializable {
         if (this.id != other.id) {
             return false;
         }
-        if (this.accountId != other.accountId) {
+        if (this.ordersid != other.ordersid) {
             return false;
         }
-        if (this.orderId != other.orderId) {
+        if (this.ordersAccountid != other.ordersAccountid) {
             return false;
         }
-        if (this.videoInfoId != other.videoInfoId) {
+        if (this.videoInfoid != other.videoInfoid) {
             return false;
         }
         return true;
@@ -116,6 +104,7 @@ public class PurchasePK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.PurchasePK[ id=" + id + " ]";
+        return "javaapplication5.PurchasePK[ id=" + id + ", ordersid=" + ordersid + ", ordersAccountid=" + ordersAccountid + ", videoInfoid=" + videoInfoid + " ]";
     }
+    
 }

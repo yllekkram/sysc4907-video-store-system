@@ -5,34 +5,51 @@
 package com.team33.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Samual
+ * @author LaFamiglia
  */
 @Entity
-@Table(name = "loginToken")
+@Table(name = "logintoken")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "LoginToken.findAll", query = "SELECT l FROM LoginToken l"),
+    @NamedQuery(name = "LoginToken.findByAccountid", query = "SELECT l FROM LoginToken l WHERE l.logintokenPK.accountid = :accountid"),
+    @NamedQuery(name = "LoginToken.findById", query = "SELECT l FROM LoginToken l WHERE l.logintokenPK.id = :id")})
 public class LoginToken implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected LoginTokenPK loginTokenPK;
-    @JoinColumns({
-        @JoinColumn(name = "Account_id", referencedColumnName = "id", insertable = false, updatable = false)})
+    protected LoginTokenPK logintokenPK;
+    @JoinColumn(name = "Account_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
     private Account account;
 
     public LoginToken() {
     }
 
-    public LoginToken(LoginTokenPK loginTokenPK) {
-        this.loginTokenPK = loginTokenPK;
+    public LoginToken(LoginTokenPK logintokenPK) {
+        this.logintokenPK = logintokenPK;
     }
 
-    public LoginToken(int id, int accountid) {
-        this.loginTokenPK = new LoginTokenPK(id, accountid);
+    public LoginToken(int accountid, int id) {
+        this.logintokenPK = new LoginTokenPK(accountid, id);
+    }
+
+    public LoginTokenPK getLogintokenPK() {
+        return logintokenPK;
+    }
+
+    public void setLogintokenPK(LoginTokenPK logintokenPK) {
+        this.logintokenPK = logintokenPK;
     }
 
     public Account getAccount() {
@@ -42,17 +59,11 @@ public class LoginToken implements Serializable {
     public void setAccount(Account account) {
         this.account = account;
     }
-    public LoginTokenPK getLoginTokenPK(){
-        return this.loginTokenPK;
-    }
-    public void setLoginTokenPK(LoginTokenPK loginTokenPK){
-        this.loginTokenPK = loginTokenPK;
-    }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (loginTokenPK != null ? loginTokenPK.hashCode() : 0);
+        hash += (logintokenPK != null ? logintokenPK.hashCode() : 0);
         return hash;
     }
 
@@ -63,7 +74,7 @@ public class LoginToken implements Serializable {
             return false;
         }
         LoginToken other = (LoginToken) object;
-        if ((this.loginTokenPK == null && other.loginTokenPK != null) || (this.loginTokenPK != null && !this.loginTokenPK.equals(other.loginTokenPK))) {
+        if ((this.logintokenPK == null && other.logintokenPK != null) || (this.logintokenPK != null && !this.logintokenPK.equals(other.logintokenPK))) {
             return false;
         }
         return true;
@@ -71,6 +82,7 @@ public class LoginToken implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.Order1[ order1PK=" + loginTokenPK + " ]";
+        return "javaapplication5.Logintoken[ logintokenPK=" + logintokenPK + " ]";
     }
+    
 }

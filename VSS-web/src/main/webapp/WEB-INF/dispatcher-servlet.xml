@@ -39,9 +39,6 @@
                 <entry key="/accessVideoOrders.htm">
                     <ref bean="accessVideoController"/>
                 </entry>
-                <entry key="/adminView.htm">
-                    <ref bean="adminController"/>
-                </entry>
             </map>
         </property>
     </bean>
@@ -73,19 +70,11 @@
           class = "com.team33.controllers.OrderController" >
         <property name="orderServiceImpl" ref="orderServiceImpl" />
         <property name="commandName" value = "orders" />
-        <property name="commandClass" value ="com.team33.entities.Order1"/>
+        <property name="commandClass" value ="com.team33.entities.Orders"/>
     </bean>
     <bean name = "browseController"
           class = "com.team33.controllers.BrowseController" >
         <property name="browseServiceImpl" ref="browseServiceImpl" />
-        <!-- Entity not established yet
-        <property name="commandName" value = "order1" />
-        <property name="commandClass" value ="com.team33.entities.Order1"/>
-        -->
-    </bean>
-    <bean name = "adminController"
-          class = "com.team33.controllers.AdminController" >
-        <property name="adminServiceImpl" ref="adminServiceImpl" />
         <!-- Entity not established yet
         <property name="commandName" value = "order1" />
         <property name="commandClass" value ="com.team33.entities.Order1"/>
@@ -105,7 +94,7 @@
         <property name = "accountDaoImpl" ref = "accountDaoImpl"/>
     </bean> 
     <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
-        <property name = "order1DaoImpl" ref = "order1DaoImpl"/>
+        <property name = "ordersDaoImpl" ref = "ordersDaoImpl"/>
         <property name = "creditCardValidator" ref = "creditCardValidator"/>
     </bean> 
     <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
@@ -114,14 +103,10 @@
     <bean id = "videoAccessServiceImpl" class = "com.team33.services.VideoAccessServiceImpl">
         <property name = "videoAccessDaoImpl" ref = "videoAccessDaoImpl"/>
     </bean> 
-    <bean id = "adminServiceImpl" class = "com.team33.services.AdminServiceImpl">
-        <property name = "adminDaoImpl" ref = "adminDaoImpl"/>
-    </bean> 
-    
     <bean  id="accountDaoImpl" class="com.team33.entities.dao.AccountDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
-    <bean  id="order1DaoImpl" class="com.team33.entities.dao.Order1DaoImpl">
+    <bean  id="ordersDaoImpl" class="com.team33.entities.dao.OrdersDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
     <bean  id="browseDaoImpl" class="com.team33.entities.dao.BrowseDaoImpl">
@@ -129,11 +114,7 @@
     </bean>
     <bean  id="videoAccessDaoImpl" class="com.team33.entities.dao.VideoAccessDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
-    </bean>
-    <bean  id="adminDaoImpl" class="com.team33.entities.dao.AdminDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory" />  
-    </bean>
-    
+    </bean>   
     <bean id = "creditCardValidator" class = "com.team33.services.CreditCardValidator">
     </bean>
       

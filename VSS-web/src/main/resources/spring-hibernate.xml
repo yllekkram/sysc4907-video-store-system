@@ -29,7 +29,20 @@
         </property>
         <property name="annotatedClasses">
             <list>
- 
+                <value>com.team33.entities.Account</value>
+                <value>com.team33.entities.Genre</value>
+                <value>com.team33.entities.Invoice</value>
+                <value>com.team33.entities.InvoicePK</value>
+                <value>com.team33.entities.LoginToken</value>
+                <value>com.team33.entities.LoginTokenPK</value>
+                <value>com.team33.entities.Orders</value>
+                <value>com.team33.entities.OrdersPK</value>
+                <value>com.team33.entities.Purchase</value>
+                <value>com.team33.entities.PurchasePK</value>
+                <value>com.team33.entities.Rental</value>
+                <value>com.team33.entities.RentalPK</value>
+                <value>com.team33.entities.ScreenRating</value>
+                <value>com.team33.entities.VideoInfo</value>
             </list>
         </property>
         <property name="hibernateProperties">

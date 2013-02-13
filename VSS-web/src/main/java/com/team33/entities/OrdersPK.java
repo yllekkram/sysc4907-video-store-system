@@ -8,37 +8,26 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author LaFamiglia
  */
 @Embeddable
-public class Order1PK implements Serializable {
-
+public class OrdersPK implements Serializable {
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private int id;
-    @Column(name = "pendingCharge")
-    private int pendingCharge;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "Account_id")
     private int accountid;
 
-    public Order1PK() {
+    public OrdersPK() {
     }
 
-    public Order1PK(int id, int accountid) {
+    public OrdersPK(int id, int accountid) {
         this.id = id;
         this.accountid = accountid;
-        this.pendingCharge = 0;
-    }
-
-    public int getPendingCharge() {
-        return pendingCharge;
     }
 
     public int getId() {
@@ -57,27 +46,6 @@ public class Order1PK implements Serializable {
         this.accountid = accountid;
     }
 
-    public void setPendingCharge(int pendingCharge) {
-        this.pendingCharge = pendingCharge;
-    }
-
-    /*
-     * Increases the charge when an order is added
-     */
-    public void increaseCharge(int newCharge) {
-        this.pendingCharge += newCharge;
-    }
-    /*
-     * Decreases the charge when an order is removed
-     */
-
-    public void decreaseCharge(int oldCharge) {
-        if (pendingCharge - oldCharge >= 0) {
-            this.pendingCharge -= oldCharge;
-        }
-
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -89,10 +57,10 @@ public class Order1PK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Order1PK)) {
+        if (!(object instanceof OrdersPK)) {
             return false;
         }
-        Order1PK other = (Order1PK) object;
+        OrdersPK other = (OrdersPK) object;
         if (this.id != other.id) {
             return false;
         }
@@ -104,6 +72,7 @@ public class Order1PK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.Order1PK[ id=" + id + ", accountid=" + accountid + " ]";
+        return "javaapplication5.OrdersPK[ id=" + id + ", accountid=" + accountid + " ]";
     }
+    
 }

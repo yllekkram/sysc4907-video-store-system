@@ -5,7 +5,7 @@
 package com.team33.services;
 
 import com.team33.entities.LoginToken;
-import com.team33.entities.Order1;
+import com.team33.entities.Orders;
 import com.team33.entities.Purchase;
 import com.team33.entities.Rental;
 import com.team33.services.exception.*;
@@ -17,9 +17,9 @@ import java.util.List;
  */
 public interface OrderService {
 
-    public List<Order1> getOrders(int uuid) throws DataAccessException, AccountNotActivatedException;
+    public List<Orders> getOrders(int uuid) throws DataAccessException, AccountNotActivatedException;
 
-    public Order1 getOrder(Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException;
+    public Orders getOrder(Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException;
 
     public void addPurchase(Integer videoInfoId, Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException;
 
