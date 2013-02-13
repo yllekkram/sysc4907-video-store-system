@@ -5,7 +5,14 @@
 package com.team33.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -13,19 +20,26 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Samual
  */
 @Entity
-@Table(name = "Purchase")
+@Table(name = "purchase")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Purchase.findAll", query = "SELECT p FROM Purchase p"),
-    @NamedQuery(name = "Purchase.findByAccountId", query = "SELECT p FROM Purchase p WHERE p.Account_id = :Account_id"),
-    @NamedQuery(name = "Purchase.findByOrderId", query = "SELECT p FROM Purchase p WHERE p.Order_id = :Order_Id")
-})
+    @NamedQuery(name = "Purchase.findById", query = "SELECT p FROM Purchase p WHERE p.purchasePK.id = :id"),
+    @NamedQuery(name = "Purchase.findByOrdersid", query = "SELECT p FROM Purchase p WHERE p.purchasePK.ordersid = :ordersid"),
+    @NamedQuery(name = "Purchase.findByOrdersAccountid", query = "SELECT p FROM Purchase p WHERE p.purchasePK.ordersAccountid = :ordersAccountid"),
+    @NamedQuery(name = "Purchase.findByVideoInfoid", query = "SELECT p FROM Purchase p WHERE p.purchasePK.videoInfoid = :videoInfoid")})
 public class Purchase implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    private PurchasePK purchasePK;
+    protected PurchasePK purchasePK;
+    @JoinColumn(name = "Video_Info_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
     private VideoInfo videoInfo;
+    @JoinColumns({
+        @JoinColumn(name = "Orders_id", referencedColumnName = "id", insertable = false, updatable = false),
+        @JoinColumn(name = "Orders_Account_id", referencedColumnName = "Account_id", insertable = false, updatable = false)})
+    @ManyToOne(optional = false)
+    private Orders orders;
 
     public Purchase() {
     }
@@ -34,21 +48,16 @@ public class Purchase implements Serializable {
         this.purchasePK = purchasePK;
     }
 
-    public Purchase(int accountId, int orderId, int videoInfoId) {
-        this.purchasePK = new PurchasePK(accountId, orderId, videoInfoId);
+    public Purchase(int id, int ordersid, int ordersAccountid, int videoInfoid) {
+        this.purchasePK = new PurchasePK(id, ordersid, ordersAccountid, videoInfoid);
     }
 
-    public Purchase(int id, int accountId, int orderId, int videoInfoId) {
-        this.purchasePK = new PurchasePK(id, accountId, orderId, videoInfoId);
-    }
-
-    @JoinColumns({
-        @JoinColumn(name = "Orders_id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "Orders_Account_id", referencedColumnName = "Account_id", insertable = false, updatable = false),
-        @JoinColumn(name = "Video_Info_id", referencedColumnName = "id", insertable = false, updatable = false)
-    })
     public PurchasePK getPurchasePK() {
-        return this.purchasePK;
+        return purchasePK;
+    }
+
+    public void setPurchasePK(PurchasePK purchasePK) {
+        this.purchasePK = purchasePK;
     }
 
     public VideoInfo getVideoInfo() {
@@ -59,8 +68,12 @@ public class Purchase implements Serializable {
         this.videoInfo = videoInfo;
     }
 
-    public void setId(PurchasePK purchasePK) {
-        this.purchasePK = purchasePK;
+    public Orders getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Orders orders) {
+        this.orders = orders;
     }
 
     @Override
@@ -85,6 +98,7 @@ public class Purchase implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.Purchase[ purchasePK=" + purchasePK + " ]";
+        return "javaapplication5.Purchase[ purchasePK=" + purchasePK + " ]";
     }
+    
 }

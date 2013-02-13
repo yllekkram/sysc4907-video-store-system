@@ -1,42 +1,64 @@
 /*
- *
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.team33.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.util.Collection;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Caleb,Samual
+ * @author Samual
  */
 @Entity
-@Table(name = "ScreenRating")
+@Table(name = "screen_rating")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ScreenRating.findAll", query = "SELECT r FROM ScreenRating r"),
-    @NamedQuery(name = "ScreenRating.findByRating", query = "SELECT r FROM ScreenRating r where r.ratingType = :ratingType")
-})
+    @NamedQuery(name = "ScreenRating.findAll", query = "SELECT s FROM ScreenRating s"),
+    @NamedQuery(name = "ScreenRating.findById", query = "SELECT s FROM ScreenRating s WHERE s.id = :id"),
+    @NamedQuery(name = "ScreenRating.findByRatingType", query = "SELECT s FROM ScreenRating s WHERE s.ratingType = :ratingType")})
 public class ScreenRating implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     @Basic(optional = false)
     @Column(name = "id")
-    private int id;
-    @NotNull
+    private Integer id;
     @Basic(optional = false)
-    @Size(min = 1, max = 45)
     @Column(name = "ratingType")
     private String ratingType;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "screenRatingid")
+    private Collection<VideoInfo> videoInfoCollection;
 
-    public int getId() {
+    public ScreenRating() {
+    }
+
+    public ScreenRating(Integer id) {
+        this.id = id;
+    }
+
+    public ScreenRating(Integer id, String ratingType) {
+        this.id = id;
+        this.ratingType = ratingType;
+    }
+
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getRatingType() {
@@ -47,14 +69,19 @@ public class ScreenRating implements Serializable {
         this.ratingType = ratingType;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @XmlTransient
+    public Collection<VideoInfo> getVideoInfoCollection() {
+        return videoInfoCollection;
+    }
+
+    public void setVideoInfoCollection(Collection<VideoInfo> videoInfoCollection) {
+        this.videoInfoCollection = videoInfoCollection;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) id;
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -65,7 +92,7 @@ public class ScreenRating implements Serializable {
             return false;
         }
         ScreenRating other = (ScreenRating) object;
-        if (this.id != other.id) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -73,6 +100,7 @@ public class ScreenRating implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.ScreenRating[ id=" + id + "ratingType=" + ratingType + " ]";
+        return "javaapplication5.ScreenRating[ id=" + id + " ]";
     }
+    
 }

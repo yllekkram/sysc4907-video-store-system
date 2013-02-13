@@ -13,6 +13,7 @@
         <title>Login Page</title>
     </head>
     <body>
+        <%@include file="../jspf/banner.jspf" %>
         <c:if test="${exception ne null}">
             <div class="error">
                 ${exception.message}

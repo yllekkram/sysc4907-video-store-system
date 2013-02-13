@@ -6,8 +6,18 @@ package com.team33.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -15,59 +25,73 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Samual
  */
 @Entity
-@Table(name = "Invoice")
+@Table(name = "invoice")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Invoice.findAll", query = "SELECT i FROM Invoice i")
-})
+    @NamedQuery(name = "Invoice.findAll", query = "SELECT i FROM Invoice i"),
+    @NamedQuery(name = "Invoice.findById", query = "SELECT i FROM Invoice i WHERE i.invoicePK.id = :id"),
+    @NamedQuery(name = "Invoice.findByOrdersid", query = "SELECT i FROM Invoice i WHERE i.invoicePK.ordersid = :ordersid"),
+    @NamedQuery(name = "Invoice.findByOrdersAccountid", query = "SELECT i FROM Invoice i WHERE i.invoicePK.ordersAccountid = :ordersAccountid"),
+    @NamedQuery(name = "Invoice.findByDate", query = "SELECT i FROM Invoice i WHERE i.date = :date"),
+    @NamedQuery(name = "Invoice.findByOrderCharge", query = "SELECT i FROM Invoice i WHERE i.invoicePK.orderCharge = :orderCharge")})
 public class Invoice implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected InvoicePK invoicePK;
+    @Basic(optional = false)
+    @Column(name = "Date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
+    @JoinColumns({
+        @JoinColumn(name = "Orders_id", referencedColumnName = "id", insertable = false, updatable = false),
+        @JoinColumn(name = "Orders_Account_id", referencedColumnName = "Account_id", insertable = false, updatable = false)})
+    @ManyToOne(optional = false)
+    private Orders orders;
 
     public Invoice() {
     }
 
-    public Invoice(int accountId, int orderId, int orderCharge) {
-        this.invoicePK = new InvoicePK(id, accountId, orderId, orderCharge);
+    public Invoice(InvoicePK invoicePK) {
+        this.invoicePK = invoicePK;
     }
 
-    public Invoice(int id, int accountId, int orderId, int orderCharge) {
-        this.invoicePK = new InvoicePK(id, accountId, orderId, orderCharge);
+    public Invoice(InvoicePK invoicePK, Date date) {
+        this.invoicePK = invoicePK;
+        this.date = date;
     }
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "date")
-    private Date date;
 
-    @JoinColumns({
-        @JoinColumn(name = "Orders_id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "Orders_Account_id", referencedColumnName = "Account_id", insertable = false, updatable = false)
-    })
-    public int getId() {
-        return id;
+    public Invoice(int id, int ordersid, int ordersAccountid, int orderCharge) {
+        this.invoicePK = new InvoicePK(id, ordersid, ordersAccountid, orderCharge);
+    }
+
+    public InvoicePK getInvoicePK() {
+        return invoicePK;
+    }
+
+    public void setInvoicePK(InvoicePK invoicePK) {
+        this.invoicePK = invoicePK;
     }
 
     public Date getDate() {
-        return this.date;
+        return date;
     }
 
     public void setDate(Date date) {
         this.date = date;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Orders getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Orders orders) {
+        this.orders = orders;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) id;
+        hash += (invoicePK != null ? invoicePK.hashCode() : 0);
         return hash;
     }
 
@@ -86,6 +110,7 @@ public class Invoice implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.Invoice[ invoicePK=" + invoicePK + " ]";
+        return "javaapplication5.Invoice[ invoicePK=" + invoicePK + " ]";
     }
+    
 }

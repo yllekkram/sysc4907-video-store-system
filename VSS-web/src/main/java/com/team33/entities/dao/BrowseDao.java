@@ -4,6 +4,7 @@
  */
 package com.team33.entities.dao;
 
+import com.team33.entities.Genre;
 import com.team33.entities.ScreenRating;
 import com.team33.entities.VideoInfo;
 import java.util.List;
@@ -14,8 +15,12 @@ import java.util.List;
  */
 public interface BrowseDao {
 
-    public List<VideoInfo> displayFeaturedVideo();
-    //public List<VideoInfo> searchVideos(Genre genre);
+    //changed a featured content list to dislay all content
+    public List<VideoInfo> displayAllVideoContent();
+
+    public VideoInfo displayVideoDetails(int videoInfoId);
+
+    public List<VideoInfo> searchVideos(Genre genre);
 
     public List<VideoInfo> searchVideos(ScreenRating rating);
 

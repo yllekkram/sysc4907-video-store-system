@@ -13,22 +13,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * This is the controller for the browsing feature
+ *
  * @author Samual
  */
 @Controller
 @RequestMapping(value = "/browseView.htm")
-public class BrowseController{
+public class BrowseController {
+
     @Autowired
     private BrowseServiceImpl browseServiceImpl;
-    
-    public void setBrowseServiceImpl(BrowseServiceImpl browseServiceImpl){
+
+    public void setBrowseServiceImpl(BrowseServiceImpl browseServiceImpl) {
         this.browseServiceImpl = browseServiceImpl;
     }
-    
-    /*Display featured content when the page loads*/
+
+    /*
+     * Display featured content when the page loads
+     */
     @RequestMapping("/browseView")
-    public String displayFeaturedVideo(){
-        this.browseServiceImpl.displayFeaturedVideo();
+    public String displayAllVideo() {
+        this.browseServiceImpl.displayAllVideoContent();
         return "redirect:/browseView";
     }
 }
