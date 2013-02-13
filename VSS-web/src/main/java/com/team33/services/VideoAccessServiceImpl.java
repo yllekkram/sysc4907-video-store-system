@@ -9,6 +9,7 @@ import com.team33.entities.dao.VideoAccessDaoImpl;
 import com.team33.services.exception.AccountNotActivatedException;
 import com.team33.services.exception.DataAccessException;
 import java.util.List;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -45,6 +46,8 @@ public class VideoAccessServiceImpl implements VideoAccessService {
 
     @Override
     public VideoInfo getVideoInfo(int videoInfoId, int uuid) throws DataAccessException, AccountNotActivatedException {
+        Session session = this.getVideoAccessDaoImpl().getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         if (this.isActivated(uuid)) {
             return this.videoAccessDaoImpl.getVideoInfo(videoInfoId, uuid);
         }
@@ -53,6 +56,8 @@ public class VideoAccessServiceImpl implements VideoAccessService {
 
     @Override
     public List<VideoInfo> getVideoInfoList(int uuid) throws DataAccessException, AccountNotActivatedException {
+        Session session = this.getVideoAccessDaoImpl().getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         if (this.isActivated(uuid)) {
             return this.videoAccessDaoImpl.getVideoInfoList(uuid);
         }

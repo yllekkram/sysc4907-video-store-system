@@ -5,12 +5,14 @@
 package com.team33.services;
 
 import com.team33.entities.LoginToken;
-import com.team33.entities.Order1;
+import com.team33.entities.Orders;
 import com.team33.entities.Purchase;
 import com.team33.entities.Rental;
-import com.team33.entities.dao.Order1DaoImpl;
+import com.team33.entities.dao.OrdersDaoImpl;
 import com.team33.services.exception.*;
+import java.util.Date;
 import java.util.List;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -21,8 +23,7 @@ public class OrderServiceImpl implements OrderService {
 
     //tells Spring to inject the dependency
     @Autowired
-    private Order1DaoImpl order1DaoImpl;
-    
+    private OrdersDaoImpl ordersDaoImpl;
     @Autowired
     private CreditCardValidator creditCardValidator;
 
@@ -34,17 +35,17 @@ public class OrderServiceImpl implements OrderService {
         return creditCardValidator;
     }
 
-    public void setOrder1DaoImpl(Order1DaoImpl dao) {
-        this.order1DaoImpl = dao;
+    public void setOrdersDaoImpl(OrdersDaoImpl dao) {
+        this.ordersDaoImpl = dao;
     }
 
-    public Order1DaoImpl getOrder1DaoImpl() {
-        return this.order1DaoImpl;
+    public OrdersDaoImpl getOrdersDaoImpl() {
+        return this.ordersDaoImpl;
     }
 
     public boolean isActivated(int uuid) throws AccountNotActivatedException {
         try {
-            LoginToken loginToken = this.getOrder1DaoImpl().getLoginToken(uuid);
+            LoginToken loginToken = this.getOrdersDaoImpl().getLoginToken(uuid);
 
             if (!loginToken.getAccount().getActivated()) {
                 throw new AccountNotActivatedException("Account Inactive");
@@ -60,20 +61,24 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void addPurchase(Integer videoInfoId, Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
-            Purchase purchase = new Purchase(this.getOrder1DaoImpl().getOrder(orderId).getAccount().getId(),
-                    orderId, videoInfoId);
-            this.getOrder1DaoImpl().getOrder(orderId).getOrder1PK().increaseCharge(purchase.getVideoInfo().getPurchasePrice());
-            this.getOrder1DaoImpl().savePurchase(this.getOrder1DaoImpl().getOrder(orderId), purchase);
+            Session session = this.getOrdersDaoImpl().getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            Purchase purchase = new Purchase((int) Math.random(), orderId, this.getOrdersDaoImpl().getOrder(orderId).getOrdersPK().getAccountid(), videoInfoId);
+            int newPrice = this.getOrdersDaoImpl().getOrder(orderId).getPendingCharge() + purchase.getVideoInfo().getPurchasePrice();
+            this.getOrdersDaoImpl().getOrder(orderId).setPendingCharge(newPrice);
+            this.getOrdersDaoImpl().savePurchase(this.getOrdersDaoImpl().getOrder(orderId), purchase);
         }
     }
 
     @Override
-    public void addRental(Integer videoInfoId, Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException {
+    public void addRental(Integer videoInfoId, Integer orderId, int uuid, Date rentalExpiryDate) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
-            Rental rental = new Rental(this.getOrder1DaoImpl().getOrder(orderId).getAccount().getId(),
-                    orderId, videoInfoId);
-            this.getOrder1DaoImpl().getOrder(orderId).getOrder1PK().increaseCharge(rental.getVideoInfo().getPurchasePrice());
-            this.getOrder1DaoImpl().saveRental(this.getOrder1DaoImpl().getOrder(orderId), rental);
+            Session session = this.getOrdersDaoImpl().getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            Rental rental = new Rental((int) Math.random(), videoInfoId, orderId, this.getOrdersDaoImpl().getOrder(orderId).getOrdersPK().getAccountid(), rentalExpiryDate);
+            int newPrice = this.getOrdersDaoImpl().getOrder(orderId).getPendingCharge() + rental.getVideoInfo().getPurchasePrice();
+            this.getOrdersDaoImpl().getOrder(orderId).setPendingCharge(newPrice);
+            this.getOrdersDaoImpl().saveRental(this.getOrdersDaoImpl().getOrder(orderId), rental);
         }
     }
 
@@ -83,14 +88,13 @@ public class OrderServiceImpl implements OrderService {
             if (this.getCreditCardValidator().isCardValid(validationNum)) {
                 //accumulate charges for an account
                 int allCharges = 0;
-                for (int i = 0; i < this.getOrder1DaoImpl().getOrders(this.getOrder1DaoImpl().getLoginToken(uuid)).size(); i++) {
-                    allCharges += this.getOrder1DaoImpl().getOrders(this.getOrder1DaoImpl().getLoginToken(uuid)).get(i).getOrder1PK().getPendingCharge();
+                for (int i = 0; i < this.getOrdersDaoImpl().getOrders(this.getOrdersDaoImpl().getLoginToken(uuid)).size(); i++) {
+                    allCharges += this.getOrdersDaoImpl().getOrders(this.getOrdersDaoImpl().getLoginToken(uuid)).get(i).getPendingCharge();
                 }
                 //if the charge can be processed create an invoice for the customer and charge him
                 if (this.getCreditCardValidator().isChargeValid(totalCost) && this.getCreditCardValidator().isUnderLOC(allCharges, totalCost)) {
-                    Order1 transactionOrder = new Order1(orderId, this.getOrder1DaoImpl().getLoginToken(uuid).getAccount().getId());
-                    this.getOrder1DaoImpl().saveOrder(transactionOrder);
-                    this.getOrder1DaoImpl().createInvoice(transactionOrder);
+                    Orders transactionOrder = new Orders(orderId, this.getOrdersDaoImpl().getLoginToken(uuid).getAccount().getId());
+                    this.getOrdersDaoImpl().saveOrder(transactionOrder);
                     this.getCreditCardValidator().charge();
                 }
             }
@@ -98,17 +102,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order1 getOrder(Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException {
+    public Orders getOrder(Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
-            return this.getOrder1DaoImpl().getOrder(orderId);
+            return this.getOrdersDaoImpl().getOrder(orderId);
         }
         throw new DataAccessException("Incorrect activation key!");
     }
 
     @Override
-    public List<Order1> getOrders(int uuid) throws DataAccessException, AccountNotActivatedException {
+    public List<Orders> getOrders(int uuid) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
-            return this.getOrder1DaoImpl().getOrders(this.getOrder1DaoImpl().getLoginToken(uuid));
+            return this.getOrdersDaoImpl().getOrders(this.getOrdersDaoImpl().getLoginToken(uuid));
         }
 
         throw new DataAccessException("Incorrect Activation key");
@@ -117,7 +121,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void removeOrder(Integer orderID, int uuid) throws AccountNotActivatedException {
         if (this.isActivated(uuid)) {
-            this.order1DaoImpl.removeOrder(orderID);
+            this.ordersDaoImpl.removeOrder(orderID);
         }
     }
 
@@ -125,23 +129,26 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void removePurchase(Integer videoInfoId, Integer orderId, int uuid) throws AccountNotActivatedException {
         if (this.isActivated(uuid)) {
-            Purchase purchase = new Purchase(this.getOrder1DaoImpl().getOrder(orderId).getAccount().getId(),
-                    orderId, videoInfoId);
-            this.getOrder1DaoImpl().getOrder(orderId).getOrder1PK().
-                    decreaseCharge(purchase.getVideoInfo().getPurchasePrice());
-            this.getOrder1DaoImpl().removePurchase(this.getOrder1DaoImpl().getOrder(orderId), purchase);
+            Session session = this.getOrdersDaoImpl().getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            Purchase purchase = new Purchase((int) Math.random(), orderId, this.getOrdersDaoImpl().getOrder(orderId).getOrdersPK().getAccountid(), videoInfoId);
+            int newPrice = this.getOrdersDaoImpl().getOrder(orderId).getPendingCharge() - purchase.getVideoInfo().getPurchasePrice();
+            this.getOrdersDaoImpl().getOrder(orderId).setPendingCharge(newPrice);
+            this.getOrdersDaoImpl().removePurchase(this.getOrdersDaoImpl().getOrder(orderId), purchase);
+
         }
     }
     //Removes a rental from the order
 
     @Override
-    public void removeRental(Integer videoInfoId, Integer orderId, int uuid) throws AccountNotActivatedException {
+    public void removeRental(Integer videoInfoId, Integer orderId, int uuid, Date rentalExpiryDate) throws AccountNotActivatedException {
         if (this.isActivated(uuid)) {
-            Rental rental = new Rental(this.getOrder1DaoImpl().getOrder(orderId).getAccount().getId(),
-                    orderId, videoInfoId);
-            this.getOrder1DaoImpl().getOrder(orderId).getOrder1PK().
-                    decreaseCharge(rental.getVideoInfo().getRentalPrice());
-            this.getOrder1DaoImpl().removeRental(this.getOrder1DaoImpl().getOrder(orderId), rental);
+            Session session = this.getOrdersDaoImpl().getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            Rental rental = new Rental((int) Math.random(), videoInfoId, orderId, this.getOrdersDaoImpl().getOrder(orderId).getOrdersPK().getAccountid(), rentalExpiryDate);
+            int newPrice = this.getOrdersDaoImpl().getOrder(orderId).getPendingCharge() - rental.getVideoInfo().getPurchasePrice();
+            this.getOrdersDaoImpl().getOrder(orderId).setPendingCharge(newPrice);
+            this.getOrdersDaoImpl().removeRental(this.getOrdersDaoImpl().getOrder(orderId), rental);
         }
     }
 }

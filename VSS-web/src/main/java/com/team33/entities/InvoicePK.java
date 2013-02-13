@@ -5,8 +5,9 @@
 package com.team33.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 /**
  *
@@ -14,66 +15,55 @@ import javax.validation.constraints.NotNull;
  */
 @Embeddable
 public class InvoicePK implements Serializable {
-
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private int id;
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "Order_Account_id")
-    private int accountId;
+    @Column(name = "Orders_id")
+    private int ordersid;
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "Order_id")
-    private int orderId;
+    @Column(name = "Orders_Account_id")
+    private int ordersAccountid;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "orderCharge")
     private int orderCharge;
 
     public InvoicePK() {
     }
 
-    public InvoicePK(int id, int accountId, int orderId, int orderCharge) {
+    public InvoicePK(int id, int ordersid, int ordersAccountid, int orderCharge) {
         this.id = id;
-        this.accountId = accountId;
-        this.orderId = orderId;
+        this.ordersid = ordersid;
+        this.ordersAccountid = ordersAccountid;
         this.orderCharge = orderCharge;
-    }
-
-    public InvoicePK(int accountId, int orderId, int orderCharge) {
-        this.accountId = accountId;
-        this.orderId = orderId;
-        this.orderCharge = orderCharge;
-    }
-
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
-    public int getAccountId() {
-        return accountId;
-    }
-
-    public int getOrderId() {
-        return orderId;
     }
 
     public int getId() {
         return id;
     }
 
-    public int getOrderCharge() {
-        return orderCharge;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getOrdersid() {
+        return ordersid;
+    }
+
+    public void setOrdersid(int ordersid) {
+        this.ordersid = ordersid;
+    }
+
+    public int getOrdersAccountid() {
+        return ordersAccountid;
+    }
+
+    public void setOrdersAccountid(int ordersAccountid) {
+        this.ordersAccountid = ordersAccountid;
+    }
+
+    public int getOrderCharge() {
+        return orderCharge;
     }
 
     public void setOrderCharge(int orderCharge) {
@@ -84,8 +74,9 @@ public class InvoicePK implements Serializable {
     public int hashCode() {
         int hash = 0;
         hash += (int) id;
-        hash += (int) orderId;
-        hash += (int) accountId;
+        hash += (int) ordersid;
+        hash += (int) ordersAccountid;
+        hash += (int) orderCharge;
         return hash;
     }
 
@@ -99,10 +90,13 @@ public class InvoicePK implements Serializable {
         if (this.id != other.id) {
             return false;
         }
-        if (this.accountId != other.accountId) {
+        if (this.ordersid != other.ordersid) {
             return false;
         }
-        if (this.orderId != other.orderId) {
+        if (this.ordersAccountid != other.ordersAccountid) {
+            return false;
+        }
+        if (this.orderCharge != other.orderCharge) {
             return false;
         }
         return true;
@@ -110,6 +104,7 @@ public class InvoicePK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.InvoicePK[ id=" + id + ", accountid=" + accountId + "orderId" + orderId + "]";
+        return "javaapplication5.InvoicePK[ id=" + id + ", ordersid=" + ordersid + ", ordersAccountid=" + ordersAccountid + ", orderCharge=" + orderCharge + " ]";
     }
+    
 }

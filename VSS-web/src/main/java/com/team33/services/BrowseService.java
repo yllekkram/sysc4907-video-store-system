@@ -17,6 +17,8 @@ public interface BrowseService {
 
     public List<VideoInfo> displayAllVideoContent();
 
+    public VideoInfo displayVideoDetails(int videoInfoId);
+
     public List<VideoInfo> searchVideos(Genre genre);
 
     public List<VideoInfo> searchVideos(ScreenRating rating);
