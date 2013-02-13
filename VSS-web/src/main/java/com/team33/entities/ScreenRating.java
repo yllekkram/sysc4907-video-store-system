@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author LaFamiglia
+ * @author Samual
  */
 @Entity
 @Table(name = "screen_rating")

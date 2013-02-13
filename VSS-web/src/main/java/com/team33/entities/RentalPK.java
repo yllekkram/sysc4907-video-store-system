@@ -14,7 +14,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author LaFamiglia
+ * @author Samual
  */
 @Embeddable
 public class RentalPK implements Serializable {

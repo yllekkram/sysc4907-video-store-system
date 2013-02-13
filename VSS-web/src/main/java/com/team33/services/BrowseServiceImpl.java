@@ -33,6 +33,11 @@ public class BrowseServiceImpl implements BrowseService {
     }
 
     @Override
+    public VideoInfo displayVideoDetails(int videoInfoId) {
+        return this.browseDaoImpl.displayVideoDetails(videoInfoId);
+    }
+
+    @Override
     public List<VideoInfo> searchVideos(Genre genre) {
         return this.browseDaoImpl.searchVideos(genre);
     }

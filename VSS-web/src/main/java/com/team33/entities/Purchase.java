@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author LaFamiglia
+ * @author Samual
  */
 @Entity
 @Table(name = "purchase")

@@ -18,6 +18,8 @@ public interface BrowseDao {
     //changed a featured content list to dislay all content
     public List<VideoInfo> displayAllVideoContent();
 
+    public VideoInfo displayVideoDetails(int videoInfoId);
+
     public List<VideoInfo> searchVideos(Genre genre);
 
     public List<VideoInfo> searchVideos(ScreenRating rating);

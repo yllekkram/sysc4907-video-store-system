@@ -29,7 +29,6 @@ public class AccountServiceImpl implements AccountService {
     private AccountDaoImpl accountDaoImpl;
     @Autowired
     private List<Orders> orders;
-  
 
     public void setAccountDaoImpl(AccountDaoImpl dao) {
         this.accountDaoImpl = dao;
@@ -50,6 +49,8 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public Account loginAccount(String username, String password) throws AuthenticationException, AccountNotFoundException, AccountNotActivatedException, LoginException {
+        Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         if (username == null || username.equals("")
                 || password == null || password.equals("")) {
             throw new LoginException("Invalid login info!");
@@ -76,16 +77,16 @@ public class AccountServiceImpl implements AccountService {
         Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
         session.beginTransaction();
         //if username already exists in system throw exception
-            if (this.getAccountDaoImpl().getAccount(username) != null) {
-                throw new RegistrationException("Username already exists, please try another.");
-            }
-            Account acc = new Account();
-            acc.setName(username);
-            acc.setPassword(password);
-            this.getAccountDaoImpl().saveAccount(acc);
-            
-            LoginToken token = new LoginToken();
-            token.setAccount(acc);
+        if (this.getAccountDaoImpl().getAccount(username) != null) {
+            throw new RegistrationException("Username already exists, please try another.");
+        }
+        Account acc = new Account();
+        acc.setName(username);
+        acc.setPassword(password);
+        this.getAccountDaoImpl().saveAccount(acc);
+
+        LoginToken token = new LoginToken();
+        token.setAccount(acc);
     }
 
     @Transactional
@@ -109,6 +110,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     // Will add an order to the account only if it is active
     public void addOrder(Integer accountId, Orders order) throws AccountNotActivatedException {
+        Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         if (this.getAccount(accountId).getActivated()) {
             //Is the order already tied to the account?
             if (!this.getOrders().contains(order)) {
@@ -120,6 +123,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void removeOrder(Integer accountId, Orders order) {
+        Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
+        session.beginTransaction();
         if (this.getOrders().contains(order)) {
             this.getOrders().remove(order);
         }

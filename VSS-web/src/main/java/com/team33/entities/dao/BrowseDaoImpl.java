@@ -23,6 +23,8 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
     //tells Spring to inject the dependency
     @Autowired
     private SessionFactory sessionFactory;
+    
+    private static final int FIRST = 0;
 
     @Override
     /*Returns a list of videos based on rating*/
@@ -51,6 +53,15 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
         Query videoQuery;
         videoQuery = curSession.getNamedQuery("VideoInfo.findAll");
         return videoQuery.list();
+    }
+
+    @Override
+    public VideoInfo displayVideoDetails(int videoInfoId) {
+        Session curSession = this.getSessionFactory().getCurrentSession();
+        Query videoQuery;
+        videoQuery = curSession.getNamedQuery("VideoInfo.findById");
+        videoQuery.setParameter("id", videoInfoId);
+        return (VideoInfo)videoQuery.list().get(FIRST);
     }
 
     @Override

@@ -44,8 +44,8 @@ public class AccountController extends AbstractController{
     @RequestMapping(value = "/registerAccount", method = RequestMethod.POST)
     public String saveAccount(@ModelAttribute("account")
     Account account, BindingResult result) {
- 
-        accountService.registerAccount(account);
+        
+        //accountService.registerAccount(account);
  
         return "redirect:/index";
     }
