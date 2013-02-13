@@ -45,7 +45,7 @@ public class AccountController{
     @RequestMapping(value = "/registerAccountView/add", method = RequestMethod.POST)
     public String saveAccount(@ModelAttribute("account")Account account, BindingResult result) {
         logger.info("------------------- Save Account ---------------------------\n" + account.toString());
-        accountService.registerAccount(account);
+        //accountService.registerAccount(account);
  
         return "/registerAccountView";
     }
