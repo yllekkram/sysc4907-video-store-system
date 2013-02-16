@@ -16,7 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
@@ -81,9 +80,10 @@ public class RegisterAccountController {
             @RequestParam String password, RedirectAttributes redirect, HttpSession session)
             throws RegistrationException {
         try {
-            if (username == null || username.equals("")
-                    || password == null || password.equals("")) {
+            if (username == null || username.equals("")) {
                 throw new RegistrationException("Invalid registration info!");
+            }else if (password == null || password.equals("")){
+                throw new RegistrationException("Password must not be blank");
             }
             //if username already exists in system throw exception
             this.getAccountServiceImpl().registerAccount(username, password);
@@ -93,7 +93,18 @@ public class RegisterAccountController {
             return "redirect:/registerAccountView.htm";
         }
     }
-
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param command
+     * @param errors
+     * @return
+     * @throws ServletException
+     * @throws IOException 
+     * @deprecated onSubmit method replaced with handleRegistration()
+     */
+    @Deprecated
     public ModelAndView onSubmit(HttpServletRequest request,
             HttpServletResponse response, Object command, BindException errors) throws ServletException, IOException {
 

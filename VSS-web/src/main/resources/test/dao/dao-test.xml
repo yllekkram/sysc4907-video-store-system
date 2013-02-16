@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<beans 
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+    
+    <import resource="classpath:/test/spring-hibernate-test.xml"/>
+    
+    <!-- Classes To be Tested -->
+    <bean id = "accountDaoImpl" class = "com.team33.entities.dao.AccountDaoImpl">
+        <property name = "sessionFactory" ref = "sessionFactory" />
+    </bean>
+    
+    <bean id = "browseDaoImpl" class = "com.team33.entities.dao.BrowseDaoImpl">
+        <property name = "sessionFactory" ref = "sessionFactory"/>
+    </bean>
+    
+    <bean id = "orderDaoImpl" class = "com.team33.entities.dao.OrdersDaoImpl">
+        <property name = "sessionFactory" ref = "sessionFactory"/>
+    </bean>
+    
+    <bean id = "videoAccessDaoImpl" class = "com.team33.entities.dao.VideoAccessDaoImpl">
+        <property name = "sessionFactory" ref = "sessionFactory"/>
+    </bean>
+    
+    <bean id = "videoInfoDaoImpl" class = "com.team33.entities.dao.VideoInfoDaoImpl">
+        <property name = "sessionFactory" ref = "sessionFactory"/>
+    </bean>
+    
+    <!-- Test Cases -->
+    <bean id="accountDaoImplTest" class = "com.team33.entities.dao.AccountDaoImplTest">
+        <property name = "accountDao" ref = "accountDaoImpl"/>
+    </bean>
+    
+    <bean id="browseDaoImplTest" class = "com.team33.entities.dao.BrowseDaoImplTest">
+        <property name = "browseDao" ref = "browseDaoImpl"/>
+    </bean>
+    
+    <bean id = "orderDaoImplTest" class = "com.team33.entities.dao.OrderDaoImplTest">
+        <property name = "orderDao" ref = "orderDaoImpl"/>
+    </bean>
+    
+    <bean id = "videoAccessDaoImplTest" class = "com.team33.entities.dao.VideoAccessDaoImplTest">
+        <property name = "videoAccessDao" ref = "videoAccessDaoImpl"/>
+    </bean>
+    
+    <bean id = "videoInfoDaoImplTest" class = "com.team33.entities.dao.VideoInfoDaoImplTest">
+        <property name = "videoInfoDao" ref = "videoInfoDaoImpl"/>
+    </bean>
+</beans>
+    

@@ -26,11 +26,11 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Caleb
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext-test.xml"})
+@ContextConfiguration(locations = {"classpath:/test/dao/dao-test.xml"})
 public class VideoInfoDaoImplTest {
     
     @Autowired
-    private VideoInfoDaoImpl videoInfoDaoImpl;
+    private VideoInfoDaoImpl videoInfoDao;
     
     private VideoInfo testVideoInfo1;
     private VideoInfo testVideoInfo2;
@@ -56,37 +56,44 @@ public class VideoInfoDaoImplTest {
     public void tearDown() {
     }
     
-    public void setVideoInfoDaoImpl(VideoInfoDaoImpl videoInfoDoaImpl){
-        this.videoInfoDaoImpl = videoInfoDaoImpl;
-        
-        //this.videoInfoDaoImpl.saveVideoInfo(testVideoInfo1);
-        //this.videoInfoDaoImpl.saveVideoInfo(testVideoInfo2);
+    public void setVideoInfoDao(VideoInfoDaoImpl videoInfoDao){
+        this.videoInfoDao = videoInfoDao;
     }
 
     /**
      * Test of getVideoInfoList method, of class VideoInfoDaoImpl.
      */
+    
     @Test
+    @Rollback(true)
     @Transactional
-    public void testGetVideoInfoList() {
-        System.out.println("getVideoInfoList() : List<VideoInfo> -> [DataAccessException]");
-        
-        List<VideoInfo> videoList = this.videoInfoDaoImpl.getVideoInfoList();
-        
-        assertNotNull(videoList);
-        assertEquals(videoList.size(), 2);
-        
-        
-        SessionFactory tmpFactory = this.videoInfoDaoImpl.getSessionFactory();
-        this.videoInfoDaoImpl.setSessionFactory(null);
+    public void testGetVideoInfoList_NotNull(){
+        assertNotNull(this.videoInfoDao.getVideoInfoList());
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetVideoInfoList_ValidSize(){
+        assertTrue(this.videoInfoDao.getVideoInfoList().size() > 0);
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetVideoInfoList_NullSessionFactory(){
+        SessionFactory tmpFactory = this.videoInfoDao.getSessionFactory();
+        this.videoInfoDao.setSessionFactory(null);
         try{
-            this.videoInfoDaoImpl.getVideoInfoList();
+            this.videoInfoDao.getVideoInfoList();
+            fail("Exception was not thrown");
         }catch(DataAccessException e){
         
         }finally{
-            this.videoInfoDaoImpl.setSessionFactory(tmpFactory);
+            this.videoInfoDao.setSessionFactory(tmpFactory);
         }
-    }
+    } 
+    
 
     /**
      * Test of getVideoInfo method, of class VideoInfoDaoImpl.
@@ -94,88 +101,99 @@ public class VideoInfoDaoImplTest {
     @Test
     @Rollback(true)
     @Transactional
-    public void testGetVideoInfo() {
-        System.out.println("getVideoInfo(Integer) : VideoInfo -> [DataAccessException]");
-
-        VideoInfo videoInfo = this.videoInfoDaoImpl.getVideoInfo(0);
-        assertNotNull(videoInfo);
-        assertEquals(videoInfo.getId(), this.testVideoInfo1.getId());
-        assertEquals(videoInfo.getTitle(), this.testVideoInfo1.getTitle());
-        
+    public void testGetVideoInfo_NegId(){
         try{
-            videoInfo = null;
-            videoInfo = this.videoInfoDaoImpl.getVideoInfo(-1);
+            this.videoInfoDao.getVideoInfo(-1);
             fail("Failed to throw DataAccessException");
         }catch(DataAccessException e){
-            assertNull(videoInfo);
-        }
-        
-        try{
-            videoInfo = null;
-            videoInfo = this.videoInfoDaoImpl.getVideoInfo(9999);
-            fail("Failed to throw DataAccessException");
-        }catch(DataAccessException e){
-            assertNull(videoInfo);
-        }
-        
-        try{
-            videoInfo = null;
-            videoInfo = this.videoInfoDaoImpl.getVideoInfo((Integer)null);
-            fail("Failed to throw DataAccessException");
-        }catch(DataAccessException e){
-            assertNull(videoInfo);
         }
     }
-
-    /**
-     * Test of saveVideoInfo method, of class VideoInfoDaoImpl.
-     */
+    
     @Test
     @Rollback(true)
     @Transactional
-    public void testSaveVideoInfo() {
-        System.out.println("saveVideoInfo(Integer) : Void -> [DataAccessException]");
-
+    public void testGetVideoInfo_InvalidId(){
+        try{
+            this.videoInfoDao.getVideoInfo(9999);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+        }
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetVideoInfo_ValidId(){
+        try{
+            VideoInfo info = this.videoInfoDao.getVideoInfo(0);
+            assertNotNull(info);
+            assertEquals(info.getId().intValue(), 0);
+        }catch(DataAccessException e){
+            fail("Exception was thrown : " + e.getLocalizedMessage());
+        }
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSaveVideoInfo_NegId(){
+        try{
+            this.videoInfoDao.saveVideoInfo(-1);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+        }
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSaveVideoInfo_InvalidId(){
+        try{
+            this.videoInfoDao.saveVideoInfo(9999);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+        }
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSaveVideoInfo_ValidId(){
+        try{
+            this.videoInfoDao.saveVideoInfo(0);
+        }catch(DataAccessException e){
+            fail("Excpetion was thrown : " + e.getLocalizedMessage());
+        }
     }
 
     /**
      * Test of removeVideoInfo method, of class VideoInfoDaoImpl.
      */
-    @Test
-    @Transactional
-    @Rollback(true)
-    public void testRemoveVideoInfo() {
-        System.out.println("removeVideoInfo() : Void -> [DataAccessException]");
+    
+    public void testRemoveVideoInfo_NegId(){
         try{
-            this.videoInfoDaoImpl.removeVideoInfo(0);
-            List<VideoInfo> videoInfo = this.videoInfoDaoImpl.getVideoInfoList();
-            assertNotNull(videoInfo);
-            assertEquals(videoInfo.size(), 1);
-            assertEquals(videoInfo.get(0).getId(), this.testVideoInfo2.getId());
-            assertEquals(videoInfo.get(0).getTitle(), this.testVideoInfo2.getTitle());
-        }catch(DataAccessException e){
-            fail("DataAccessException was thrown");
-        }
-        
-        try{
-            this.videoInfoDaoImpl.removeVideoInfo(-1);
-            fail("Failed to throw DataAccessException");
-        }catch(DataAccessException e){
-        
-        }
-        
-        try{
-            this.videoInfoDaoImpl.removeVideoInfo(9999);
-            fail("Failed to throw DataAccessException");
-        }catch(DataAccessException e){
-        
-        }
-        
-        try{
-            this.videoInfoDaoImpl.removeVideoInfo((Integer)null);
+            this.videoInfoDao.removeVideoInfo(-1);
             fail("Failed to throw DataAccessException");
         }catch(DataAccessException e){
         
         }
     }
+    
+    public void testRemoveVideoInfo_InvalidId(){
+        try{
+            this.videoInfoDao.removeVideoInfo(9999);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+        
+        }
+    }
+    
+    public void testRemoveVideoInfo_ValidId(){
+        try{
+            this.videoInfoDao.removeVideoInfo(0);
+        }catch(DataAccessException e){
+            fail("Exception was thrown : " + e.getLocalizedMessage());
+        }
+    }
+   
 }
