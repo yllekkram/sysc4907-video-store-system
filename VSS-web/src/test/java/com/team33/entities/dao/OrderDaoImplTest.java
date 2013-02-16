@@ -24,11 +24,11 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Caleb
  */
-public class Order1DaoImplTest {
+public class OrderDaoImplTest {
     
     private OrdersDao order1Dao;
     
-    public Order1DaoImplTest() {
+    public OrderDaoImplTest() {
     }
     
     @BeforeClass

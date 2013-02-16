@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Caleb
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext-test.xml"})
+@ContextConfiguration(locations = {"/test/*.xml"})
 public class AccountDaoImplTest {
     
     @Autowired

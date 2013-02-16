@@ -23,24 +23,26 @@
     
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-        <property name="lobHandler" ref="defaultLobHandler"/>
-        <property name="dataSource" ref="dataSource" />
-        <property name="mappingResources">
-            <list>
-                <value>com/team33/entities/account.hbm.xml</value>
-                <value>com/team33/entities/videoInfo.hbm.xml</value>
-                <value>com/team33/entities/screenRating.hbm.xml</value>
-            </list>
-        </property>
-        <property name="configLocation">
-            <value>classpath:hibernate.cfg.xml</value>
-        </property>
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
         <property name="configurationClass">
             <value>org.hibernate.cfg.AnnotationConfiguration</value>
         </property>
         <property name="annotatedClasses">
             <list>
- 
+                <value>com.team33.entities.Account</value>
+                <value>com.team33.entities.Genre</value>
+                <value>com.team33.entities.Invoice</value>
+                <value>com.team33.entities.InvoicePK</value>
+                <value>com.team33.entities.LoginToken</value>
+                <value>com.team33.entities.LoginTokenPK</value>
+                <value>com.team33.entities.Orders</value>
+                <value>com.team33.entities.OrdersPK</value>
+                <value>com.team33.entities.Purchase</value>
+                <value>com.team33.entities.PurchasePK</value>
+                <value>com.team33.entities.Rental</value>
+                <value>com.team33.entities.RentalPK</value>
+                <value>com.team33.entities.ScreenRating</value>
+                <value>com.team33.entities.VideoInfo</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -49,6 +51,7 @@
                 hibernate.show_sql=true
             </value>
         </property>
+        <property name="exposeTransactionAwareSessionFactory"><value>false</value></property>
     </bean>
     
     <bean  id="accountDao" class="com.team33.entities.dao.AccountDaoImpl">

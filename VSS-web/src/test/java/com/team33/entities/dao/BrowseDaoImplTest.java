@@ -51,32 +51,21 @@ public class BrowseDaoImplTest {
     public void setBrowseDao(BrowseDaoImpl browseDao){
         this.browseDao = browseDao;
     }
-
-    /**
-     * Test of displayFeaturedVideo method, of class BrowseDaoImpl.
-     */
-    @Test
-    @Transactional
-    public void testDisplayFeaturedVideo() {
-        System.out.println("displayFeaturedVideo() : List<VideoInfo>");
-        
-//        List<VideoInfo> videos = this.browseDao.displayFeaturedVideo();
-//        assertNotNull(videos);
-//        
-//        assertTrue(videos.size() > 0);
-    }
     
     @Test
     @Transactional
     public void testSearchVideos_ScreenRating(){
         System.out.println("searchVideos(ScreenRating) : List<VideoInfo>");
 
+        // Null Screen Rating
         try{
             List<VideoInfo> videos = this.browseDao.searchVideos((ScreenRating)null);
             fail("Exception was not thrown");
         }catch(DataAccessException e){
         
         }
+        
+        // Invalid Screen rating
         ScreenRating testRating = new ScreenRating();
         testRating.setId(9999);
         List<VideoInfo> videos = this.browseDao.searchVideos(testRating);
@@ -84,6 +73,7 @@ public class BrowseDaoImplTest {
         assertNotNull(videos);
         assertEquals(videos.size(), 0);
         
+        // Valid Screen rating
         testRating = new ScreenRating();
         testRating.setId(0);
         videos = this.browseDao.searchVideos(testRating);
@@ -98,22 +88,24 @@ public class BrowseDaoImplTest {
     @Transactional
     public void testSearchVideos_String(){
         System.out.println("searchVideos(String) : List<VideoInfo>");
-        
+        // Null Title
         try{
             List<VideoInfo> videos = this.browseDao.searchVideos((String)null);
             fail("Exception was not thrown");
         }catch(DataAccessException e){
         
         }
-        
+        // Blank video title
         List<VideoInfo> videos = this.browseDao.searchVideos("");
         assertNotNull(videos);
         assertEquals(videos.size(), 0);
         
+        // Invalid video title
         videos = this.browseDao.searchVideos("No Going to Find Something");
         assertNotNull(videos);
         assertEquals(videos.size(), 0);
         
+        // Valid video title
         videos = this.browseDao.searchVideos("Single Title");
         assertNotNull(videos);
         assertEquals(videos.size(), 1);
@@ -131,5 +123,22 @@ public class BrowseDaoImplTest {
         assertNotNull(videos.get(1));
         
         // TODO test for videos retrieved
+    }
+    @Test
+    @Transactional
+    public void testDisplayAllVideoContent(){
+    
+    }
+    
+    @Test
+    @Transactional
+    public void testDisplayVideoDetails(){
+    
+    }
+    
+    @Test
+    @Transactional
+    public void testSearchVideos_Genre(){
+    
     }
 }
