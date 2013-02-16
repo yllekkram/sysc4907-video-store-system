@@ -5,8 +5,8 @@
 package com.team33.entities.dao;
 
 import com.team33.entities.Account;
+import com.team33.services.exception.DataAccessException;
 import java.util.List;
-import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -15,7 +15,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -80,7 +79,7 @@ public class AccountDaoImplTest {
     @Test
     @Rollback(true)
     @Transactional
-    public void testGetAccounts_NotNeg() {
+    public void testGetAccounts_NotNegSize() {
         assertTrue(this.accountDaoImpl.getAccounts().size() >= 0);
     }
 
@@ -134,7 +133,6 @@ public class AccountDaoImplTest {
     @Rollback(true)
     @Transactional
     public void testGetAccount_Integer_ValidId() {
-        System.out.println("getAccount(Integer) : Account -> [DataAccessException]");
         Account account = null;
         try {
             account = null;
@@ -144,7 +142,7 @@ public class AccountDaoImplTest {
         }
         assertNotNull(account);
         assertEquals(account.getName(), this.testAccountNotActivated.getName());
-        assertEquals(account.getId(), this.testAccountNotActivated.getId());
+        assertEquals(account.getId().intValue(), this.testAccountNotActivated.getId().intValue());
         assertEquals(account.getPassword(), this.testAccountNotActivated.getPassword());
         assertFalse(account.getActivated());
     }
@@ -201,7 +199,6 @@ public class AccountDaoImplTest {
     @Rollback(true)
     @Transactional
     public void testGetAccount_String_ValidName() {
-        System.out.println("getAccount(String) : Account -> [DataAccessException]");
         Account account = null;
         // Check if account was retieved correctly
         try {
@@ -211,7 +208,7 @@ public class AccountDaoImplTest {
         }
         assertNotNull(account);
         assertEquals(account.getName(), this.testAccountNotActivated.getName());
-        assertEquals(account.getId(), this.testAccountNotActivated.getId());
+        assertEquals(account.getId().intValue(), this.testAccountNotActivated.getId().intValue());
         assertEquals(account.getPassword(), this.testAccountNotActivated.getPassword());
         assertFalse(account.getActivated());
     }
@@ -241,7 +238,7 @@ public class AccountDaoImplTest {
             this.accountDaoImpl.saveAccount(account);
             Account returnAccount = this.accountDaoImpl.getAccount("World");
             assertNotNull(returnAccount);
-            assertEquals(account.getId(), returnAccount.getId());
+            assertEquals(account.getId().intValue(), returnAccount.getId().intValue());
             assertEquals(account.getName(), returnAccount.getName());
         } catch (DataAccessException e) {
             fail("DataAccessException was thrown for new Account");
@@ -265,7 +262,7 @@ public class AccountDaoImplTest {
             account = this.accountDaoImpl.getAccount(0);
             assertNotNull(account);
             assertEquals(account.getName(), this.testAccountNotActivated.getName());
-            assertEquals(account.getId(), this.testAccountNotActivated.getId());
+            assertEquals(account.getId().intValue(), this.testAccountNotActivated.getId().intValue());
             assertEquals(account.getPassword(), this.testAccountNotActivated.getPassword());
             assertFalse(account.getActivated());
         } catch (DataAccessException e) {
@@ -315,7 +312,7 @@ public class AccountDaoImplTest {
     @Test
     @Rollback(true)
     @Transactional
-    public void testRemoveAccount() {
+    public void testRemoveAccount_ValidId() {
         try {
             this.accountDaoImpl.saveAccount(testAccountNotActivated);
         } catch (Exception e) {
@@ -329,7 +326,7 @@ public class AccountDaoImplTest {
             List<Account> accounts = this.accountDaoImpl.getAccounts();
             assertEquals(accounts.size(), 1);
             assertEquals(accounts.get(0).getName(), this.testAccountActivated.getName());
-            assertEquals(accounts.get(0).getId(), this.testAccountActivated.getId());
+            assertEquals(accounts.get(0).getId().intValue(), this.testAccountActivated.getId().intValue());
             assertEquals(accounts.get(0).getPassword(), this.testAccountActivated.getPassword());
             assertTrue(accounts.get(0).getActivated());
         } catch (DataAccessException e) {

@@ -10,133 +10,159 @@ import com.team33.entities.Orders;
 import com.team33.entities.Purchase;
 import com.team33.entities.Rental;
 import com.team33.services.exception.DataAccessException;
+import java.util.Date;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Caleb
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:/test/dao/dao-test.xml"})
 public class OrderDaoImplTest {
-    
-    private OrdersDao order1Dao;
-    
+
+    @Autowired
+    private OrdersDao orderDao;
+
     public OrderDaoImplTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-    
-    public void setOrder1Dao(OrdersDao order1Dao){
-        this.order1Dao = order1Dao;
+
+    public void setOrderDao(OrdersDao orderDao) {
+        this.orderDao = orderDao;
     }
 
     /**
      * Test of getOrders method, of class Order1DaoImpl.
      */
     @Test
+    @Rollback(true)
     @Transactional
-    public void testGetOrders() {
-        System.out.println("getOrders");
-        try{
-            List<Orders> order = this.order1Dao.getOrders(null);
+    public void testGetOrders_NullToken() {
+        try {
+            List<Orders> order = this.orderDao.getOrders(null);
             fail("Error was not thrown");
-        }catch(DataAccessException e){
+        } catch (DataAccessException e) {
         }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetOrders_InvalidToken() {
         LoginToken testToken = new LoginToken();
-        Account testAccount = new Account(-1);
-        testAccount.setActivated(true);
-        testToken.setAccount(testAccount);
-        
-        try{
-            List<Orders> order = this.order1Dao.getOrders(testToken);
+        try {
+            List<Orders> order = this.orderDao.getOrders(testToken);
             fail("Error was not thrown");
-        }catch(DataAccessException e){
+        } catch (DataAccessException e) {
         }
-        
-        testToken = new LoginToken();
-        testAccount = new Account(0);
-        testAccount.setActivated(true);
-        testToken.setAccount(testAccount);
-        
-        try{
-            List<Orders> order = this.order1Dao.getOrders(testToken);
-        }catch(DataAccessException e){
-            fail("Error should not be thrown");
-        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetOrders_ValidToken() {
+        LoginToken testToken = new LoginToken();
+        testToken.setAccount(new Account(0, "Hello World"));
+        List<Orders> order = this.orderDao.getOrders(testToken);
+        assertNotNull(order);
+        assertTrue(order.size() > 0);
     }
 
     /**
      * Test of getOrder method, of class Order1DaoImpl.
      */
     @Test
+    @Rollback(true)
     @Transactional
-    public void testGetOrder() {
-        System.out.println("getOrder(Integer) -> [DataAccessException]");
-        try{
-            Orders order = this.order1Dao.getOrder(-1);
+    public void testGetOrder_NegId() {
+        try {
+            Orders order = this.orderDao.getOrder(-1);
             fail("Error was not thrown");
-        }catch(DataAccessException e){
+        } catch (DataAccessException e) {
         }
-        
-        try{
-            Orders order = this.order1Dao.getOrder(9999);
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetOrder_InvalidId() {
+        try {
+            Orders order = this.orderDao.getOrder(9999);
             fail("Error was not thrown");
-        }catch(DataAccessException e){
+        } catch (DataAccessException e) {
         }
-        
-        try{
-            Orders order = this.order1Dao.getOrder(0);
-            assertNotNull(order);
-            // TODO finish checking order on finer details
-        }catch(DataAccessException e){
-            fail("Error should not be thrown");
-        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetOrder_ValidId() {
+        Orders order = this.orderDao.getOrder(0);
+        assertNotNull(order);
+        // TODO finish checking order on finer details
+
     }
 
     /**
      * Test of saveOrder method, of class Order1DaoImpl.
      */
     @Test
-    @Transactional
     @Rollback(true)
-    public void testSaveOrder() {
-        System.out.println("saveOrder(Order1) -> [DataAccessException]");
-        try{
-            this.order1Dao.saveOrder(null);
+    @Transactional
+    public void testSaveOrder_NullOrder() {
+        try {
+            this.orderDao.saveOrder(null);
             fail("Error was not thrown");
-        }catch(DataAccessException e){
+        } catch (DataAccessException e) {
         }
-        
-        try{
-            this.order1Dao.saveOrder(new Orders(-1, -1));
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSaveOrder_InvalidOrder() {
+        try {
+            this.orderDao.saveOrder(new Orders(-1, -1));
             fail("Error was not thrown");
-        }catch(DataAccessException e){
+        } catch (DataAccessException e) {
         }
-        
-        try{
-            this.order1Dao.saveOrder(new Orders(0, 0));
-        }catch(DataAccessException e){
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSaveOrder_ValidOrder() {
+        try {
+            this.orderDao.saveOrder(new Orders(0, 0));
+        } catch (DataAccessException e) {
             fail("Error should not be thrown");
         }
     }
@@ -145,233 +171,288 @@ public class OrderDaoImplTest {
      * Test of removeOrder method, of class Order1DaoImpl.
      */
     @Test
-    @Transactional
     @Rollback(true)
-    public void testRemoveOrder() {
-        System.out.println("removeOrder(Integer) -> [DataAccessException]");
+    @Transactional
+    public void testRemoveOrder_Integer_NegOrder() {
+        try {
+            this.orderDao.removeOrder(-1);
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testRemoveOrder_Integer_InvalidOrder() {
+        try {
+            this.orderDao.removeOrder(9999);
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testRemoveOrder_Integer_ValidOrder() {
+        try {
+            this.orderDao.removeOrder(0);
+        } catch (DataAccessException e) {
+            fail("Error should not be thrown");
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testRemovePurchase_NullOrder() {
+        try {
+            this.orderDao.removePurchase(null, new Purchase(0, 0, 0, 0));
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testRemovePurchase_InvalidOrder() {
+        try {
+            this.orderDao.removePurchase(new Orders(-1, -1), new Purchase(0, 0, 0, 0));
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testRemovePurchase_ValidOrder() {
+        try {
+            this.orderDao.removePurchase(new Orders(0, 0), new Purchase(0, 0, 0, 0));
+        } catch (DataAccessException e) {
+            fail("Error was thrown : " + e.getLocalizedMessage());
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testRemovePurchase_NullPurchase() {
+        try {
+            this.orderDao.removePurchase(new Orders(0, 0), null);
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testRemovePurchase_InvalidPurchase() {
+        try {
+            this.orderDao.removePurchase(new Orders(0, 0), new Purchase(-1, -1, -1, -1));
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testRemoveRental_NullOrder() {
+        try {
+            this.orderDao.removeRental(null, new Rental(0, 0, 0, 0, new Date(99999)));
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testRemoveRental_InvalidOrder() {
+        try {
+            this.orderDao.removeRental(new Orders(-1, -1), new Rental(0, 0, 0, 0, new Date(99999)));
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testRemoveRental_ValidOrder() {
+        try {
+            this.orderDao.removeRental(new Orders(0, 0), new Rental(0, 0, 0, 0, new Date(99999)));
+        } catch (DataAccessException e) {
+            fail("Error was thrown : " + e.getLocalizedMessage());
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testRemoveRental_NullRental() {
+        try {
+            this.orderDao.removeRental(new Orders(0, 0), null);
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testRemoveRental_InvalidRental() {
+        try {
+            this.orderDao.removeRental(new Orders(0, 0), new Rental(-1, -1, -1, -1, new Date(99999)));
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSavePurchase_NullOrder() {
+        try {
+            this.orderDao.savePurchase(null, new Purchase(0, 0, 0, 0));
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSavePurchase_InvalidOrder() {
+        try {
+            this.orderDao.savePurchase(new Orders(-1, -1), new Purchase(0, 0, 0, 0));
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSavePurchase_ValidOrder() {
+        try {
+            this.orderDao.savePurchase(new Orders(0, 0), new Purchase(0, 0, 0, 0));
+        } catch (DataAccessException e) {
+            fail("Error was thrown : " + e.getLocalizedMessage());
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSavePurchase_NullPurchase() {
+        try {
+            this.orderDao.savePurchase(new Orders(0, 0), null);
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSavePurchase_InvalidPurchase() {
+        try {
+            this.orderDao.savePurchase(new Orders(0, 0), new Purchase(-1, -1, -1, -1));
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSaveRental_NullOrder() {
+        try {
+            this.orderDao.saveRental(null, new Rental(0, 0, 0, 0, new Date(99999)));
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSaveRental_InvalidOrder() {
+        try {
+            this.orderDao.saveRental(new Orders(-1, -1), new Rental(0, 0, 0, 0, new Date(99999)));
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSaveRental_ValidOrder() {
+        try {
+            this.orderDao.saveRental(new Orders(0, 0), new Rental(0, 0, 0, 0, new Date(99999)));
+        } catch (DataAccessException e) {
+            fail("Error was thrown : " + e.getLocalizedMessage());
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSaveRental_NullRental() {
+        try {
+            this.orderDao.saveRental(new Orders(0, 0), null);
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testSaveRental_InvalidRental() {
+        try {
+            this.orderDao.saveRental(new Orders(0, 0), new Rental(-1, -1, -1, -1, new Date(99999)));
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetLoginToken_NegUUID(){
         try{
-            this.order1Dao.removeOrder(-1);
+            this.orderDao.getLoginToken(-1);
             fail("Error was not thrown");
         }catch(DataAccessException e){
         }
-        
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetLoginToken_InvalidUUID(){
         try{
-            this.order1Dao.removeOrder(9999);
+            this.orderDao.getLoginToken(9999);
             fail("Error was not thrown");
         }catch(DataAccessException e){
         }
-        
-        try{
-            this.order1Dao.removeOrder(0);
-        }catch(DataAccessException e){
-            fail("Error should not be thrown");
-        }
     }
-
-    /**
-     * Test of createInvoice method, of class Order1DaoImpl.
-     */
+    
     @Test
-    @Transactional
     @Rollback(true)
-    public void testCreateInvoice() {
-        System.out.println("createInvoice(Order1) -> [DataAccessException]");
-//        try{
-//            this.order1Dao.createInvoice(null);
-//            fail("Error was not thrown");
-//        }catch(DataAccessException e){
-//        }
-//        
-//        try{
-//            this.order1Dao.createInvoice(new Orders(-1, -1));
-//            fail("Error was not thrown");
-//        }catch(DataAccessException e){
-//        }
-//        
-//        try{
-//            this.order1Dao.createInvoice(new Orders(0, 0));
-//        }catch(DataAccessException e){
-//            fail("Error should not be thrown");
-//        }
-    }
-
-    /**
-     * Test of removePurchase method, of class Order1DaoImpl.
-     */
-    @Test
     @Transactional
-    @Rollback(true)
-    public void testRemovePurchase() {
-        System.out.println("removePurchase(Order, Purchase) -> [DataAccessException]");
-        try{
-            this.order1Dao.removePurchase(null, null);
-        }catch(DataAccessException e){
-            fail("Error should not be thrown");
-        }
-        
-        try{
-            this.order1Dao.removePurchase(new Orders(), null);
-        }catch(DataAccessException e){
-            fail("Error should not be thrown");
-        }
-        
-        try{
-            this.order1Dao.removePurchase(null, new Purchase());
-        }catch(DataAccessException e){
-            fail("Error should not be thrown");
-        }
-//        
-//        try{
-//            this.order1Dao.removePurchase(new Orders(-1, -1), new Purchase(0, 0, 0));
-//            fail("Error was not thrown");
-//        }catch(DataAccessException e){
-//        }
-//        
-//        try{
-//            this.order1Dao.removePurchase(new Orders(0, 0), new Purchase(-1, -1, -1));
-//            fail("Error was not thrown");
-//        }catch(DataAccessException e){
-//        }
-//        
-//        try{
-//            this.order1Dao.removePurchase(new Orders(0, 0), new Purchase(0, 0, 0));
-//        }catch(DataAccessException e){
-//            fail("Error should not be thrown");
-//        }
+    public void testGetLoginToken_ValidUUID(){
+        LoginToken testToken = this.orderDao.getLoginToken(0);
+        assertNotNull(testToken);
+        assertEquals(testToken.getLogintokenPK().getId(), 0);
     }
-
-    /**
-     * Test of removeRental method, of class Order1DaoImpl.
-     */
-    @Test
-    @Transactional
-    @Rollback(true)
-    public void testRemoveRental() {
-        System.out.println("removeRental(Order, Rental) -> [DataAccessException]");
-        try{
-            this.order1Dao.removeRental(null, null);
-        }catch(DataAccessException e){
-            fail("Error should not be thrown");
-        }
-        
-        try{
-            this.order1Dao.removeRental(new Orders(), null);
-        }catch(DataAccessException e){
-            fail("Error should not be thrown");
-        }
-        
-        try{
-            this.order1Dao.removeRental(null, new Rental());
-        }catch(DataAccessException e){
-            fail("Error should not be thrown");
-        }
-//        
-//        try{
-//            this.order1Dao.removeRental(new Orders(-1, -1), new Rental(0, 0, 0));
-//            fail("Error was not thrown");
-//        }catch(DataAccessException e){
-//        }
-//        
-//        try{
-//            this.order1Dao.removeRental(new Orders(0, 0), new Rental(-1, -1, -1));
-//            fail("Error was not thrown");
-//        }catch(DataAccessException e){
-//        }
-//        
-//        try{
-//            this.order1Dao.removeRental(new Orders(0, 0), new Rental(0, 0, 0));
-//        }catch(DataAccessException e){
-//            fail("Error should not be thrown");
-//        }
-    }
-
-    /**
-     * Test of savePurchase method, of class Order1DaoImpl.
-     */
-    @Test
-    @Transactional
-    @Rollback(true)
-    public void testSavePurchase() {
-        System.out.println("savePurchase(Order, Purchase) -> [DataAccessException]");
-//        try{
-//            this.order1Dao.savePurchase(null, null);
-//        }catch(DataAccessException e){
-//            fail("Error should not be thrown");
-//        }
-//        
-//        try{
-//            this.order1Dao.savePurchase(new Order1(), null);
-//        }catch(DataAccessException e){
-//            fail("Error should not be thrown");
-//        }
-//        
-//        try{
-//            this.order1Dao.savePurchase(null, new Purchase());
-//        }catch(DataAccessException e){
-//            fail("Error should not be thrown");
-//        }
-//        
-//        try{
-//            this.order1Dao.savePurchase(new Order1(-1, -1), new Purchase(0, 0, 0));
-//            fail("Error was not thrown");
-//        }catch(DataAccessException e){
-//        }
-//        
-//        try{
-//            this.order1Dao.savePurchase(new Order1(0, 0), new Purchase(-1, -1, -1));
-//            fail("Error was not thrown");
-//        }catch(DataAccessException e){
-//        }
-//        
-//        try{
-//            this.order1Dao.savePurchase(new Order1(0, 0), new Purchase(0, 0, 0));
-//        }catch(DataAccessException e){
-//            fail("Error should not be thrown");
-//        }
-    }
-
-    /**
-     * Test of saveRental method, of class Order1DaoImpl.
-     */
-    @Test
-    @Transactional
-    @Rollback(true)
-    public void testSaveRental() {
-        System.out.println("saveRental(Order1, Rental) -> [DataAccessException]");
-//        try{
-//            this.order1Dao.saveRental(null, null);
-//        }catch(DataAccessException e){
-//            fail("Error should not be thrown");
-//        }
-//        
-//        try{
-//            this.order1Dao.saveRental(new Order1(), null);
-//        }catch(DataAccessException e){
-//            fail("Error should not be thrown");
-//        }
-//        
-//        try{
-//            this.order1Dao.saveRental(null, new Rental());
-//        }catch(DataAccessException e){
-//            fail("Error should not be thrown");
-//        }
-//        
-//        try{
-//            this.order1Dao.saveRental(new Order1(-1, -1), new Rental(0, 0, 0));
-//            fail("Error was not thrown");
-//        }catch(DataAccessException e){
-//        }
-//        
-//        try{
-//            this.order1Dao.saveRental(new Order1(0, 0), new Rental(-1, -1, -1));
-//            fail("Error was not thrown");
-//        }catch(DataAccessException e){
-//        }
-//        
-//        try{
-//            this.order1Dao.saveRental(new Order1(0, 0), new Rental(0, 0, 0));
-//        }catch(DataAccessException e){
-//            fail("Error should not be thrown");
-//        }
-    }
+    
+    
 }
