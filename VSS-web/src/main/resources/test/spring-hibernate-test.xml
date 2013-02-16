@@ -10,7 +10,7 @@
     
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-          <property name="location" value="file:src/main/webapp/WEB-INF/jdbc.properties"/> 
+          <property name="location" value="classpath:/test/jdbc-test.properties"/> 
     </bean>
     
     <bean id="dataSource"
@@ -52,14 +52,6 @@
             </value>
         </property>
         <property name="exposeTransactionAwareSessionFactory"><value>false</value></property>
-    </bean>
-    
-    <bean  id="accountDao" class="com.team33.entities.dao.AccountDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    
-    <bean  id="accountDaoTest" class="com.team33.entities.dao.AccountDaoImplTest">
-        <property name="accountDaoImpl" ref="accountDao"/>
     </bean>
     
     <tx:annotation-driven

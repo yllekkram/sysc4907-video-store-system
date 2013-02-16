@@ -4,14 +4,24 @@ To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
 
-<beans
+<beans 
     xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:aop="http://www.springframework.org/schema/aop"
     xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
-    <import resource="classpath:spring-hibernate.xml"/>
+    
+    <import resource="classpath:/test/spring-hibernate-test.xml"/>
+    
+    <!-- Classes To be Tested -->
+    <bean id = "accountDaoImpl" class = "com.team33.entities.dao.AccountDaoImpl">
+        <property name = "sessionFactory" ref = "sessionFactory" />
+    </bean>
+    
+    
+    <!-- Test Cases -->
+    <bean id="accountDaoImplTest" class = "com.team33.entities.dao.AccountDaoImplTest">
+        <property name = "accountDao" ref = "accountDaoImpl"/>
+    </bean>
 </beans>
     
