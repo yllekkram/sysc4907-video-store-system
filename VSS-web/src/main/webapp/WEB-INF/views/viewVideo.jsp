@@ -10,7 +10,6 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="banner_style.css">
         <title>JSP Page</title>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
@@ -18,7 +17,6 @@
     </head>
     <body>
         <%@include file="/WEB-INF/jspf/banner.jspf" %>
-        <br>
             
         <video id="my_video_1" class="video-js vjs-default-skin" controls
                preload="auto" width="640" height="264"

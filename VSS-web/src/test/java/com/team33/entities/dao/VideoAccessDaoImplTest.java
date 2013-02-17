@@ -14,9 +14,11 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,9 +28,10 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Caleb
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext-test.xml"})
+@ContextConfiguration(locations = {"classpath:/test/dao/dao-test.xml"})
 public class VideoAccessDaoImplTest {
     
+    @Autowired
     private VideoAccessDao videoAccessDao;
     
     public VideoAccessDaoImplTest() {
@@ -58,84 +61,131 @@ public class VideoAccessDaoImplTest {
      * Test of getVideoInfo method, of class VideoAccessDaoImpl.
      */
     @Test
+    @Rollback(true)
     @Transactional
-    public void testGetVideoInfo() throws Exception {
-        System.out.println("getVideoInfo(Integer, LoginToken) : VideoInfo -> [DataAccessException,AccountNotActivatedException]");
-        
-        LoginToken exceptionTestToken = new LoginToken();
-        Account testAccount = new Account();
-        testAccount.setActivated(false);
-        exceptionTestToken.setAccount(testAccount);
-        // Cause exception from null token
-//        try{
-//            VideoInfo info = this.videoAccessDao.getVideoInfo(0, null);
-//            fail("Exception was not thrown");
-//        }catch(DataAccessException e){
-//        }
-        // Cause AccountNotActivatedException
-//        try{
-//            VideoInfo info = this.videoAccessDao.getVideoInfo(0, exceptionTestToken);
-//            fail("Exception was not thrown");
-//        }catch(AccountNotActivatedException e){
-//        }
-        
-        LoginToken testToken = new LoginToken();
-        testAccount = new Account();
-        testAccount.setActivated(true);
-        testToken.setAccount(testAccount);
-        
-        // Test valid token, valid video id
-//        VideoInfo info = this.videoAccessDao.getVideoInfo(0, testToken);
-//        assertNotNull(info);
-//        
-//        // Test valid token, invalid video id
-//        try{
-//            info = this.videoAccessDao.getVideoInfo(-1, testToken);        
-//            fail("Exception was not thrown");
-//        }catch(DataAccessException e){
-//            
-//        }
-//        // Test valid token, invalid video id
-//        try{
-//            info = this.videoAccessDao.getVideoInfo(9999, testToken);
-//            fail("Exception was not thrown");
-//        }catch(DataAccessException e){
-//        
-//        }
+    public void testGetVideoInfo_NegVidId(){
+        try{
+            this.videoAccessDao.getVideoInfo(-1, 0);
+            fail("Exception not thrown");
+        }catch(DataAccessException e){
+        }catch(AccountNotActivatedException e){
+            fail("Wrong excpetion thrown");
+        }
     }
-
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetVideoInfo_InvalidVidId(){
+        try{
+            this.videoAccessDao.getVideoInfo(9999, 0);
+            fail("Exception not thrown");
+        }catch(DataAccessException e){
+        }catch(AccountNotActivatedException e){
+            fail("Wrong excpetion thrown");
+        }
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetVideoInfo_ValidVidId(){
+        try{
+            VideoInfo info = this.videoAccessDao.getVideoInfo(0, 0);
+            assertNotNull(info);
+            assertEquals(info.getId().intValue(), 0);
+        }catch(AccountNotActivatedException e){
+            fail("Wrong excpetion thrown");
+        }
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetVideoInfo_NegUUID(){
+        try{
+            this.videoAccessDao.getVideoInfo(0, -1);
+            fail("Exception not thrown");
+        }catch(DataAccessException e){
+        }catch(AccountNotActivatedException e){
+            fail("Wrong excpetion thrown");
+        }
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetVideoInfo_InvalidUUID(){
+        try{
+            this.videoAccessDao.getVideoInfo(0, 9999);
+            fail("Exception not thrown");
+        }catch(DataAccessException e){
+        }catch(AccountNotActivatedException e){
+            fail("Wrong excpetion thrown");
+        }
+    }
+    
     /**
      * Test of getVideoInfoList method, of class VideoAccessDaoImpl.
      */
+    
+    public void testGetVideoInfoList_NegId(){
+        try{
+            this.videoAccessDao.getVideoInfoList(-1);
+            fail("Exception not thrown");
+        }catch(DataAccessException e){
+        }catch(AccountNotActivatedException e){
+            fail("Wrong excpetion thrown");
+        }
+    }
+    
+    public void testGetVideoInfoList_InvalidId(){
+        try{
+            this.videoAccessDao.getVideoInfoList(9999);
+            fail("Exception not thrown");
+        }catch(DataAccessException e){
+        }catch(AccountNotActivatedException e){
+            fail("Wrong excpetion thrown");
+        }
+    }
+    
+    public void testGetVideoInfoList_ValidInfo(){
+        try{
+            List<VideoInfo> info = this.videoAccessDao.getVideoInfoList(0);
+            assertNotNull(info);
+            assertTrue(info.size() > 0);
+        }catch(AccountNotActivatedException e){
+            fail("Wrong excpetion thrown");
+        }
+    }
     @Test
+    @Rollback(true)
     @Transactional
-    public void testGetVideoInfoList() throws Exception {
-        System.out.println("getVideoInfoList(LoginToken) : List<VideoInfo> -> [DataAccessException,AccountNotActivatedException]");
-        
-//        try{
-//            List<VideoInfo> info = this.videoAccessDao.getVideoInfoList(null);
-//            fail("Exception was not thrown");
-//        }catch(DataAccessException e){
-//        }
-        
-        LoginToken exceptionTestToken = new LoginToken();
-        Account testAccount = new Account();
-        testAccount.setActivated(false);
-        exceptionTestToken.setAccount(testAccount);
-        
-//        try{
-//            List<VideoInfo> info = this.videoAccessDao.getVideoInfoList(exceptionTestToken);
-//        }catch(AccountNotActivatedException e){
-//        }
-        
-        LoginToken testToken = new LoginToken();
-        testAccount = new Account();
-        testAccount.setActivated(true);
-        testToken.setAccount(testAccount);
-        
-//        List<VideoInfo> info = this.videoAccessDao.getVideoInfoList(testToken);
-//        assertNotNull(info);
-//        assertTrue(info.size() > 0);
-        
+    public void testGetLoginToken_NegUUID(){
+        try{
+            this.videoAccessDao.getLoginToken(-1);
+            fail("Error was not thrown");
+        }catch(DataAccessException e){
+        }
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetLoginToken_InvalidUUID(){
+        try{
+            this.videoAccessDao.getLoginToken(9999);
+            fail("Error was not thrown");
+        }catch(DataAccessException e){
+        }
+    }
+    
+    @Test
+    @Rollback(true)
+    @Transactional
+    public void testGetLoginToken_ValidUUID(){
+        LoginToken testToken = this.videoAccessDao.getLoginToken(0);
+        assertNotNull(testToken);
+        assertEquals(testToken.getLogintokenPK().getId(), 0);
     }
 }

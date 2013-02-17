@@ -45,6 +45,9 @@
                 <entry key="/viewVideo">
                     <ref bean="viewVideoController"/>
                 </entry>
+                <entry key="/myAccountView.htm">
+                    <ref bean="myAccountController"/>
+                </entry>
             </map>
         </property>
     </bean>
@@ -105,6 +108,11 @@
     <bean name = "viewVideoController"
           class = "com.team33.controllers.VideoViewController">
     </bean>
+    <bean name="myAccountController"
+          class = "com.team33.controllers.MyAccountController">
+        <property name="videoAccessService" ref="videoAccessServiceImpl"/>
+    </bean>
+
     <bean id = "creditCardValidator" class = "com.team33.services.CreditCardValidator"/>
          
     <!-- Inject  sessionfactory here --> 
