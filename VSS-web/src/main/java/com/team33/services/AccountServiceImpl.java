@@ -12,6 +12,7 @@ import com.team33.entities.dao.AccountDaoImpl;
 import com.team33.services.exception.*;
 import java.util.List;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.dao.DataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,12 +85,20 @@ public class AccountServiceImpl implements AccountService {
         Account acc = new Account();
         acc.setName(username);
         acc.setPassword(password);
-        this.getAccountDaoImpl().saveAccount(acc);
+        try {
+            this.getAccountDaoImpl().saveAccount(acc);
 
-        LoginToken token = new LoginToken(new LoginTokenPK());
-        token.getLogintokenPK().setAccountid(acc.getId());
-        token.setAccount(acc);
-        this.getAccountDaoImpl().saveLoginToken(token);
+            LoginToken token = new LoginToken(new LoginTokenPK());
+            token.getLogintokenPK().setAccountid(acc.getId());
+            token.setAccount(acc);
+            this.getAccountDaoImpl().saveLoginToken(token);
+            session.getTransaction().commit();
+        } catch (com.team33.services.exception.DataAccessException e) {
+            Transaction tx = session.getTransaction();
+            if (tx.isActive())
+                tx.rollback();
+            throw new RegistrationException("Registration Failed");
+        } 
     }
 
     @Transactional

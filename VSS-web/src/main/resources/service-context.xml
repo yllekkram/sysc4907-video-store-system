@@ -26,7 +26,7 @@
     </tx:advice>
     <aop:config>
         <aop:pointcut id="allServices"
-                  expression="execution(*com.team33.services.*.*(..))"/>
+                      expression="execution(* com.team33.services.*ServiceImpl.*(..))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="allServices"/>
     </aop:config>
 </beans>
