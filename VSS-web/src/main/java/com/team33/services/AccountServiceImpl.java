@@ -6,6 +6,7 @@ package com.team33.services;
 
 import com.team33.entities.Account;
 import com.team33.entities.LoginToken;
+import com.team33.entities.LoginTokenPK;
 import com.team33.entities.Orders;
 import com.team33.entities.dao.AccountDaoImpl;
 import com.team33.services.exception.*;
@@ -85,8 +86,10 @@ public class AccountServiceImpl implements AccountService {
         acc.setPassword(password);
         this.getAccountDaoImpl().saveAccount(acc);
 
-        LoginToken token = new LoginToken();
+        LoginToken token = new LoginToken(new LoginTokenPK());
+        token.getLogintokenPK().setAccountid(acc.getId());
         token.setAccount(acc);
+        this.getAccountDaoImpl().saveLoginToken(token);
     }
 
     @Transactional
