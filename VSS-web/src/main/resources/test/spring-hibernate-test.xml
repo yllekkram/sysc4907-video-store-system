@@ -23,7 +23,7 @@
     
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+        <property name="configLocation" value="classpath:/test/hibernate-test.cfg.xml"/>
         <property name="configurationClass">
             <value>org.hibernate.cfg.AnnotationConfiguration</value>
         </property>
@@ -48,14 +48,12 @@
         <property name="hibernateProperties">
             <value>
                 hibernate.dialect=${jdbc.dialect}
-                hibernate.show_sql=true
+                hibernate.show_sql=false
             </value>
         </property>
-        <property name="exposeTransactionAwareSessionFactory"><value>false</value></property>
     </bean>
     
-    <tx:annotation-driven
-        transaction-manager="transactionManager"/>
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
     
     <!-- Transaction manager -->
     <bean id="transactionManager"
