@@ -5,72 +5,110 @@
 package com.team33.services;
 
 import com.team33.entities.Account;
-import com.team33.entities.dao.AccountDao;
 import com.team33.entities.dao.AccountDaoImpl;
+import com.team33.services.exception.DataAccessException;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.dao.DataRetrievalFailureException;
 
 /**
  *
  * @author Daywalker
  */
 public class AccountDaoImplTestStub extends AccountDaoImpl{
-
-    @Override
-    public List<Account> getAccounts() throws DataAccessException {
-        return new ArrayList<Account>();
+    
+    private ArrayList<Account> dummyAccount;
+    private Account testAccountNotActivated;
+    private Account testAccountActivated;
+    
+    public AccountDaoImplTestStub(){
+        this.dummyAccount = new ArrayList<Account>();
+        setDummyAccountInfo();
     }
+    public final void setDummyAccountInfo(){
+        testAccountNotActivated = new Account(0, "Hello");
+        testAccountNotActivated.setPassword("World");
+        testAccountNotActivated.setActivated(false);
 
-    @Override
-    public Account getAccount(Integer accountId) throws DataAccessException {
-        Account a = null;
-        if (accountId == 0L){
-            a = new Account(0, "Test1");
-            a.setPassword("1234");
-        }else if (accountId == 15){
-            return null;
-        }else if (accountId == 51){
-            throw new DataRetrievalFailureException("Stub getAccount(Long)");
-        }else{
-            return null;
-        }
-        
-        return a;
-    }
-
-    @Override
-    public Account getAccount(String username) throws DataAccessException {
-        Account a = null;
-        if (username == null){
-            return null;
-        }else if (username.equals("Test1")){
-            a = new Account(0, "Test1");
-            a.setPassword("1234");
-        }else if (username.equals("Test2")){
-            return null;
-        }else{
-            throw new DataRetrievalFailureException("Stub getAccount(String)");
-        }
-        return a;
-    }
-
-    @Override
-    public void saveAccount(Account account) throws DataAccessException {
-        if (account == null){
-            throw new DataAccessResourceFailureException("Stub saveAccount(Account)");
-        }else if (account.getName().equals("Test1")){
-            // Completes
-        }
-    }
-
-    @Override
-    public void removeAccount(Integer accountID) {
-        if (accountID != 0L){
-            throw new DataAccessResourceFailureException("Stub removeAccount(Account)");
-        }
+        testAccountActivated = new Account(1, "Hello");
+        testAccountActivated.setPassword("World");
+        testAccountActivated.setActivated(true);
     }
     
+    public void addDummyAccount(Account account){
+        this.dummyAccount.add(account);
+    }
+    
+    public void clearDummyAccounts(){
+        this.dummyAccount.clear();
+        setDummyAccountInfo();
+    }
+    
+    @Override
+    public List<Account> getAccounts() throws DataAccessException{
+        return dummyAccount;
+    }
+    
+    @Override
+    public Account getAccount(Integer accountId) throws DataAccessException{
+        if (accountId == null){
+            throw new DataAccessException("Dummy Message");
+        }else if (accountId.intValue() == -1){
+            throw new DataAccessException("Dummy Message");
+        }else if (accountId.intValue() == 9999){
+            throw new DataAccessException("Dummy Message");
+        }
+        if (accountId.intValue() == 0){
+            this.dummyAccount.add(testAccountNotActivated);
+            return testAccountNotActivated;
+        }else if (accountId.intValue() == 1){
+            this.dummyAccount.add(testAccountActivated);
+            return testAccountActivated;
+        }
+        throw new DataAccessException("Should not reach here");
+    }
+    
+    @Override
+    public Account getAccount(String username) throws DataAccessException{
+        if (username == null){
+            throw new DataAccessException("Dummy Message");
+        }else if (username.equals("")){
+            throw new DataAccessException("Dummy Message");
+        }else if (username.equals("kajhdfkahdlkh")){
+            throw new DataAccessException("Dummy Message");
+        }else if (username.equals("Hello")){
+            return testAccountNotActivated;
+        }else if (username.equals("World")){
+            return testAccountActivated;
+        }
+        throw new DataAccessException("Should not reach here");
+    }
+    
+    @Override
+    public void saveAccount(Account account) throws DataAccessException{
+        if (account == null){
+            throw new DataAccessException("Dummy Message");
+        }else if (account.getName().equals("World")){
+            
+        }else if (account.getName().equals("Hello")){
+        
+        }
+        throw new DataAccessException("Should not reach here");
+    }
+    
+    @Override
+    public void removeAccount(Integer accountId) throws DataAccessException{
+        if (accountId == null){
+            throw new DataAccessException("Dummy Message");
+        }else if (accountId.intValue() == -1){
+            throw new DataAccessException("Dummy Message");
+        }else if (accountId.intValue() == 9999){
+            throw new DataAccessException("Dummy Message");
+        }
+        if (accountId.intValue() == 0){
+            this.dummyAccount.remove(testAccountNotActivated);
+        }else if (accountId.intValue() == 1){
+            this.dummyAccount.remove(testAccountActivated);
+        }
+        throw new DataAccessException("Should not reach here");
+    }
 }
