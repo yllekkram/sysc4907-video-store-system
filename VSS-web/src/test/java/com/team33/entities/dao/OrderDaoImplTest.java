@@ -104,6 +104,17 @@ public class OrderDaoImplTest {
      */
     @Test
     @Rollback(true)
+    public void testGetOrder_NullId() {
+        try {
+            Orders order = this.orderDao.getOrder((Integer)null);
+            fail("Error was not thrown");
+        } catch (DataAccessException e) {
+        }
+        System.out.println("testGetOrder_NullId() passed");
+    }
+    
+    @Test
+    @Rollback(true)
     public void testGetOrder_NegId() {
         try {
             Orders order = this.orderDao.getOrder(-1);
