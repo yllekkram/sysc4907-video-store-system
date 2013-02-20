@@ -124,7 +124,7 @@ public class BrowseDaoImplTest {
     @Rollback(true)
     public void testSearchVideos_String_InvalidName() {
         // Invalid video title
-        List<VideoInfo> videos = this.browseDao.searchVideos("No Going to Find Something");
+        List<VideoInfo> videos = this.browseDao.searchVideos("Not Going to Find Something");
         assertNotNull(videos);
         assertEquals(videos.size(), 0);
         System.out.println("testSearchVideos_String_InvalidName() passed");
