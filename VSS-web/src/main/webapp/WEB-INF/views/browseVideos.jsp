@@ -12,6 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Browse Videos</title>
+        <link rel="stylesheet" type="text/css" href="banner_style.css">
         
         <style>
             th.videoListHeader {
@@ -20,6 +21,7 @@
         </style>
     </head>
     <body>
+        <%@include file="../jspf/banner.jspf" %>
         <%@include file="../jspf/video_list.jspf" %>
     </body>
 </html>

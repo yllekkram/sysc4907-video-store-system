@@ -45,7 +45,7 @@
                 <entry key="/viewVideo">
                     <ref bean="viewVideoController"/>
                 </entry>
-                <entry key="browseVideos.htm">
+                <entry key="/browseVideos.htm">
                     <ref bean="browseVideoController"/>
                 </entry>
             </map>
