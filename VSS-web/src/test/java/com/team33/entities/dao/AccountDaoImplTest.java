@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -26,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/test/dao/dao-test.xml"})
+@TransactionConfiguration(transactionManager = "transactionManager")
+@Transactional
 public class AccountDaoImplTest {
 
     @Autowired
@@ -59,11 +62,8 @@ public class AccountDaoImplTest {
     public void tearDown() {
     }
 
-    public void setAccountDao(AccountDao accountDao) {
-        this.accountDaoImpl = accountDaoImpl;
-
-        //this.accountDaoImpl.saveAccount(testAccountNotActivated);
-        //this.accountDaoImpl.saveAccount(testAccountActivated);
+    public void setAccountDao(AccountDaoImpl accountDao) {
+        this.accountDaoImpl = accountDao;
     }
 
     /**
@@ -71,16 +71,16 @@ public class AccountDaoImplTest {
      */
     @Test
     @Rollback(true)
-    @Transactional
     public void testGetAccounts_NotNull() {
         assertNotNull(this.accountDaoImpl.getAccounts());
+        System.out.println("testGetAccounts_NotNull() passed");
     }
 
     @Test
     @Rollback(true)
-    @Transactional
     public void testGetAccounts_NotNegSize() {
         assertTrue(this.accountDaoImpl.getAccounts().size() >= 0);
+        System.out.println("testGetAccounts_NotNegSize() passed");
     }
 
     /**
@@ -88,7 +88,6 @@ public class AccountDaoImplTest {
      */
     @Test
     @Rollback(true)
-    @Transactional
     public void testGetAccount_Integer_NegId() {
         Account account = null;
         // Check for negative input
@@ -98,11 +97,11 @@ public class AccountDaoImplTest {
         } catch (DataAccessException e) {
             assertNull(account);
         }
+        System.out.println("testGetAccount_Integer_NegId() passed");
     }
 
     @Test
     @Rollback(true)
-    @Transactional
     public void testGetAccount_Integer_InvalidId() {
         Account account = null;
         try {
@@ -112,11 +111,11 @@ public class AccountDaoImplTest {
         } catch (DataAccessException e) {
             assertNull(account);
         }
+        System.out.println("testGetAccount_Integer_InvalidId() passed");
     }
 
     @Test
     @Rollback(true)
-    @Transactional
     public void testGetAccount_Integer_NullId() {
         Account account = null;
         // Check for null input
@@ -127,11 +126,11 @@ public class AccountDaoImplTest {
         } catch (DataAccessException e) {
             assertNull(account);
         }
+        System.out.println("testGetAccount_Integer_NullId() passed");
     }
 
     @Test
     @Rollback(true)
-    @Transactional
     public void testGetAccount_Integer_ValidId() {
         Account account = null;
         try {
@@ -145,6 +144,7 @@ public class AccountDaoImplTest {
         assertEquals(account.getId().intValue(), this.testAccountNotActivated.getId().intValue());
         assertEquals(account.getPassword(), this.testAccountNotActivated.getPassword());
         assertFalse(account.getActivated());
+        System.out.println("testGetAccount_Integer_ValidId() passed");
     }
 
     /**
@@ -152,7 +152,6 @@ public class AccountDaoImplTest {
      */
     @Test
     @Rollback(true)
-    @Transactional
     public void testGetAccount_String_InvalidName() {
         Account account = null;
         // Check for invalid input
@@ -163,11 +162,11 @@ public class AccountDaoImplTest {
         } catch (DataAccessException e) {
             assertNull(account);
         }
+        System.out.println("testGetAccount_String_InvalidName() passed");
     }
 
     @Test
     @Rollback(true)
-    @Transactional
     public void testGetAccount_String_BlankName() {
         Account account = null;
         // Check for empty string input
@@ -178,11 +177,11 @@ public class AccountDaoImplTest {
         } catch (DataAccessException e) {
             assertNull(account);
         }
+        System.out.println("testGetAccount_String_BlankName() passed");
     }
 
     @Test
     @Rollback(true)
-    @Transactional
     public void testGetAccount_String_NullName() {
         Account account = null;
         // Check for null input
@@ -193,11 +192,11 @@ public class AccountDaoImplTest {
         } catch (DataAccessException e) {
             assertNull(account);
         }
+        System.out.println("testGetAccount_String_NullName() passed");
     }
 
     @Test
     @Rollback(true)
-    @Transactional
     public void testGetAccount_String_ValidName() {
         Account account = null;
         // Check if account was retieved correctly
@@ -211,6 +210,7 @@ public class AccountDaoImplTest {
         assertEquals(account.getId().intValue(), this.testAccountNotActivated.getId().intValue());
         assertEquals(account.getPassword(), this.testAccountNotActivated.getPassword());
         assertFalse(account.getActivated());
+        System.out.println("testGetAccount_String_ValidName() passed");
     }
 
     /**
@@ -218,7 +218,6 @@ public class AccountDaoImplTest {
      */
     @Test
     @Rollback(true)
-    @Transactional
     public void testSaveAccount_NullAccount() {
         // Save null account
         try {
@@ -226,11 +225,11 @@ public class AccountDaoImplTest {
             fail("Failed to throw DataAccessException for null");
         } catch (DataAccessException e) {
         }
+        System.out.println("testSaveAccount_NullAccount() passed");
     }
 
     @Test
     @Rollback(true)
-    @Transactional
     public void testSaveAccount_NewAccount() {
         // Save new Account
         try {
@@ -243,11 +242,11 @@ public class AccountDaoImplTest {
         } catch (DataAccessException e) {
             fail("DataAccessException was thrown for new Account");
         }
+        System.out.println("testSaveAccount_NewAccount() passed");
     }
 
     @Test
     @Rollback(true)
-    @Transactional
     public void testSaveAccount_OldAccount() {
         // Save old Account
         try {
@@ -268,6 +267,7 @@ public class AccountDaoImplTest {
         } catch (DataAccessException e) {
             fail("DataAccessException was thrown for resave");
         }
+        System.out.println("testSaveAccount_OldAccount() passed");
     }
 
     /**
@@ -275,7 +275,6 @@ public class AccountDaoImplTest {
      */
     @Test
     @Rollback(true)
-    @Transactional
     public void testRemoveAccount_NegId() {
         // Check for negative input
         try {
@@ -283,11 +282,11 @@ public class AccountDaoImplTest {
             fail("Failed to throw DataAccessException");
         } catch (DataAccessException e) {
         }
+        System.out.println("testRemoveAccount_NegId() passed");
     }
 
     @Test
     @Rollback(true)
-    @Transactional
     public void testRemoveAccount_InvalidId() {
         // Check for accounts not in db
         try {
@@ -295,11 +294,11 @@ public class AccountDaoImplTest {
             fail("Failed to throw DataAccessException");
         } catch (DataAccessException e) {
         }
+        System.out.println("testRemoveAccount_InvalidId() passed");
     }
 
     @Test
     @Rollback(true)
-    @Transactional
     public void testRemoveAccount_NullId() {
         // Check for null input
         try {
@@ -307,11 +306,11 @@ public class AccountDaoImplTest {
             fail("Failed to throw DataAccessException");
         } catch (DataAccessException e) {
         }
+        System.out.println("testRemoveAccount_NullId() passed");
     }
 
     @Test
     @Rollback(true)
-    @Transactional
     public void testRemoveAccount_ValidId() {
         try {
             this.accountDaoImpl.saveAccount(testAccountNotActivated);
@@ -332,5 +331,7 @@ public class AccountDaoImplTest {
         } catch (DataAccessException e) {
             fail("DataAccessException was thrown");
         }
+        System.out.println("testRemoveAccount_ValidId() passed");
     }
+    
 }
