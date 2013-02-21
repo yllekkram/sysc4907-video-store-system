@@ -10,6 +10,7 @@
 <html>
     <head> <title>Online Video Store System</title> </head>
     <body>
+        <%@include file="../jspf/banner.jspf" %>
         <!--Used to capture the exceptions -->
         <c:if test="${exception ne null}">
             <div class="error">
@@ -22,19 +23,23 @@
                 <legend>Account Registration</legend>
                 <table>
                     <tr>
-                        <td>Username</td>
                         <td>
-                            <input type="text" id="username" name="username"
-                                   placeholder="Username"/></td>
+                            Username :
+                        </td>
+                        <td>
+                            <input type="text" id="username" name="username" placeholder="Username"/>
+                        </td>
                     </tr>
                     <tr>
-                        <td>Password</td>
                         <td>
-                            <input type="password" id="password" name="password"
-                                   placeholder="Password"/></td>
+                            Password :
+                        </td>
+                        <td>
+                            <input type="password" id="password" name="password" placeholder="Password"/>
+                        </td>
                     </tr>
-                    <input type="submit" name="Submit" value="Register">
                 </table>
+                <input type="submit" name="Submit" value="Register">
             </fieldset>
         </form>
     </body>

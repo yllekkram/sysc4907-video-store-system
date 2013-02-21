@@ -48,6 +48,9 @@
                 <entry key="/browseVideos.htm">
                     <ref bean="browseVideoController"/>
                 </entry>
+                <entry key="/myAccountView.htm">
+                    <ref bean="myAccountController"/>
+                </entry>
             </map>
         </property>
     </bean>
@@ -112,6 +115,11 @@
     <bean name = "viewVideoController"
           class = "com.team33.controllers.VideoViewController">
     </bean>
+    <bean name="myAccountController"
+          class = "com.team33.controllers.MyAccountController">
+        <property name="videoAccessService" ref="videoAccessServiceImpl"/>
+    </bean>
+
     <bean id = "creditCardValidator" class = "com.team33.services.CreditCardValidator"/>
          
     <!-- Inject  sessionfactory here --> 
@@ -119,7 +127,7 @@
         <property name = "accountDaoImpl" ref = "accountDaoImpl"/>
     </bean> 
     <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
-        <property name = "order1DaoImpl" ref = "order1DaoImpl"/>
+        <property name = "ordersDaoImpl" ref = "ordersDaoImpl"/>
         <property name = "creditCardValidator" ref = "creditCardValidator"/>
     </bean> 
     <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
@@ -135,7 +143,7 @@
     <bean  id="accountDaoImpl" class="com.team33.entities.dao.AccountDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
-    <bean  id="order1DaoImpl" class="com.team33.entities.dao.Order1DaoImpl">
+    <bean  id="ordersDaoImpl" class="com.team33.entities.dao.OrdersDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
     </bean>
     <bean  id="browseDaoImpl" class="com.team33.entities.dao.BrowseDaoImpl">

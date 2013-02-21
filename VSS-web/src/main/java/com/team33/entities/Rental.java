@@ -5,7 +5,15 @@
 package com.team33.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.Date;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -13,19 +21,26 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Samual
  */
 @Entity
-@Table(name = "Rental")
+@Table(name = "rental")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rental.findAll", query = "SELECT r FROM Rental r"),
-    @NamedQuery(name = "Rental.findByAccountId", query = "SELECT r FROM Rental r WHERE r.Account_id = :Account_id"),
-    @NamedQuery(name = "Rental.findByOrderId", query = "SELECT r FROM Rental r WHERE r.Order_id = :Order_Id"),
-    @NamedQuery(name = "Rental.findAll", query = "SELECT r FROM Rental r WHERE r.rentalExpiryDate = `rentalExpiryDate")
-})
+    @NamedQuery(name = "Rental.findById", query = "SELECT r FROM Rental r WHERE r.rentalPK.id = :id"),
+    @NamedQuery(name = "Rental.findByVideoInfoid", query = "SELECT r FROM Rental r WHERE r.rentalPK.videoInfoid = :videoInfoid"),
+    @NamedQuery(name = "Rental.findByOrdersid", query = "SELECT r FROM Rental r WHERE r.rentalPK.ordersid = :ordersid"),
+    @NamedQuery(name = "Rental.findByOrdersAccountid", query = "SELECT r FROM Rental r WHERE r.rentalPK.ordersAccountid = :ordersAccountid"),
+    @NamedQuery(name = "Rental.findByRentalExpiryDate", query = "SELECT r FROM Rental r WHERE r.rentalPK.rentalExpiryDate = :rentalExpiryDate")})
 public class Rental implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected RentalPK rentalPK;
+    @JoinColumns({
+        @JoinColumn(name = "Orders_id", referencedColumnName = "id", insertable = false, updatable = false),
+        @JoinColumn(name = "Orders_Account_id", referencedColumnName = "Account_id", insertable = false, updatable = false)})
+    @ManyToOne(optional = false)
+    private Orders orders;
+    @JoinColumn(name = "Video_Info_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
     private VideoInfo videoInfo;
 
     public Rental() {
@@ -35,21 +50,24 @@ public class Rental implements Serializable {
         this.rentalPK = rentalPK;
     }
 
-    public Rental(int accountId, int orderId, int videoInfoId) {
-        this.rentalPK = new RentalPK(accountId, orderId, videoInfoId);
+    public Rental(int id, int videoInfoid, int ordersid, int ordersAccountid, Date rentalExpiryDate) {
+        this.rentalPK = new RentalPK(id, videoInfoid, ordersid, ordersAccountid, rentalExpiryDate);
     }
 
-    public Rental(int id, int accountId, int orderId, int videoInfoId) {
-        this.rentalPK = new RentalPK(id, accountId, orderId, videoInfoId);
-    }
-
-    @JoinColumns({
-        @JoinColumn(name = "Orders_id", referencedColumnName = "id", insertable = false, updatable = false),
-        @JoinColumn(name = "Orders_Account_id", referencedColumnName = "Account_id", insertable = false, updatable = false),
-        @JoinColumn(name = "Video_Info_id", referencedColumnName = "id", insertable = false, updatable = false)
-    })
     public RentalPK getRentalPK() {
-        return this.rentalPK;
+        return rentalPK;
+    }
+
+    public void setRentalPK(RentalPK rentalPK) {
+        this.rentalPK = rentalPK;
+    }
+
+    public Orders getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Orders orders) {
+        this.orders = orders;
     }
 
     public VideoInfo getVideoInfo() {
@@ -58,10 +76,6 @@ public class Rental implements Serializable {
 
     public void setVideoInfo(VideoInfo videoInfo) {
         this.videoInfo = videoInfo;
-    }
-
-    public void setRentalPK(RentalPK rentalPK) {
-        this.rentalPK = rentalPK;
     }
 
     @Override
@@ -86,6 +100,7 @@ public class Rental implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.Rental[ rentalK=" + rentalPK + " ]";
+        return "javaapplication5.Rental[ rentalPK=" + rentalPK + " ]";
     }
+    
 }
