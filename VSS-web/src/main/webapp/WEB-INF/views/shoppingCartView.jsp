@@ -15,19 +15,24 @@
         <%@include file="../jspf/banner.jspf" %>
         <h1>Shopping Cart</h1>
         <c:if test="${not empty VideoList}">
-            <form action="/orderVideoView">
+            <form action="/VSS-web/orderVideoView">
                 <input type="submit" value="Checkout"/>
             </form>
         </c:if>
         <table border="1">
             <tr>
-                <th>
-                    Video
-                </th>
+                <th>Video</th>
+                <th>Status</th>
             </tr>
             <c:forEach items="${VideoList}" var="videoItem">
                 <tr>
-                    <td><a href="viewVideo.htm/${videoItem.id}"><c:out value="${videoItem.title}"/></a></td>
+                    <td><a href="/VSS-web/viewVideo.htm/${videoItem.id}"><c:out value="${videoItem.title}"/></a></td>
+                    <td>
+                        <form action="/VSS-web/shoppingCartView.htm" method="post">
+                            <input type="hidden" name="id" value="${videoItem.id}"/>
+                            <input type="submit" value="delete"/>
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
