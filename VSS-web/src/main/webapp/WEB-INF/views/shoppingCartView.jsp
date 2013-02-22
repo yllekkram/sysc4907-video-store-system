@@ -15,7 +15,7 @@
         <%@include file="../jspf/banner.jspf" %>
         <h1>Shopping Cart</h1>
         <c:if test="${not empty VideoList}">
-            <form action="">
+            <form action="/orderVideoView">
                 <input type="submit" value="Checkout"/>
             </form>
         </c:if>
