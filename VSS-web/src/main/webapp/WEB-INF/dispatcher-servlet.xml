@@ -39,9 +39,6 @@
                 <entry key="/accessVideoOrders.htm">
                     <ref bean="accessVideoController"/>
                 </entry>
-                <entry key="/adminView.htm">
-                    <ref bean="adminController"/>
-                </entry>
                 <entry key="/viewVideo">
                     <ref bean="viewVideoController"/>
                 </entry>
@@ -50,6 +47,9 @@
                 </entry>
                 <entry key="/myAccountView.htm">
                     <ref bean="myAccountController"/>
+                </entry>
+                <entry key="/shoppingCartView.htm">
+                    <ref bean="shoppingCartController"/>
                 </entry>
             </map>
         </property>
@@ -82,7 +82,7 @@
           class = "com.team33.controllers.OrderController" >
         <property name="orderServiceImpl" ref="orderServiceImpl" />
         <property name="commandName" value = "orders" />
-        <property name="commandClass" value ="com.team33.entities.Order1"/>
+        <property name="commandClass" value ="com.team33.entities.Orders"/>
     </bean>
     <bean name="browseVideoController"
         class="com.team33.controllers.BrowseVideosController">
@@ -91,14 +91,6 @@
     <bean name = "browseController"
           class = "com.team33.controllers.BrowseController" >
         <property name="browseServiceImpl" ref="browseServiceImpl" />
-        <!-- Entity not established yet
-        <property name="commandName" value = "order1" />
-        <property name="commandClass" value ="com.team33.entities.Order1"/>
-        -->
-    </bean>
-    <bean name = "adminController"
-          class = "com.team33.controllers.AdminController" >
-        <property name="adminServiceImpl" ref="adminServiceImpl" />
         <!-- Entity not established yet
         <property name="commandName" value = "order1" />
         <property name="commandClass" value ="com.team33.entities.Order1"/>
@@ -118,6 +110,11 @@
     <bean name="myAccountController"
           class = "com.team33.controllers.MyAccountController">
         <property name="videoAccessService" ref="videoAccessServiceImpl"/>
+        <property name="accountService" ref="accountServiceImpl"/>
+    </bean>
+    <bean name="shoppingCartController"
+          class = "com.team33.controllers.ShoppingCartController">
+        <property name="browseService" ref="browseServiceImpl"/>
     </bean>
 
     <bean id = "creditCardValidator" class = "com.team33.services.CreditCardValidator"/>
@@ -136,9 +133,6 @@
     <bean id = "videoAccessServiceImpl" class = "com.team33.services.VideoAccessServiceImpl">
         <property name = "videoAccessDaoImpl" ref = "videoAccessDaoImpl"/>
     </bean> 
-    <bean id = "adminServiceImpl" class = "com.team33.services.AdminServiceImpl">
-        <property name = "adminDaoImpl" ref = "adminDaoImpl"/>
-    </bean> 
     
     <bean  id="accountDaoImpl" class="com.team33.entities.dao.AccountDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
@@ -151,11 +145,7 @@
     </bean>
     <bean  id="videoAccessDaoImpl" class="com.team33.entities.dao.VideoAccessDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
-    </bean>
-    <bean  id="adminDaoImpl" class="com.team33.entities.dao.AdminDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-    
+    </bean>    
       
     <mvc:annotation-driven />
 </beans>
