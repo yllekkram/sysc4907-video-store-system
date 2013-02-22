@@ -47,7 +47,7 @@
     <div id="searchLogin">
         <div id="bannerLogin">
             <form action="" id="bannerSearch">
-                <input type="text"/>
+                <input name="keyword" type="text"/>
                 <input type="button" value="Search"/>
             </form>
             <c:if test="${alreadyLogin eq null}">
