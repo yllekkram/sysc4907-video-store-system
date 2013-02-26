@@ -11,6 +11,10 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
+/**
+ *
+ * @author LaFamiglia
+ */
 @Repository
 public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao, LoginTokenDao {
 
@@ -19,6 +23,11 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao, L
     @Autowired
     private SessionFactory sessionFactory;
 
+    /**
+     *
+     * @return
+     * @throws DataAccessException
+     */
     @Override
     /*
      * Finds all accounts and returns the list of accounts
@@ -30,6 +39,12 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao, L
         return accountQuery.list();
     }
 
+    /**
+     *
+     * @param accountId
+     * @return
+     * @throws DataAccessException
+     */
     @Override
     public Account getAccount(Integer accountId) throws DataAccessException {
         Session curSession = this.getSessionFactory().getCurrentSession();
@@ -37,6 +52,12 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao, L
                 accountId);
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     * @throws DataAccessException
+     */
     @Override
     public Account getAccount(String username) throws DataAccessException {
         Session curSession = this.getSessionFactory().getCurrentSession();
@@ -57,6 +78,11 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao, L
         return (Account) accountQuery.list().get(FIRST);
     }
     
+    /**
+     *
+     * @param accountID
+     * @return
+     */
     @Override
     public LoginToken getLoginToken(Integer accountID) {
         Session curSession = this.getSessionFactory().getCurrentSession();
@@ -77,18 +103,32 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao, L
         return (LoginToken) tokenQuery.list().get(FIRST);
     }
 
+    /**
+     *
+     * @param account
+     * @throws DataAccessException
+     */
     @Override
     public void saveAccount(Account account) throws DataAccessException {        
         HibernateTemplate hibTemp = this.getHibernateTemplate();
         hibTemp.saveOrUpdate(account);
     }
 
+    /**
+     *
+     * @param token
+     * @throws DataAccessException
+     */
     @Override
     public void saveLoginToken(LoginToken token) throws DataAccessException {        
         HibernateTemplate hibTemp = this.getHibernateTemplate();
         hibTemp.saveOrUpdate(token);
     }
 
+    /**
+     *
+     * @param accountId
+     */
     @Override
     public void removeAccount(Integer accountId) {
         Account account = (Account) sessionFactory.getCurrentSession().load(
@@ -98,6 +138,10 @@ public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao, L
         }
     }
 
+    /**
+     *
+     * @param accountId
+     */
     @Override
     public void removeLoginToken(Integer accountId) {
         Session curSession = this.getSessionFactory().getCurrentSession();

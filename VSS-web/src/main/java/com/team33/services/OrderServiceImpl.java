@@ -27,22 +27,44 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CreditCardValidator creditCardValidator;
 
+    /**
+     *
+     * @param creditCardValidator
+     */
     public void setCreditCardValidator(CreditCardValidator creditCardValidator) {
         this.creditCardValidator = creditCardValidator;
     }
 
+    /**
+     *
+     * @return
+     */
     public CreditCardValidator getCreditCardValidator() {
         return creditCardValidator;
     }
 
+    /**
+     *
+     * @param dao
+     */
     public void setOrdersDaoImpl(OrdersDaoImpl dao) {
         this.ordersDaoImpl = dao;
     }
 
+    /**
+     *
+     * @return
+     */
     public OrdersDaoImpl getOrdersDaoImpl() {
         return this.ordersDaoImpl;
     }
 
+    /**
+     *
+     * @param uuid
+     * @return
+     * @throws AccountNotActivatedException
+     */
     public boolean isActivated(int uuid) throws AccountNotActivatedException {
         try {
             LoginToken loginToken = this.getOrdersDaoImpl().getLoginToken(uuid);
@@ -58,6 +80,14 @@ public class OrderServiceImpl implements OrderService {
         return true;
     }
 
+    /**
+     *
+     * @param videoInfoId
+     * @param orderId
+     * @param uuid
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     @Override
     public void addPurchase(Integer videoInfoId, Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
@@ -70,6 +100,15 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     *
+     * @param videoInfoId
+     * @param orderId
+     * @param uuid
+     * @param rentalExpiryDate
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     @Override
     public void addRental(Integer videoInfoId, Integer orderId, int uuid, Date rentalExpiryDate) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
@@ -82,6 +121,16 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     *
+     * @param orderId
+     * @param uuid
+     * @param validationNum
+     * @param totalCost
+     * @throws AccountNotActivatedException
+     * @throws PaymentException
+     * @throws InsufficientFundsException
+     */
     @Override
     public void confirmPayment(Integer orderId, int uuid, int validationNum, int totalCost) throws AccountNotActivatedException, PaymentException, InsufficientFundsException {
         if (this.isActivated(uuid)) {
@@ -101,6 +150,14 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     *
+     * @param orderId
+     * @param uuid
+     * @return
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     @Override
     public Orders getOrder(Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
@@ -109,6 +166,13 @@ public class OrderServiceImpl implements OrderService {
         throw new DataAccessException("Incorrect activation key!");
     }
 
+    /**
+     *
+     * @param uuid
+     * @return
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     @Override
     public List<Orders> getOrders(int uuid) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
@@ -118,6 +182,12 @@ public class OrderServiceImpl implements OrderService {
         throw new DataAccessException("Incorrect Activation key");
     }
 
+    /**
+     *
+     * @param orderID
+     * @param uuid
+     * @throws AccountNotActivatedException
+     */
     @Override
     public void removeOrder(Integer orderID, int uuid) throws AccountNotActivatedException {
         if (this.isActivated(uuid)) {
@@ -126,6 +196,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     //Removes a purchase from the order
+    /**
+     *
+     * @param videoInfoId
+     * @param orderId
+     * @param uuid
+     * @throws AccountNotActivatedException
+     */
     @Override
     public void removePurchase(Integer videoInfoId, Integer orderId, int uuid) throws AccountNotActivatedException {
         if (this.isActivated(uuid)) {
@@ -140,6 +217,14 @@ public class OrderServiceImpl implements OrderService {
     }
     //Removes a rental from the order
 
+    /**
+     *
+     * @param videoInfoId
+     * @param orderId
+     * @param uuid
+     * @param rentalExpiryDate
+     * @throws AccountNotActivatedException
+     */
     @Override
     public void removeRental(Integer videoInfoId, Integer orderId, int uuid, Date rentalExpiryDate) throws AccountNotActivatedException {
         if (this.isActivated(uuid)) {

@@ -22,12 +22,20 @@ public class BrowseController {
     @Autowired
     private BrowseServiceImpl browseServiceImpl;
 
+    /**
+     *
+     * @param browseServiceImpl
+     */
     public void setBrowseServiceImpl(BrowseServiceImpl browseServiceImpl) {
         this.browseServiceImpl = browseServiceImpl;
     }
 
     /*
      * Display featured content when the page loads
+     */
+    /**
+     *
+     * @return
      */
     @RequestMapping("/browseView")
     public String displayAllVideo() {

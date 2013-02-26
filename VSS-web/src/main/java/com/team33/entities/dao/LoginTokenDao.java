@@ -5,11 +5,30 @@ import java.util.List;
 import com.team33.entities.LoginToken;
 import org.springframework.dao.DataAccessException;
 
+/**
+ *
+ * @author LaFamiglia
+ */
 public interface LoginTokenDao {
 
-	  public LoginToken getLoginToken(Integer accountId) throws DataAccessException;
+	  /**
+     *
+     * @param accountId
+     * @return
+     * @throws DataAccessException
+     */
+    public LoginToken getLoginToken(Integer accountId) throws DataAccessException;
 
-	  public void saveLoginToken(LoginToken token) throws DataAccessException;
+	  /**
+     *
+     * @param token
+     * @throws DataAccessException
+     */
+    public void saveLoginToken(LoginToken token) throws DataAccessException;
           
-          public void removeLoginToken(Integer accountID);
+          /**
+     *
+     * @param accountID
+     */
+    public void removeLoginToken(Integer accountID);
 }

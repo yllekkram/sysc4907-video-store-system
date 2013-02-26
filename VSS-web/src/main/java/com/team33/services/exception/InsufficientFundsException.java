@@ -9,6 +9,10 @@ package com.team33.services.exception;
  */
 public class InsufficientFundsException extends Exception {
 
+    /**
+     *
+     * @param msg
+     */
     public InsufficientFundsException(String msg) {
         super(msg);
     }

@@ -26,6 +26,11 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
     
     private static final int FIRST = 0;
 
+    /**
+     *
+     * @param rating
+     * @return
+     */
     @Override
     /*Returns a list of videos based on rating*/
     public List<VideoInfo> searchVideos(ScreenRating rating) {
@@ -36,6 +41,11 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
         return videoQuery.list();
     }
 
+    /**
+     *
+     * @param title
+     * @return
+     */
     @Override
     /*Returns a list of videos based on title*/
     public List<VideoInfo> searchVideos(String title) {
@@ -46,6 +56,10 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
         return videoQuery.list();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     /*Returns all  videos in a list*/
     public List<VideoInfo> displayAllVideoContent() {
@@ -55,6 +69,11 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
         return videoQuery.list();
     }
 
+    /**
+     *
+     * @param videoInfoId
+     * @return
+     */
     @Override
     public VideoInfo displayVideoDetails(int videoInfoId) {
         Session curSession = this.getSessionFactory().getCurrentSession();
@@ -64,6 +83,11 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
         return (VideoInfo)videoQuery.list().get(FIRST);
     }
 
+    /**
+     *
+     * @param genre
+     * @return
+     */
     @Override
     /*Returns a list of videos based on genre*/
     public List<VideoInfo> searchVideos(Genre genre) {

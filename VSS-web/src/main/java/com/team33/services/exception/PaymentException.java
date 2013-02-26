@@ -9,6 +9,10 @@ package com.team33.services.exception;
  */
 public class PaymentException extends Exception {
 
+    /**
+     *
+     * @param msg
+     */
     public PaymentException(String msg) {
         super(msg);
     }

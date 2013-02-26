@@ -23,30 +23,58 @@ public class BrowseServiceImpl implements BrowseService {
     @Autowired
     private BrowseDaoImpl browseDaoImpl;
 
+    /**
+     *
+     * @param browseDaoImpl
+     */
     public void setBrowseDaoImpl(BrowseDaoImpl browseDaoImpl) {
         this.browseDaoImpl = browseDaoImpl;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<VideoInfo> displayAllVideoContent() {
         return this.browseDaoImpl.displayAllVideoContent();
     }
 
+    /**
+     *
+     * @param videoInfoId
+     * @return
+     */
     @Override
     public VideoInfo displayVideoDetails(int videoInfoId) {
         return this.browseDaoImpl.displayVideoDetails(videoInfoId);
     }
 
+    /**
+     *
+     * @param genre
+     * @return
+     */
     @Override
     public List<VideoInfo> searchVideos(Genre genre) {
         return this.browseDaoImpl.searchVideos(genre);
     }
 
+    /**
+     *
+     * @param rating
+     * @return
+     */
     @Override
     public List<VideoInfo> searchVideos(ScreenRating rating) {
         return this.browseDaoImpl.searchVideos(rating);
     }
 
+    /**
+     *
+     * @param title
+     * @return
+     */
     @Override
     public List<VideoInfo> searchVideos(String title) {
         return this.browseDaoImpl.searchVideos(title);

@@ -10,6 +10,10 @@ package com.team33.services.exception;
  */
 public class LoginException extends Exception {
     
+    /**
+     *
+     * @param msg
+     */
     public LoginException(String msg){
         super(msg);
     }

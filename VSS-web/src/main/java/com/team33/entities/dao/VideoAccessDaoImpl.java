@@ -22,16 +22,37 @@ public class VideoAccessDaoImpl extends HibernateDaoSupport implements
     @Autowired
     private SessionFactory sessionFactory;
 
+    /**
+     *
+     * @param videoInfoId
+     * @param uuid
+     * @return
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     @Override
     public VideoInfo getVideoInfo(int videoInfoId,int uuid) throws DataAccessException,AccountNotActivatedException {
         return (VideoInfo) this.sessionFactory.getCurrentSession().get(VideoInfo.class, videoInfoId);
     }
 
+    /**
+     *
+     * @param uuid
+     * @return
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     @Override
     public List<VideoInfo> getVideoInfoList(int uuid) throws DataAccessException,AccountNotActivatedException{
         return sessionFactory.getCurrentSession().getNamedQuery("VideoInfo.findAll").list();
     }
-     @Override
+     /**
+     *
+     * @param uuid
+     * @return
+     * @throws DataAccessException
+     */
+    @Override
     public LoginToken getLoginToken(int uuid) throws DataAccessException {
          if(sessionFactory.getCurrentSession().get(LoginToken.class,uuid) != null){
              return (LoginToken)sessionFactory.getCurrentSession().get(LoginToken.class,uuid);

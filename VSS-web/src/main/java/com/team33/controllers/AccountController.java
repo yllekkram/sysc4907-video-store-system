@@ -22,16 +22,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.portlet.mvc.AbstractController;
 
+/**
+ *
+ * @author LaFamiglia
+ */
 @Controller
 public class AccountController extends AbstractController{
 
     @Autowired
     private AccountService accountService;
     
+    /**
+     *
+     * @param service
+     */
     public void setAccountService(AccountService service) {
         this.accountService = service;
     }
  
+    /**
+     *
+     * @param map
+     * @return
+     */
     @RequestMapping("/index")
     public String getAccounts(Map<String, Object> map) {
  
@@ -41,6 +54,12 @@ public class AccountController extends AbstractController{
         return "account";
     }
  
+    /**
+     *
+     * @param account
+     * @param result
+     * @return
+     */
     @RequestMapping(value = "/registerAccount", method = RequestMethod.POST)
     public String saveAccount(@ModelAttribute("account")
     Account account, BindingResult result) {
@@ -50,6 +69,11 @@ public class AccountController extends AbstractController{
         return "redirect:/index";
     }
  
+    /**
+     *
+     * @param accountId
+     * @return
+     */
     @RequestMapping("/delete/{accountId}")
     public String removeAccount(@PathVariable("accountId")
     Integer accountId) {

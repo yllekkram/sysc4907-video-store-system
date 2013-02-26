@@ -35,9 +35,20 @@ public class RentalPK implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date rentalExpiryDate;
 
+    /**
+     *
+     */
     public RentalPK() {
     }
 
+    /**
+     *
+     * @param id
+     * @param videoInfoid
+     * @param ordersid
+     * @param ordersAccountid
+     * @param rentalExpiryDate
+     */
     public RentalPK(int id, int videoInfoid, int ordersid, int ordersAccountid, Date rentalExpiryDate) {
         this.id = id;
         this.videoInfoid = videoInfoid;
@@ -46,46 +57,90 @@ public class RentalPK implements Serializable {
         this.rentalExpiryDate = rentalExpiryDate;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getVideoInfoid() {
         return videoInfoid;
     }
 
+    /**
+     *
+     * @param videoInfoid
+     */
     public void setVideoInfoid(int videoInfoid) {
         this.videoInfoid = videoInfoid;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getOrdersid() {
         return ordersid;
     }
 
+    /**
+     *
+     * @param ordersid
+     */
     public void setOrdersid(int ordersid) {
         this.ordersid = ordersid;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getOrdersAccountid() {
         return ordersAccountid;
     }
 
+    /**
+     *
+     * @param ordersAccountid
+     */
     public void setOrdersAccountid(int ordersAccountid) {
         this.ordersAccountid = ordersAccountid;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getRentalExpiryDate() {
         return rentalExpiryDate;
     }
 
+    /**
+     *
+     * @param rentalExpiryDate
+     */
     public void setRentalExpiryDate(Date rentalExpiryDate) {
         this.rentalExpiryDate = rentalExpiryDate;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -97,6 +152,11 @@ public class RentalPK implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -122,6 +182,10 @@ public class RentalPK implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "javaapplication5.RentalPK[ id=" + id + ", videoInfoid=" + videoInfoid + ", ordersid=" + ordersid + ", ordersAccountid=" + ordersAccountid + ", rentalExpiryDate=" + rentalExpiryDate + " ]";

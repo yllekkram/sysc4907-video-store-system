@@ -11,18 +11,51 @@ import com.team33.services.exception.*;
  */
 public class CreditCardValidator {
 
+    /**
+     *
+     */
     public static final int VISA_LOC = 500; //max line of credit for visa
+    /**
+     *
+     */
     public static final int VISA_TMAX = 250; //max transaction charge for visa per transaction
+    /**
+     *
+     */
     public static final int VISA_ID = 459; //Assumes all visas have these authentication digits
+    /**
+     *
+     */
     public static final int AMEX_LOC = 400; //max line of credit for amex
+    /**
+     *
+     */
     public static final int AMEX_TMAX = 200; //max transaction charge for amex per transaction
+    /**
+     *
+     */
     public static final int AMEX_ID = 236; //Assumes all amex has these authentication digits
+    /**
+     *
+     */
     public static final int PAYPAL_LOC = 600; //max line of credit for paypal
+    /**
+     *
+     */
     public static final int PAYPAL_TMAX = 300; //max transaction charge for paypal per transaction
+    /**
+     *
+     */
     public static final int PAYPAL_ID = 198; //Assumes all paypal accounts have these authentication digits
 
     /*
      * Checks if the validationNum given for a credit card is an expected value
+     */
+    /**
+     *
+     * @param validationNum
+     * @return
+     * @throws PaymentException
      */
     public boolean isCardValid(int validationNum) throws PaymentException {
         if (validationNum == VISA_ID || validationNum == AMEX_ID || validationNum == PAYPAL_ID) {
@@ -34,6 +67,12 @@ public class CreditCardValidator {
      * Checks if the charge is valid
      */
 
+    /**
+     *
+     * @param cost
+     * @return
+     * @throws InsufficientFundsException
+     */
     public boolean isChargeValid(int cost) throws InsufficientFundsException {
         if (cost <= VISA_TMAX || cost <= AMEX_TMAX || cost == PAYPAL_TMAX) {
             return true;
@@ -44,6 +83,13 @@ public class CreditCardValidator {
      * Checks if the card can be charged
      */
 
+    /**
+     *
+     * @param totalCharges
+     * @param cost
+     * @return
+     * @throws InsufficientFundsException
+     */
     public boolean isUnderLOC(int totalCharges, int cost) throws InsufficientFundsException {
         if (cost + totalCharges <= VISA_LOC || cost + totalCharges <= AMEX_LOC || cost + totalCharges == PAYPAL_LOC) {
             return true;
@@ -52,6 +98,10 @@ public class CreditCardValidator {
     }
 
     //simulates a charge to a card
+    /**
+     *
+     * @return
+     */
     public String charge() {
         return "Transaction has been processed!:Chargers were apllied to your account";
     }

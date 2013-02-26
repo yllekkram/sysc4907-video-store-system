@@ -11,12 +11,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.team33.services.exception.*;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+/**
+ *
+ * @author LaFamiglia
+ */
 public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
     //tells Spring to inject the dependency
 
     @Autowired
     private SessionFactory sessionFactory;
 
+    /**
+     *
+     * @param loginToken
+     * @return
+     * @throws DataAccessException
+     */
     @Override
     /*
      * Find all orders of a particular account that is activated
@@ -29,16 +39,31 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
         return orderQuery.list();
     }
 
+    /**
+     *
+     * @param orderId
+     * @return
+     * @throws DataAccessException
+     */
     @Override
     public Orders getOrder(Integer orderId) throws DataAccessException {
         return (Orders) sessionFactory.getCurrentSession().get(Orders.class, orderId);
     }
 
+    /**
+     *
+     * @param order
+     * @throws DataAccessException
+     */
     @Override
     public void saveOrder(Orders order) throws DataAccessException {
         sessionFactory.getCurrentSession().save(order);
     }
 
+    /**
+     *
+     * @param orderId
+     */
     @Override
     public void removeOrder(Integer orderId) {
         Orders order = (Orders) sessionFactory.getCurrentSession().load(
@@ -49,6 +74,12 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
 
     }
 
+    /**
+     *
+     * @param order
+     * @param purchase
+     * @throws DataAccessException
+     */
     @Override
     public void removePurchase(Orders order, Purchase purchase) throws DataAccessException {
         if (order != null) {
@@ -58,6 +89,12 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
         }
     }
 
+    /**
+     *
+     * @param order
+     * @param rental
+     * @throws DataAccessException
+     */
     @Override
     public void removeRental(Orders order, Rental rental) throws DataAccessException {
         if (order != null) {
@@ -67,6 +104,12 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
         }
     }
 
+    /**
+     *
+     * @param order
+     * @param purchase
+     * @throws DataAccessException
+     */
     @Override
     public void savePurchase(Orders order, Purchase purchase) throws DataAccessException {
         if (order != null) {
@@ -76,6 +119,12 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
         }
     }
 
+    /**
+     *
+     * @param order
+     * @param rental
+     * @throws DataAccessException
+     */
     @Override
     public void saveRental(Orders order, Rental rental) throws DataAccessException {
         if (order != null) {
@@ -85,6 +134,12 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
         }
     }
 
+    /**
+     *
+     * @param uuid
+     * @return
+     * @throws DataAccessException
+     */
     @Override
     public LoginToken getLoginToken(int uuid) throws DataAccessException {
         if (sessionFactory.getCurrentSession().get(LoginToken.class, uuid) != null) {

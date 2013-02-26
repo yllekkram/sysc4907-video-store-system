@@ -9,9 +9,18 @@ package com.team33.services.exception;
  * @author Samual
  */
 public class AccountNotActivatedException extends Exception{
+    /**
+     *
+     * @param message
+     */
     public AccountNotActivatedException(String message) {
         super(message);
     }
+    /**
+     *
+     * @param message
+     * @param throwable
+     */
     public AccountNotActivatedException(String message, Throwable throwable) {
         super(message, throwable);
     }

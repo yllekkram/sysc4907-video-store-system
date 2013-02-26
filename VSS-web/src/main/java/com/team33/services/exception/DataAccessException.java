@@ -10,6 +10,10 @@ package com.team33.services.exception;
  */
 public class DataAccessException extends RuntimeException {
 
+    /**
+     *
+     * @param msg
+     */
     public DataAccessException(String msg) {
         super(msg);
     }

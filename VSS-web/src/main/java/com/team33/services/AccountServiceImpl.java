@@ -32,24 +32,53 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private List<Orders> orders;
 
+    /**
+     *
+     * @param dao
+     */
     public void setAccountDaoImpl(AccountDaoImpl dao) {
         this.accountDaoImpl = dao;
     }
 
+    /**
+     *
+     * @return
+     */
     public AccountDaoImpl getAccountDaoImpl() {
         return this.accountDaoImpl;
     }
 
+    /**
+     *
+     * @param orders
+     */
     public void setOrders(List<Orders> orders) {
         this.orders = orders;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Orders> getOrders() {
         return this.orders;
     }
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     * @throws AuthenticationException
+     * @throws AccountNotFoundException
+     * @throws AccountNotActivatedException
+     * @throws LoginException
+     */
     @Transactional
     @Override
+    /*
+     * Handles the business logic for account login
+     */
     public Account loginAccount(String username, String password) throws AuthenticationException, AccountNotFoundException, AccountNotActivatedException, LoginException {
         Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -73,8 +102,15 @@ public class AccountServiceImpl implements AccountService {
         return account;
     }
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @throws RegistrationException
+     */
     @Transactional
     @Override
+    /*Handles the business logic for account registration*/
     public void registerAccount(String username, String password) throws RegistrationException {
         Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -101,24 +137,45 @@ public class AccountServiceImpl implements AccountService {
         } 
     }
 
+    /**
+     *
+     * @param accountId
+     * @return
+     * @throws DataAccessException
+     */
     @Transactional
     @Override
     public Account getAccount(Integer accountId) throws DataAccessException {
         return accountDaoImpl.getAccount(accountId);
     }
 
+    /**
+     *
+     * @return
+     * @throws DataAccessException
+     */
     @Transactional
     @Override
     public List<Account> getAccounts() throws DataAccessException {
         return accountDaoImpl.getAccounts();
     }
 
+    /**
+     *
+     * @param accountID
+     */
     @Transactional
     @Override
     public void removeAccount(Integer accountID) {
         accountDaoImpl.removeAccount(accountID);
     }
 
+    /**
+     *
+     * @param accountId
+     * @param order
+     * @throws AccountNotActivatedException
+     */
     @Override
     // Will add an order to the account only if it is active
     public void addOrder(Integer accountId, Orders order) throws AccountNotActivatedException {
@@ -133,6 +190,11 @@ public class AccountServiceImpl implements AccountService {
         throw new AccountNotActivatedException("Please activate the account before ordering videos");
     }
 
+    /**
+     *
+     * @param accountId
+     * @param order
+     */
     @Override
     public void removeOrder(Integer accountId, Orders order) {
         Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();

@@ -36,6 +36,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Invoice.findByOrderCharge", query = "SELECT i FROM Invoice i WHERE i.invoicePK.orderCharge = :orderCharge")})
 public class Invoice implements Serializable {
     private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
     @EmbeddedId
     protected InvoicePK invoicePK;
     @Basic(optional = false)
@@ -48,46 +51,93 @@ public class Invoice implements Serializable {
     @ManyToOne(optional = false)
     private Orders orders;
 
+    /**
+     *
+     */
     public Invoice() {
     }
 
+    /**
+     *
+     * @param invoicePK
+     */
     public Invoice(InvoicePK invoicePK) {
         this.invoicePK = invoicePK;
     }
 
+    /**
+     *
+     * @param invoicePK
+     * @param date
+     */
     public Invoice(InvoicePK invoicePK, Date date) {
         this.invoicePK = invoicePK;
         this.date = date;
     }
 
+    /**
+     *
+     * @param id
+     * @param ordersid
+     * @param ordersAccountid
+     * @param orderCharge
+     */
     public Invoice(int id, int ordersid, int ordersAccountid, int orderCharge) {
         this.invoicePK = new InvoicePK(id, ordersid, ordersAccountid, orderCharge);
     }
 
+    /**
+     *
+     * @return
+     */
     public InvoicePK getInvoicePK() {
         return invoicePK;
     }
 
+    /**
+     *
+     * @param invoicePK
+     */
     public void setInvoicePK(InvoicePK invoicePK) {
         this.invoicePK = invoicePK;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getDate() {
         return date;
     }
 
+    /**
+     *
+     * @param date
+     */
     public void setDate(Date date) {
         this.date = date;
     }
 
+    /**
+     *
+     * @return
+     */
     public Orders getOrders() {
         return orders;
     }
 
+    /**
+     *
+     * @param orders
+     */
     public void setOrders(Orders orders) {
         this.orders = orders;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -95,6 +145,11 @@ public class Invoice implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -108,6 +163,10 @@ public class Invoice implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "javaapplication5.Invoice[ invoicePK=" + invoicePK + " ]";

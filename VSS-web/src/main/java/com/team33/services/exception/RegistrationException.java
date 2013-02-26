@@ -10,6 +10,10 @@ package com.team33.services.exception;
  */
 public class RegistrationException extends Exception {
     
+    /**
+     *
+     * @param msg
+     */
     public RegistrationException(String msg){
         super(msg);
     }

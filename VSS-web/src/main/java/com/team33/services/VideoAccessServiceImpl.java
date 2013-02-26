@@ -21,14 +21,28 @@ public class VideoAccessServiceImpl implements VideoAccessService {
     @Autowired
     private VideoAccessDaoImpl videoAccessDaoImpl;
 
+    /**
+     *
+     * @return
+     */
     public VideoAccessDaoImpl getVideoAccessDaoImpl() {
         return videoAccessDaoImpl;
     }
 
+    /**
+     *
+     * @param videoAccessDaoImpl
+     */
     public void setVideoAccessDaoImpl(VideoAccessDaoImpl videoAccessDaoImpl) {
         this.videoAccessDaoImpl = videoAccessDaoImpl;
     }
 
+    /**
+     *
+     * @param uuid
+     * @return
+     * @throws AccountNotActivatedException
+     */
     public boolean isActivated(int uuid) throws AccountNotActivatedException {
         try {
             LoginToken loginToken = this.getVideoAccessDaoImpl().getLoginToken(uuid);
@@ -44,6 +58,14 @@ public class VideoAccessServiceImpl implements VideoAccessService {
         return true;
     }
 
+    /**
+     *
+     * @param videoInfoId
+     * @param uuid
+     * @return
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     @Override
     public VideoInfo getVideoInfo(int videoInfoId, int uuid) throws DataAccessException, AccountNotActivatedException {
         Session session = this.getVideoAccessDaoImpl().getSessionFactory().getCurrentSession();
@@ -54,6 +76,13 @@ public class VideoAccessServiceImpl implements VideoAccessService {
         throw new DataAccessException("Incorrect activation key!");
     }
 
+    /**
+     *
+     * @param uuid
+     * @return
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     @Override
     public List<VideoInfo> getVideoInfoList(int uuid) throws DataAccessException, AccountNotActivatedException {
         Session session = this.getVideoAccessDaoImpl().getSessionFactory().getCurrentSession();
