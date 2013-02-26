@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.services;
 
 import com.team33.entities.Genre;
@@ -12,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
+ * Provides the functionality for video browsing services
  *
  * @author Samual
  */
@@ -24,6 +21,7 @@ public class BrowseServiceImpl implements BrowseService {
     private BrowseDaoImpl browseDaoImpl;
 
     /**
+     * Sets the current implemented browse dao
      *
      * @param browseDaoImpl
      */
@@ -32,8 +30,9 @@ public class BrowseServiceImpl implements BrowseService {
     }
 
     /**
+     * Displays all video info to the user
      *
-     * @return
+     * @return List<VideoInfo>
      */
     @Override
     public List<VideoInfo> displayAllVideoContent() {
@@ -41,9 +40,11 @@ public class BrowseServiceImpl implements BrowseService {
     }
 
     /**
+     * Provided the videoInfoId is given displays video info details relevant to
+     * the videoInfoId provided
      *
      * @param videoInfoId
-     * @return
+     * @return VideoInfo
      */
     @Override
     public VideoInfo displayVideoDetails(int videoInfoId) {
@@ -51,9 +52,10 @@ public class BrowseServiceImpl implements BrowseService {
     }
 
     /**
+     * Returns video info for all videos with a specific genre
      *
      * @param genre
-     * @return
+     * @return List<VideoInfo>
      */
     @Override
     public List<VideoInfo> searchVideos(Genre genre) {
@@ -61,9 +63,10 @@ public class BrowseServiceImpl implements BrowseService {
     }
 
     /**
+     * Returns a list of all video info with a particular rating
      *
      * @param rating
-     * @return
+     * @return List<VideoInfo>
      */
     @Override
     public List<VideoInfo> searchVideos(ScreenRating rating) {
@@ -71,9 +74,10 @@ public class BrowseServiceImpl implements BrowseService {
     }
 
     /**
+     * Finds all vide info with a given title
      *
      * @param title
-     * @return
+     * @return List<VideoInfo>
      */
     @Override
     public List<VideoInfo> searchVideos(String title) {

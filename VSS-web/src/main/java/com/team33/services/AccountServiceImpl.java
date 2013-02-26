@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.services;
 
 import com.team33.entities.Account;
@@ -19,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Provides all services related to accounts
  *
  * @author Samual
  */
@@ -33,6 +30,7 @@ public class AccountServiceImpl implements AccountService {
     private List<Orders> orders;
 
     /**
+     * Sets the current implemented account dao
      *
      * @param dao
      */
@@ -41,30 +39,34 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
+     * Retrieves the current implemented account dao
      *
-     * @return
+     * @return AccountDaoImpl
      */
     public AccountDaoImpl getAccountDaoImpl() {
         return this.accountDaoImpl;
     }
 
     /**
+     * Set the orders for a given account
      *
-     * @param orders
+     * @param List<Orders> orders
      */
     public void setOrders(List<Orders> orders) {
         this.orders = orders;
     }
 
     /**
+     * Retrieves all orders for an account
      *
-     * @return
+     * @return List<Orders>
      */
     public List<Orders> getOrders() {
         return this.orders;
     }
 
     /**
+     * Handles the business logic for account login
      *
      * @param username
      * @param password
@@ -76,9 +78,6 @@ public class AccountServiceImpl implements AccountService {
      */
     @Transactional
     @Override
-    /*
-     * Handles the business logic for account login
-     */
     public Account loginAccount(String username, String password) throws AuthenticationException, AccountNotFoundException, AccountNotActivatedException, LoginException {
         Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -103,6 +102,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
+     * Handles the business logic for account registration
      *
      * @param username
      * @param password
@@ -110,7 +110,6 @@ public class AccountServiceImpl implements AccountService {
      */
     @Transactional
     @Override
-    /*Handles the business logic for account registration*/
     public void registerAccount(String username, String password) throws RegistrationException {
         Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -131,16 +130,18 @@ public class AccountServiceImpl implements AccountService {
             session.getTransaction().commit();
         } catch (com.team33.services.exception.DataAccessException e) {
             Transaction tx = session.getTransaction();
-            if (tx.isActive())
+            if (tx.isActive()) {
                 tx.rollback();
+            }
             throw new RegistrationException("Registration Failed");
-        } 
+        }
     }
 
     /**
+     * Retrieves a specific account given its id
      *
      * @param accountId
-     * @return
+     * @return Account
      * @throws DataAccessException
      */
     @Transactional
@@ -150,8 +151,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
+     * retrieves all accounts in the system
      *
-     * @return
+     * @return List<Accounts>
      * @throws DataAccessException
      */
     @Transactional
@@ -161,6 +163,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
+     * Removes an account with accountId
      *
      * @param accountID
      */
@@ -171,13 +174,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
+     * Will add an order to the account only if it is active
      *
      * @param accountId
      * @param order
      * @throws AccountNotActivatedException
      */
     @Override
-    // Will add an order to the account only if it is active
     public void addOrder(Integer accountId, Orders order) throws AccountNotActivatedException {
         Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -191,6 +194,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
+     * Removes an order from the account with accountId
      *
      * @param accountId
      * @param order

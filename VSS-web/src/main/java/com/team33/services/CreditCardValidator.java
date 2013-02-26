@@ -1,60 +1,57 @@
-/*
- * Stub credit card validation class simulates Validation of credit information for order processing
- */
 package com.team33.services;
 
 import com.team33.services.exception.*;
 
 /**
+ * Stub credit card validation class simulates Validation of credit information
+ * for order processing
  *
  * @author Samual
  */
 public class CreditCardValidator {
 
     /**
-     *
+     * max line of credit for visa
      */
-    public static final int VISA_LOC = 500; //max line of credit for visa
+    public static final int VISA_LOC = 500;
     /**
-     *
+     * max transaction charge for visa per transaction
      */
-    public static final int VISA_TMAX = 250; //max transaction charge for visa per transaction
+    public static final int VISA_TMAX = 250;
     /**
-     *
+     * Assumes all visas have these authentication digits
      */
-    public static final int VISA_ID = 459; //Assumes all visas have these authentication digits
+    public static final int VISA_ID = 459;
     /**
-     *
+     * max line of credit for amex
      */
-    public static final int AMEX_LOC = 400; //max line of credit for amex
+    public static final int AMEX_LOC = 400;
     /**
-     *
+     * max transaction charge for amex per transaction
      */
-    public static final int AMEX_TMAX = 200; //max transaction charge for amex per transaction
+    public static final int AMEX_TMAX = 200;
     /**
-     *
+     * Assumes all amex has these authentication digits
      */
-    public static final int AMEX_ID = 236; //Assumes all amex has these authentication digits
+    public static final int AMEX_ID = 236;
     /**
-     *
+     * max line of credit for paypal
      */
-    public static final int PAYPAL_LOC = 600; //max line of credit for paypal
+    public static final int PAYPAL_LOC = 600;
     /**
-     *
+     * max transaction charge for paypal per transaction
      */
-    public static final int PAYPAL_TMAX = 300; //max transaction charge for paypal per transaction
+    public static final int PAYPAL_TMAX = 300;
     /**
-     *
+     * Assumes all paypal accounts have these authentication digits
      */
-    public static final int PAYPAL_ID = 198; //Assumes all paypal accounts have these authentication digits
+    public static final int PAYPAL_ID = 198;
 
-    /*
-     * Checks if the validationNum given for a credit card is an expected value
-     */
     /**
+     * Checks if the validationNum given for a credit card is an expected value
      *
      * @param validationNum
-     * @return
+     * @return boolean
      * @throws PaymentException
      */
     public boolean isCardValid(int validationNum) throws PaymentException {
@@ -63,14 +60,12 @@ public class CreditCardValidator {
         }
         throw new PaymentException("Transaction cannot be processed: Card is not valid!");
     }
-    /*
-     * Checks if the charge is valid
-     */
 
     /**
+     * Checks if the charge is valid
      *
      * @param cost
-     * @return
+     * @return boolean
      * @throws InsufficientFundsException
      */
     public boolean isChargeValid(int cost) throws InsufficientFundsException {
@@ -79,15 +74,13 @@ public class CreditCardValidator {
         }
         throw new InsufficientFundsException("Transaction cannot be processed:Transaction charge too high!");
     }
-    /*
-     * Checks if the card can be charged
-     */
 
     /**
+     * Checks if the card can be charged
      *
      * @param totalCharges
      * @param cost
-     * @return
+     * @return boolean
      * @throws InsufficientFundsException
      */
     public boolean isUnderLOC(int totalCharges, int cost) throws InsufficientFundsException {
@@ -97,10 +90,10 @@ public class CreditCardValidator {
         throw new InsufficientFundsException("Transaction cannot be processed:Over line of credit!");
     }
 
-    //simulates a charge to a card
     /**
+     * Simulates a charge to a card returns a charge success msg
      *
-     * @return
+     * @return string
      */
     public String charge() {
         return "Transaction has been processed!:Chargers were apllied to your account";

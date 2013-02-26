@@ -1,6 +1,3 @@
-/*
- *  This class will implement methods to  access the videos ordered by an account
- */
 package com.team33.services;
 
 import com.team33.entities.LoginToken;
@@ -13,6 +10,7 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
+ * This class will implement methods to access the videos ordered by an account
  *
  * @author Samual
  */
@@ -22,14 +20,16 @@ public class VideoAccessServiceImpl implements VideoAccessService {
     private VideoAccessDaoImpl videoAccessDaoImpl;
 
     /**
+     * Gets the current instance of the implemented dao
      *
-     * @return
+     * @return VideoAccessDaoImpl
      */
     public VideoAccessDaoImpl getVideoAccessDaoImpl() {
         return videoAccessDaoImpl;
     }
 
     /**
+     * Sets the current instance of the implemented dao
      *
      * @param videoAccessDaoImpl
      */
@@ -38,9 +38,11 @@ public class VideoAccessServiceImpl implements VideoAccessService {
     }
 
     /**
+     * Takes the unique id of a login token to determine whether an account is
+     * active
      *
      * @param uuid
-     * @return
+     * @return boolean
      * @throws AccountNotActivatedException
      */
     public boolean isActivated(int uuid) throws AccountNotActivatedException {
@@ -59,10 +61,12 @@ public class VideoAccessServiceImpl implements VideoAccessService {
     }
 
     /**
+     * Gets the video info for a given a specific videoInfoId and a login token
+     * id
      *
      * @param videoInfoId
      * @param uuid
-     * @return
+     * @return VideoInfo
      * @throws DataAccessException
      * @throws AccountNotActivatedException
      */
@@ -77,9 +81,10 @@ public class VideoAccessServiceImpl implements VideoAccessService {
     }
 
     /**
+     * Retrieves a list of vide info given a login token uuid
      *
      * @param uuid
-     * @return
+     * @return List<VideoInfo>
      * @throws DataAccessException
      * @throws AccountNotActivatedException
      */
