@@ -12,8 +12,9 @@ import com.team33.services.exception.*;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
+ * Provides data access during order processing
  *
- * @author LaFamiglia
+ * @author Samual
  */
 public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
     //tells Spring to inject the dependency
@@ -22,15 +23,13 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
     private SessionFactory sessionFactory;
 
     /**
+     * Find all orders of a particular account that is activated
      *
      * @param loginToken
-     * @return
+     * @return List<Orders>
      * @throws DataAccessException
      */
     @Override
-    /*
-     * Find all orders of a particular account that is activated
-     */
     public List<Orders> getOrders(LoginToken loginToken) throws DataAccessException {
         Session curSession = this.getSessionFactory().getCurrentSession();
         Query orderQuery;
@@ -40,9 +39,10 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
     }
 
     /**
+     * Retrieves an order provided its id
      *
      * @param orderId
-     * @return
+     * @return Orders
      * @throws DataAccessException
      */
     @Override
@@ -51,6 +51,7 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
     }
 
     /**
+     * Persists an order in the database
      *
      * @param order
      * @throws DataAccessException
@@ -61,6 +62,7 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
     }
 
     /**
+     * Removes an order from the database
      *
      * @param orderId
      */
@@ -75,6 +77,7 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
     }
 
     /**
+     * Removes a purchase from an order
      *
      * @param order
      * @param purchase
@@ -90,6 +93,7 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
     }
 
     /**
+     * Removes a rental from an order
      *
      * @param order
      * @param rental
@@ -105,6 +109,7 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
     }
 
     /**
+     * Persists a purchase for a particular order
      *
      * @param order
      * @param purchase
@@ -120,6 +125,7 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
     }
 
     /**
+     * Persists a rental for a particular order
      *
      * @param order
      * @param rental
@@ -135,6 +141,7 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
     }
 
     /**
+     * Retrieves a login token given its id
      *
      * @param uuid
      * @return
