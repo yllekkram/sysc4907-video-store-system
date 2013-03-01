@@ -41,43 +41,83 @@ public class ScreenRating implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "screenRatingid")
     private Collection<VideoInfo> videoInfoCollection;
 
+    /**
+     *
+     */
     public ScreenRating() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public ScreenRating(Integer id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param ratingType
+     */
     public ScreenRating(Integer id, String ratingType) {
         this.id = id;
         this.ratingType = ratingType;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getRatingType() {
         return ratingType;
     }
 
+    /**
+     *
+     * @param ratingType
+     */
     public void setRatingType(String ratingType) {
         this.ratingType = ratingType;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public Collection<VideoInfo> getVideoInfoCollection() {
         return videoInfoCollection;
     }
 
+    /**
+     *
+     * @param videoInfoCollection
+     */
     public void setVideoInfoCollection(Collection<VideoInfo> videoInfoCollection) {
         this.videoInfoCollection = videoInfoCollection;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -85,6 +125,11 @@ public class ScreenRating implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -98,6 +143,10 @@ public class ScreenRating implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "javaapplication5.ScreenRating[ id=" + id + " ]";

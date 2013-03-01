@@ -22,30 +22,58 @@ public class OrdersPK implements Serializable {
     @Column(name = "Account_id")
     private int accountid;
 
+    /**
+     *
+     */
     public OrdersPK() {
     }
 
+    /**
+     *
+     * @param id
+     * @param accountid
+     */
     public OrdersPK(int id, int accountid) {
         this.id = id;
         this.accountid = accountid;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAccountid() {
         return accountid;
     }
 
+    /**
+     *
+     * @param accountid
+     */
     public void setAccountid(int accountid) {
         this.accountid = accountid;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -54,6 +82,11 @@ public class OrdersPK implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -70,6 +103,10 @@ public class OrdersPK implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "javaapplication5.OrdersPK[ id=" + id + ", accountid=" + accountid + " ]";

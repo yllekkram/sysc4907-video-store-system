@@ -32,6 +32,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping(value = "/login.htm")
 public class LoginController {
 
+    /**
+     *
+     */
     public static final String ACCOUNT_ATTRIBUTE = "account";
     // tells the application context to inject an instance of AccountServiceImpl here
     @Autowired
@@ -43,35 +46,73 @@ public class LoginController {
     @Autowired
     private Class commandClass;
 
+    /**
+     *
+     * @param commandName
+     */
     public void setCommandName(String commandName) {
         this.commandName = commandName;
     }
 
+    /**
+     *
+     * @param commandClass
+     */
     public void setCommandClass(Class commandClass) {
         this.commandClass = commandClass;
     }
 
+    /**
+     *
+     * @return
+     */
     public AccountServiceImpl getAccountService() {
         return this.accountServiceImpl;
     }
 
+    /**
+     *
+     * @param service
+     */
     public void setAccountServiceImpl(AccountServiceImpl service) {
         this.accountServiceImpl = service;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSuccessView() {
         return this.successView;
     }
 
+    /**
+     *
+     * @param successView
+     */
     public void setSuccessView(String successView) {
         this.successView = successView;
     }
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String login() {
         return "login";
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @param command
+     * @param errors
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
     public ModelAndView onSubmit(HttpServletRequest request,
             HttpServletResponse response, Object command, BindException errors) throws ServletException, IOException {
 
@@ -94,6 +135,16 @@ public class LoginController {
         return modelAndView;
     }
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @param redirect
+     * @param session
+     * @return
+     * @throws AuthenticationException
+     * @throws LoginException
+     */
     @RequestMapping(method = RequestMethod.POST)
     public String handleLogin(@RequestParam String username,
             @RequestParam String password, RedirectAttributes redirect, HttpSession session)

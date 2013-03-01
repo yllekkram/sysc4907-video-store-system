@@ -15,7 +15,22 @@ import java.util.List;
  */
 public interface VideoAccessService {
 
+    /**
+     *
+     * @param uuid
+     * @return
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     public List<VideoInfo> getVideoInfoList(int uuid) throws DataAccessException, AccountNotActivatedException;
 
+    /**
+     *
+     * @param videoInfoId
+     * @param uuid
+     * @return
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     public VideoInfo getVideoInfo(int videoInfoId, int uuid) throws DataAccessException, AccountNotActivatedException;
 }

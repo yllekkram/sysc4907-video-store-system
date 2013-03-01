@@ -76,13 +76,30 @@ public class VideoInfo implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "videoInfo")
     private Collection<Rental> rentalCollection;
 
+    /**
+     *
+     */
     public VideoInfo() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public VideoInfo(Integer id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param title
+     * @param description
+     * @param purchasePrice
+     * @param rentalPrice
+     * @param runningTime
+     * @param releaseDate
+     */
     public VideoInfo(Integer id, String title, String description, int purchasePrice, int rentalPrice, int runningTime, Date releaseDate) {
         this.id = id;
         this.title = title;
@@ -93,96 +110,188 @@ public class VideoInfo implements Serializable {
         this.releaseDate = releaseDate;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     *
+     * @param title
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     *
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPurchasePrice() {
         return purchasePrice;
     }
 
+    /**
+     *
+     * @param purchasePrice
+     */
     public void setPurchasePrice(int purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getRentalPrice() {
         return rentalPrice;
     }
 
+    /**
+     *
+     * @param rentalPrice
+     */
     public void setRentalPrice(int rentalPrice) {
         this.rentalPrice = rentalPrice;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getRunningTime() {
         return runningTime;
     }
 
+    /**
+     *
+     * @param runningTime
+     */
     public void setRunningTime(int runningTime) {
         this.runningTime = runningTime;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getReleaseDate() {
         return releaseDate;
     }
 
+    /**
+     *
+     * @param releaseDate
+     */
     public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 
+    /**
+     *
+     * @return
+     */
     public Genre getGenreid() {
         return genreid;
     }
 
+    /**
+     *
+     * @param genreid
+     */
     public void setGenreid(Genre genreid) {
         this.genreid = genreid;
     }
 
+    /**
+     *
+     * @return
+     */
     public ScreenRating getScreenRatingid() {
         return screenRatingid;
     }
 
+    /**
+     *
+     * @param screenRatingid
+     */
     public void setScreenRatingid(ScreenRating screenRatingid) {
         this.screenRatingid = screenRatingid;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public Collection<Purchase> getPurchaseCollection() {
         return purchaseCollection;
     }
 
+    /**
+     *
+     * @param purchaseCollection
+     */
     public void setPurchaseCollection(Collection<Purchase> purchaseCollection) {
         this.purchaseCollection = purchaseCollection;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public Collection<Rental> getRentalCollection() {
         return rentalCollection;
     }
 
+    /**
+     *
+     * @param rentalCollection
+     */
     public void setRentalCollection(Collection<Rental> rentalCollection) {
         this.rentalCollection = rentalCollection;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -190,6 +299,11 @@ public class VideoInfo implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -203,6 +317,10 @@ public class VideoInfo implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "javaapplication5.VideoInfo[ id=" + id + " ]";

@@ -30,22 +30,42 @@ public class OrderController{
     private Class commandClass;
   
 
+    /**
+     *
+     * @param orderServiceImpl
+     */
     public void setOrderServiceImpl(OrderServiceImpl orderServiceImpl) {
         this.orderServiceImpl = orderServiceImpl;
     }
     
+    /**
+     *
+     * @return
+     */
     public OrderServiceImpl getOrderServiceImpl(){
         return this.orderServiceImpl;
     }
     
+    /**
+     *
+     * @param commandName
+     */
     public void setCommandName(String commandName) {
         this.commandName = commandName;
     }
 
+    /**
+     *
+     * @param commandClass
+     */
     public void setCommandClass(Class commandClass) {
         this.commandClass = commandClass;
     } 
     //The get orders method should be invoked here
+    /**
+     *
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String order() {
         return "orderVideoView";
