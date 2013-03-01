@@ -8,12 +8,18 @@ import com.team33.entities.VideoInfo;
 import com.team33.services.BrowseService;
 import com.team33.services.exception.DataAccessException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -34,12 +40,24 @@ public class ShoppingCartController {
     public String viewCart(/*@CookieValue("VIDEO_LIST")String videoList,*/ Map<String, Object> map){
         
         //map.put("VideoList", buildPotentialVideoOrderList(""));
-        map.put("VideoList", new ArrayList<VideoInfo>());
+        
+        ArrayList<VideoInfo> info = new ArrayList<VideoInfo>();
+        info.add(new VideoInfo(0, "Hello World", "1234", 10, 10, 10, new Date(System.currentTimeMillis())));
+        map.put("VideoList", info);
         
         return "/shoppingCartView";
     }
     
-    public ArrayList<VideoInfo> buildPotentialVideoOrderList(String videoList){
+    @RequestMapping(method = RequestMethod.POST)
+    public String deleteOrder(@RequestParam("id")String id, /*@CookieValue("VIDEO_LIST") String videoList, */ HttpServletResponse response){
+        String videoList = "";
+        String newVideoList = videoList.replace("" + id, "");
+        Cookie cookie = new Cookie("VIDEO_LIST", newVideoList);
+        response.addCookie(cookie);
+        return "redirect:shoppingCartView.htm";
+    }
+    
+    private ArrayList<VideoInfo> buildPotentialVideoOrderList(String videoList){
         ArrayList<VideoInfo> list = new ArrayList<VideoInfo>();
         
         String vidList[] = videoList.split(" ");

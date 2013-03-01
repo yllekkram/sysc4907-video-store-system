@@ -15,13 +15,37 @@ import java.util.List;
  */
 public interface BrowseService {
 
+    /**
+     *
+     * @return
+     */
     public List<VideoInfo> displayAllVideoContent();
 
+    /**
+     *
+     * @param videoInfoId
+     * @return
+     */
     public VideoInfo displayVideoDetails(int videoInfoId);
 
+    /**
+     *
+     * @param genre
+     * @return
+     */
     public List<VideoInfo> searchVideos(Genre genre);
 
+    /**
+     *
+     * @param rating
+     * @return
+     */
     public List<VideoInfo> searchVideos(ScreenRating rating);
 
+    /**
+     *
+     * @param title
+     * @return
+     */
     public List<VideoInfo> searchVideos(String title);
 }

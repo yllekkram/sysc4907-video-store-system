@@ -55,68 +55,132 @@ public class Account implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
     private Collection<LoginToken> logintokenCollection;
 
+    /**
+     *
+     */
     public Account() {
     }
 
+    /**
+     *
+     * @param id
+     */
     public Account(Integer id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @param id
+     * @param name
+     */
     public Account(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     *
+     * @return
+     */
     public Boolean getActivated() {
         return activated;
     }
 
+    /**
+     *
+     * @param activated
+     */
     public void setActivated(Boolean activated) {
         this.activated = activated;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public Collection<Orders> getOrdersCollection() {
         return ordersCollection;
     }
 
+    /**
+     *
+     * @param ordersCollection
+     */
     public void setOrdersCollection(Collection<Orders> ordersCollection) {
         this.ordersCollection = ordersCollection;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public Collection<LoginToken> getLogintokenCollection() {
         return logintokenCollection;
     }
 
+    /**
+     *
+     * @param logintokenCollection
+     */
     public void setLogintokenCollection(Collection<LoginToken> logintokenCollection) {
         this.logintokenCollection = logintokenCollection;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -124,6 +188,11 @@ public class Account implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -137,6 +206,10 @@ public class Account implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "com.team33.entities.Account[ id=" + id + ", name=" + name + ", password=" + password + " ]";

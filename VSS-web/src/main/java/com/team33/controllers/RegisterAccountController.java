@@ -25,6 +25,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ *
+ * @author LaFamiglia
+ */
 @Controller
 @RequestMapping(value = "/registerAccountView.htm")
 public class RegisterAccountController {
@@ -38,26 +42,50 @@ public class RegisterAccountController {
     @Autowired
     private Class commandClass;
 
+    /**
+     *
+     * @param service
+     */
     public void setAccountServiceImpl(AccountServiceImpl service) {
         this.accountServiceImpl = service;
     }
 
+    /**
+     *
+     * @param commandName
+     */
     public void setCommandName(String commandName) {
         this.commandName = commandName;
     }
 
+    /**
+     *
+     * @param commandClass
+     */
     public void setCommandClass(Class commandClass) {
         this.commandClass = commandClass;
     }
 
+    /**
+     *
+     * @return
+     */
     public AccountServiceImpl getAccountServiceImpl() {
         return this.accountServiceImpl;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSuccessView() {
         return this.successView;
     }
 
+    /**
+     *
+     * @param successView
+     */
     public void setSuccessView(String successView) {
         this.successView = successView;
     }
@@ -66,6 +94,10 @@ public class RegisterAccountController {
      * correctly
      */
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String register() {
         return "registerAccountView";
@@ -74,6 +106,15 @@ public class RegisterAccountController {
     /*
      * This method handles the JSP request and uses the login information to
      * create a new account and set it as the session account.
+     */
+    /**
+     *
+     * @param username
+     * @param password
+     * @param redirect
+     * @param session
+     * @return
+     * @throws RegistrationException
      */
     @RequestMapping(method = RequestMethod.POST)
     public String handleRegistration(@RequestParam String username,

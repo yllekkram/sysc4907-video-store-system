@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities.dao;
 
 import com.team33.entities.Genre;
@@ -15,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
+ * Provides the dao for the brose service
  *
  * @author Samual
  */
@@ -23,11 +20,15 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
     //tells Spring to inject the dependency
     @Autowired
     private SessionFactory sessionFactory;
-    
     private static final int FIRST = 0;
 
+    /**
+     * Returns a list of videos based on rating
+     *
+     * @param rating
+     * @return List<VideoInfo>
+     */
     @Override
-    /*Returns a list of videos based on rating*/
     public List<VideoInfo> searchVideos(ScreenRating rating) {
         Session curSession = this.getSessionFactory().getCurrentSession();
         Query videoQuery;
@@ -36,8 +37,13 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
         return videoQuery.list();
     }
 
+    /**
+     * Returns a list of videos based on title
+     *
+     * @param title
+     * @return List<VideoInfo>
+     */
     @Override
-    /*Returns a list of videos based on title*/
     public List<VideoInfo> searchVideos(String title) {
         Session curSession = this.getSessionFactory().getCurrentSession();
         Query videoQuery;
@@ -46,8 +52,12 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
         return videoQuery.list();
     }
 
+    /**
+     * Returns all videos in a list
+     *
+     * @return List<VideoInfo>
+     */
     @Override
-    /*Returns all  videos in a list*/
     public List<VideoInfo> displayAllVideoContent() {
         Session curSession = this.getSessionFactory().getCurrentSession();
         Query videoQuery;
@@ -55,17 +65,28 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
         return videoQuery.list();
     }
 
+    /**
+     * Retrieves details for a given video from its id
+     *
+     * @param videoInfoId
+     * @return VideoInfo
+     */
     @Override
     public VideoInfo displayVideoDetails(int videoInfoId) {
         Session curSession = this.getSessionFactory().getCurrentSession();
         Query videoQuery;
         videoQuery = curSession.getNamedQuery("VideoInfo.findById");
         videoQuery.setParameter("id", videoInfoId);
-        return (VideoInfo)videoQuery.list().get(FIRST);
+        return (VideoInfo) videoQuery.list().get(FIRST);
     }
 
+    /**
+     * Returns a list of videos based on genre
+     *
+     * @param genre
+     * @return
+     */
     @Override
-    /*Returns a list of videos based on genre*/
     public List<VideoInfo> searchVideos(Genre genre) {
         Session curSession = this.getSessionFactory().getCurrentSession();
         Query videoQuery;
