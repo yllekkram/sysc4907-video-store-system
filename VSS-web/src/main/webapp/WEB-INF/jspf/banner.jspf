@@ -47,7 +47,7 @@
     <div id="searchLogin">
         <div id="bannerLogin">
             <form action="" id="bannerSearch">
-                <input type="text"/>
+                <input name="keyword" type="text"/>
                 <input type="button" value="Search"/>
             </form>
             <c:if test="${alreadyLogin eq null}">
@@ -67,7 +67,7 @@
                 <a href="http://localhost:8080/VSS-web/" class="bannerNavLink">Home</a>
             </li>
             <li>
-                <a href="browseView.htm" class="bannerNavLink">Video</a>
+                <a href="browseVideos.htm" class="bannerNavLink">Browse Videos</a>
             </li>
             <li>
                 <a href="viewVideo.htm" class="bannerNavLink">Watch Video</a>
