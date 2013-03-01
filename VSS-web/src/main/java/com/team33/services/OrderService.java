@@ -10,31 +10,35 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * Dictates the features responsible for order processing
  *
  * @author Samual
  */
 public interface OrderService {
 
     /**
+     * Retrieves all orders for an account
      *
      * @param uuid
-     * @return
+     * @return List<Orders>
      * @throws DataAccessException
      * @throws AccountNotActivatedException
      */
     public List<Orders> getOrders(int uuid) throws DataAccessException, AccountNotActivatedException;
 
     /**
+     * Retrieves a single order for an account
      *
      * @param orderId
      * @param uuid
-     * @return
+     * @return Orders
      * @throws DataAccessException
      * @throws AccountNotActivatedException
      */
     public Orders getOrder(Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException;
 
     /**
+     * Adds a purchase to an order
      *
      * @param videoInfoId
      * @param orderId
@@ -45,6 +49,7 @@ public interface OrderService {
     public void addPurchase(Integer videoInfoId, Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException;
 
     /**
+     * Adds a rental to an order
      *
      * @param videoInfoId
      * @param orderId
@@ -56,6 +61,7 @@ public interface OrderService {
     public void addRental(Integer videoInfoId, Integer orderId, int uuid, Date rentalExpiryDate) throws DataAccessException, AccountNotActivatedException;
 
     /**
+     * Confirms payment of an order
      *
      * @param orderId
      * @param uuid
@@ -71,6 +77,7 @@ public interface OrderService {
      */
 
     /**
+     * Removes an order on an account
      *
      * @param orderID
      * @param uuid
@@ -88,6 +95,7 @@ public interface OrderService {
     public void removePurchase(Integer videoInfoId, Integer orderId, int uuid) throws AccountNotActivatedException;
 
     /**
+     * Remove a rental from an order
      *
      * @param videoInfoId
      * @param orderId

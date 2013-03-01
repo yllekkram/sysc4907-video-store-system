@@ -12,27 +12,31 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 
 /**
+ * This interface dictates what features are relevant to account services
  *
  * @author Samual
  */
 public interface AccountService {
 
     /**
+     * Get all accounts in the system -- mostly a potential testing feature
      *
-     * @return
+     * @return List<Account>
      * @throws DataAccessException
      */
     public List<Account> getAccounts() throws DataAccessException;
 
     /**
+     * Gets an account
      *
      * @param accountId
-     * @return
+     * @return Account
      * @throws DataAccessException
      */
     public Account getAccount(Integer accountId) throws DataAccessException;
 
     /**
+     * Registers account in a system
      *
      * @param username
      * @param Password
@@ -41,6 +45,7 @@ public interface AccountService {
     public void registerAccount(String username, String Password) throws RegistrationException;
 
     /**
+     * Logins an account to the system
      *
      * @param Username
      * @param Password
@@ -53,6 +58,7 @@ public interface AccountService {
     public Account loginAccount(String Username, String Password) throws AuthenticationException, AccountNotActivatedException, AccountNotFoundException, LoginException;
 
     /**
+     * Removes an account from the system
      *
      * @param accountID
      */
@@ -67,6 +73,7 @@ public interface AccountService {
     public void addOrder(Integer accountId, Orders order) throws AccountNotActivatedException;
 
     /**
+     * Removes an order in the system
      *
      * @param accountId
      * @param order
