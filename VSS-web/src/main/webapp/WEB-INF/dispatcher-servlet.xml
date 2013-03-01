@@ -42,6 +42,9 @@
                 <entry key="/viewVideo">
                     <ref bean="viewVideoController"/>
                 </entry>
+                <entry key="/browseVideos.htm">
+                    <ref bean="browseVideoController"/>
+                </entry>
                 <entry key="/myAccountView.htm">
                     <ref bean="myAccountController"/>
                 </entry>
@@ -67,7 +70,7 @@
         <property name="successView" value = "loginSuccess"     />
         <property name="commandName" value = "account" />
         <property name="commandClass" value ="com.team33.entities.Account"/>
-    </bean>  
+    </bean>
     <bean name = "registerAccountController"
           class = "com.team33.controllers.RegisterAccountController" >
         <property name="accountServiceImpl" ref="accountServiceImpl" />
@@ -80,6 +83,10 @@
         <property name="orderServiceImpl" ref="orderServiceImpl" />
         <property name="commandName" value = "orders" />
         <property name="commandClass" value ="com.team33.entities.Orders"/>
+    </bean>
+    <bean name="browseVideoController"
+        class="com.team33.controllers.BrowseVideosController">
+        <property name="browseServiceImpl" ref="browseServiceImpl"/>
     </bean>
     <bean name = "browseController"
           class = "com.team33.controllers.BrowseController" >
@@ -138,9 +145,7 @@
     </bean>
     <bean  id="videoAccessDaoImpl" class="com.team33.entities.dao.VideoAccessDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />  
-    </bean>
-    
+    </bean>    
       
-    <mvc:annotation-driven /> 
-     
+    <mvc:annotation-driven />
 </beans>
