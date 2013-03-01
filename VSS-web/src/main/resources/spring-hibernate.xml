@@ -22,8 +22,11 @@
     </bean>
     <!-- Hibernate SessionFactory -->
     <bean id="sessionFactory"
-          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+          scope="singleton" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">  
+        <!--
+                <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+        -->
+        <property name="dataSource" ref="dataSource" />
         <property name="configurationClass">
             <value>org.hibernate.cfg.AnnotationConfiguration</value>
         </property>
@@ -46,26 +49,63 @@
             </list>
         </property>
         <property name="hibernateProperties">
-            <value>
-                hibernate.dialect=${jdbc.dialect}
-                hibernate.show_sql=true
-            </value>
+            <props>
+                <prop key="hibernate.dialect">${jdbc.dialect}</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+            </props>
         </property>
-        <property name="exposeTransactionAwareSessionFactory"><value>false</value></property>
+        <property name="exposeTransactionAwareSessionFactory">
+            <value>true</value>
+        </property>
     </bean>
     
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>     
+
+    <!-- THE HIBERNATE INTERCEPTOR -->
+    <bean id="hibernateInterceptor"
+          class="org.springframework.orm.hibernate3.HibernateInterceptor">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+
+    <!--
+       <tx:advice id="txAdvice">
+           <tx:attributes>
+               <tx:method name="save*" propagation="REQUIRED"/>
+               <tx:method name="update*" propagation="REQUIRED"/>
+               <tx:method name="delete*" propagation="REQUIRED"/>
+               <tx:method name="login*" propagation="REQUIRED"/>
+               <tx:method name="register*" propagation="REQUIRED"/>
+               <tx:method name="remove*" propagation="REQUIRED"/>
+               <tx:method name="*" propagation="SUPPORTS" read-only="true"/>
+           </tx:attributes>
+       </tx:advice>
+       <aop:config>
+           <aop:pointcut id="allServices"
+                         expression="execution(* com.team33.services.*ServiceImpl.*(..))"/>
+           <aop:advisor advice-ref="txAdvice" pointcut-ref="allServices"/>
+           <aop:advisor advice-ref="hibernateInterceptor" pointcut-ref="allServices"/>
+       </aop:config>
+    -->
+ 
     <!-- Database LOB Handling -->
 
     <bean id="defaultLobHandler"
           class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
 
-    <tx:annotation-driven
-        transaction-manager="transactionManager"/>
-
     <!-- Transaction manager -->
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-         <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+
+    <tx:annotation-driven
+        transaction-manager="transactionManager"/>
 
 </beans>
