@@ -1,6 +1,7 @@
 package com.team33.entities.dao;
 
 import com.team33.entities.Account;
+import com.team33.entities.LoginToken;
 import java.util.List;
 import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
