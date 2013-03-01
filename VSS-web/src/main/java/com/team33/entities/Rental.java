@@ -32,6 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rental.findByRentalExpiryDate", query = "SELECT r FROM Rental r WHERE r.rentalPK.rentalExpiryDate = :rentalExpiryDate")})
 public class Rental implements Serializable {
     private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
     @EmbeddedId
     protected RentalPK rentalPK;
     @JoinColumns({
@@ -43,41 +46,84 @@ public class Rental implements Serializable {
     @ManyToOne(optional = false)
     private VideoInfo videoInfo;
 
+    /**
+     *
+     */
     public Rental() {
     }
 
+    /**
+     *
+     * @param rentalPK
+     */
     public Rental(RentalPK rentalPK) {
         this.rentalPK = rentalPK;
     }
 
+    /**
+     *
+     * @param id
+     * @param videoInfoid
+     * @param ordersid
+     * @param ordersAccountid
+     * @param rentalExpiryDate
+     */
     public Rental(int id, int videoInfoid, int ordersid, int ordersAccountid, Date rentalExpiryDate) {
         this.rentalPK = new RentalPK(id, videoInfoid, ordersid, ordersAccountid, rentalExpiryDate);
     }
 
+    /**
+     *
+     * @return
+     */
     public RentalPK getRentalPK() {
         return rentalPK;
     }
 
+    /**
+     *
+     * @param rentalPK
+     */
     public void setRentalPK(RentalPK rentalPK) {
         this.rentalPK = rentalPK;
     }
 
+    /**
+     *
+     * @return
+     */
     public Orders getOrders() {
         return orders;
     }
 
+    /**
+     *
+     * @param orders
+     */
     public void setOrders(Orders orders) {
         this.orders = orders;
     }
 
+    /**
+     *
+     * @return
+     */
     public VideoInfo getVideoInfo() {
         return videoInfo;
     }
 
+    /**
+     *
+     * @param videoInfo
+     */
     public void setVideoInfo(VideoInfo videoInfo) {
         this.videoInfo = videoInfo;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -85,6 +131,11 @@ public class Rental implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -98,6 +149,10 @@ public class Rental implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "javaapplication5.Rental[ rentalPK=" + rentalPK + " ]";

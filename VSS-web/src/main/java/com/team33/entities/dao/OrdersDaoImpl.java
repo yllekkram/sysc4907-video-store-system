@@ -11,16 +11,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.team33.services.exception.*;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+/**
+ * Provides data access during order processing
+ *
+ * @author Samual
+ */
 public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
     //tells Spring to inject the dependency
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Override
-    /*
+    /**
      * Find all orders of a particular account that is activated
+     *
+     * @param loginToken
+     * @return List<Orders>
+     * @throws DataAccessException
      */
+    @Override
     public List<Orders> getOrders(LoginToken loginToken) throws DataAccessException {
         Session curSession = this.getSessionFactory().getCurrentSession();
         Query orderQuery;
@@ -29,16 +38,34 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
         return orderQuery.list();
     }
 
+    /**
+     * Retrieves an order provided its id
+     *
+     * @param orderId
+     * @return Orders
+     * @throws DataAccessException
+     */
     @Override
     public Orders getOrder(Integer orderId) throws DataAccessException {
         return (Orders) sessionFactory.getCurrentSession().get(Orders.class, orderId);
     }
 
+    /**
+     * Persists an order in the database
+     *
+     * @param order
+     * @throws DataAccessException
+     */
     @Override
     public void saveOrder(Orders order) throws DataAccessException {
         sessionFactory.getCurrentSession().save(order);
     }
 
+    /**
+     * Removes an order from the database
+     *
+     * @param orderId
+     */
     @Override
     public void removeOrder(Integer orderId) {
         Orders order = (Orders) sessionFactory.getCurrentSession().load(
@@ -49,6 +76,13 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
 
     }
 
+    /**
+     * Removes a purchase from an order
+     *
+     * @param order
+     * @param purchase
+     * @throws DataAccessException
+     */
     @Override
     public void removePurchase(Orders order, Purchase purchase) throws DataAccessException {
         if (order != null) {
@@ -58,6 +92,13 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
         }
     }
 
+    /**
+     * Removes a rental from an order
+     *
+     * @param order
+     * @param rental
+     * @throws DataAccessException
+     */
     @Override
     public void removeRental(Orders order, Rental rental) throws DataAccessException {
         if (order != null) {
@@ -67,6 +108,13 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
         }
     }
 
+    /**
+     * Persists a purchase for a particular order
+     *
+     * @param order
+     * @param purchase
+     * @throws DataAccessException
+     */
     @Override
     public void savePurchase(Orders order, Purchase purchase) throws DataAccessException {
         if (order != null) {
@@ -76,6 +124,13 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
         }
     }
 
+    /**
+     * Persists a rental for a particular order
+     *
+     * @param order
+     * @param rental
+     * @throws DataAccessException
+     */
     @Override
     public void saveRental(Orders order, Rental rental) throws DataAccessException {
         if (order != null) {
@@ -85,6 +140,13 @@ public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
         }
     }
 
+    /**
+     * Retrieves a login token given its id
+     *
+     * @param uuid
+     * @return
+     * @throws DataAccessException
+     */
     @Override
     public LoginToken getLoginToken(int uuid) throws DataAccessException {
         if (sessionFactory.getCurrentSession().get(LoginToken.class, uuid) != null) {
