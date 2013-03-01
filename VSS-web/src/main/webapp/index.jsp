@@ -13,8 +13,8 @@
         <h1>Welcome to our On-Line Video Store!!!</h1>
         <a href="login.htm">Account Login</a>
         <br>
-        <a href="registerAccountView.htm">Register Account</a>
-        <br>
+        <a href="registerAccountView.htm">Register Account</a><br>
+        <a href="browseVideos.htm">Browse Videos</a><br>
         <a href="viewVideo.htm">Watch Video</a>
     </body>
 </html>
