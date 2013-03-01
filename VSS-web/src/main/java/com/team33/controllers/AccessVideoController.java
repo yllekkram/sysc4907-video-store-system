@@ -18,6 +18,10 @@ public class AccessVideoController{
     @Autowired
     private VideoAccessServiceImpl videoAccessServiceImpl;
     
+    /**
+     *
+     * @param videoAccessServiceImpl
+     */
     public void setVideoAccessServiceImpl(VideoAccessServiceImpl videoAccessServiceImpl){
         this.videoAccessServiceImpl = videoAccessServiceImpl;
     }

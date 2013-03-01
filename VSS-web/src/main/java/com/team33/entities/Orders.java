@@ -33,6 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Orders.findByPendingCharge", query = "SELECT o FROM Orders o WHERE o.pendingCharge = :pendingCharge")})
 public class Orders implements Serializable {
     private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
     @EmbeddedId
     protected OrdersPK ordersPK;
     @Column(name = "pendingCharge")
@@ -47,68 +50,132 @@ public class Orders implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orders")
     private Collection<Rental> rentalCollection;
 
+    /**
+     *
+     */
     public Orders() {
     }
 
+    /**
+     *
+     * @param ordersPK
+     */
     public Orders(OrdersPK ordersPK) {
         this.ordersPK = ordersPK;
     }
 
+    /**
+     *
+     * @param id
+     * @param accountid
+     */
     public Orders(int id, int accountid) {
         this.ordersPK = new OrdersPK(id, accountid);
     }
 
+    /**
+     *
+     * @return
+     */
     public OrdersPK getOrdersPK() {
         return ordersPK;
     }
 
+    /**
+     *
+     * @param ordersPK
+     */
     public void setOrdersPK(OrdersPK ordersPK) {
         this.ordersPK = ordersPK;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getPendingCharge() {
         return pendingCharge;
     }
 
+    /**
+     *
+     * @param pendingCharge
+     */
     public void setPendingCharge(Integer pendingCharge) {
         this.pendingCharge = pendingCharge;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public Collection<Invoice> getInvoiceCollection() {
         return invoiceCollection;
     }
 
+    /**
+     *
+     * @param invoiceCollection
+     */
     public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
         this.invoiceCollection = invoiceCollection;
     }
 
+    /**
+     *
+     * @return
+     */
     public Account getAccount() {
         return account;
     }
 
+    /**
+     *
+     * @param account
+     */
     public void setAccount(Account account) {
         this.account = account;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public Collection<Purchase> getPurchaseCollection() {
         return purchaseCollection;
     }
 
+    /**
+     *
+     * @param purchaseCollection
+     */
     public void setPurchaseCollection(Collection<Purchase> purchaseCollection) {
         this.purchaseCollection = purchaseCollection;
     }
 
+    /**
+     *
+     * @return
+     */
     @XmlTransient
     public Collection<Rental> getRentalCollection() {
         return rentalCollection;
     }
 
+    /**
+     *
+     * @param rentalCollection
+     */
     public void setRentalCollection(Collection<Rental> rentalCollection) {
         this.rentalCollection = rentalCollection;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -116,6 +183,11 @@ public class Orders implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -129,6 +201,10 @@ public class Orders implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "javaapplication5.Orders[ ordersPK=" + ordersPK + " ]";

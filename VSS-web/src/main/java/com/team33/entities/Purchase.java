@@ -30,6 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Purchase.findByVideoInfoid", query = "SELECT p FROM Purchase p WHERE p.purchasePK.videoInfoid = :videoInfoid")})
 public class Purchase implements Serializable {
     private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
     @EmbeddedId
     protected PurchasePK purchasePK;
     @JoinColumn(name = "Video_Info_id", referencedColumnName = "id", insertable = false, updatable = false)
@@ -41,41 +44,83 @@ public class Purchase implements Serializable {
     @ManyToOne(optional = false)
     private Orders orders;
 
+    /**
+     *
+     */
     public Purchase() {
     }
 
+    /**
+     *
+     * @param purchasePK
+     */
     public Purchase(PurchasePK purchasePK) {
         this.purchasePK = purchasePK;
     }
 
+    /**
+     *
+     * @param id
+     * @param ordersid
+     * @param ordersAccountid
+     * @param videoInfoid
+     */
     public Purchase(int id, int ordersid, int ordersAccountid, int videoInfoid) {
         this.purchasePK = new PurchasePK(id, ordersid, ordersAccountid, videoInfoid);
     }
 
+    /**
+     *
+     * @return
+     */
     public PurchasePK getPurchasePK() {
         return purchasePK;
     }
 
+    /**
+     *
+     * @param purchasePK
+     */
     public void setPurchasePK(PurchasePK purchasePK) {
         this.purchasePK = purchasePK;
     }
 
+    /**
+     *
+     * @return
+     */
     public VideoInfo getVideoInfo() {
         return videoInfo;
     }
 
+    /**
+     *
+     * @param videoInfo
+     */
     public void setVideoInfo(VideoInfo videoInfo) {
         this.videoInfo = videoInfo;
     }
 
+    /**
+     *
+     * @return
+     */
     public Orders getOrders() {
         return orders;
     }
 
+    /**
+     *
+     * @param orders
+     */
     public void setOrders(Orders orders) {
         this.orders = orders;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -83,6 +128,11 @@ public class Purchase implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -96,6 +146,10 @@ public class Purchase implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "javaapplication5.Purchase[ purchasePK=" + purchasePK + " ]";

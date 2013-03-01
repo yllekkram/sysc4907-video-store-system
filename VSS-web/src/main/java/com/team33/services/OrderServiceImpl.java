@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.services;
 
 import com.team33.entities.LoginToken;
@@ -16,6 +12,7 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
+ * Provides the services required for order processing videos
  *
  * @author Samual
  */
@@ -27,22 +24,52 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CreditCardValidator creditCardValidator;
 
+    /**
+     * Sets the stub creditCardValidator to the provided creditCardValiditor
+     *
+     * @param creditCardValidator
+     */
     public void setCreditCardValidator(CreditCardValidator creditCardValidator) {
         this.creditCardValidator = creditCardValidator;
     }
 
+    /**
+     * Retrieves the currently used creditCardValiditor to provide credit card
+     * functionality
+     *
+     * @return CreditCardValidator
+     */
     public CreditCardValidator getCreditCardValidator() {
         return creditCardValidator;
     }
 
+    /**
+     * Sets the implemented order dao to the provided implementation of the
+     * order dao
+     *
+     * @param dao
+     */
     public void setOrdersDaoImpl(OrdersDaoImpl dao) {
         this.ordersDaoImpl = dao;
     }
 
+    /**
+     * Retrieves the current implemented order dao
+     *
+     * @return OrderDaoImpl
+     */
     public OrdersDaoImpl getOrdersDaoImpl() {
         return this.ordersDaoImpl;
     }
 
+    /**
+     * Used to determine whether or not the provided login token corresponds to
+     * an active account
+     *
+     * @param uuid
+     * @return boolean
+     * @throws AccountNotActivatedException
+     */
     public boolean isActivated(int uuid) throws AccountNotActivatedException {
         try {
             LoginToken loginToken = this.getOrdersDaoImpl().getLoginToken(uuid);
@@ -58,6 +85,16 @@ public class OrderServiceImpl implements OrderService {
         return true;
     }
 
+    /**
+     * Persists a new purchase in the system provided that the videoInfoId,
+     * orderId, and login token id are given
+     *
+     * @param videoInfoId
+     * @param orderId
+     * @param uuid
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     @Override
     public void addPurchase(Integer videoInfoId, Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
@@ -70,6 +107,17 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     * Persists a new rental in the system provided that videoInfoId, orderId,
+     * login token id, and the rental expiration date is given
+     *
+     * @param videoInfoId
+     * @param orderId
+     * @param uuid
+     * @param rentalExpiryDate
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     @Override
     public void addRental(Integer videoInfoId, Integer orderId, int uuid, Date rentalExpiryDate) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
@@ -82,6 +130,18 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     * Determines if payment can be processed for a given order based on the
+     * orderId, login token id, the validation number, and the totalCost
+     *
+     * @param orderId
+     * @param uuid
+     * @param validationNum
+     * @param totalCost
+     * @throws AccountNotActivatedException
+     * @throws PaymentException
+     * @throws InsufficientFundsException
+     */
     @Override
     public void confirmPayment(Integer orderId, int uuid, int validationNum, int totalCost) throws AccountNotActivatedException, PaymentException, InsufficientFundsException {
         if (this.isActivated(uuid)) {
@@ -101,6 +161,15 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     * Retrieves an order provided the orderID, and login token id are given
+     *
+     * @param orderId
+     * @param uuid
+     * @return Orders
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     @Override
     public Orders getOrder(Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
@@ -109,6 +178,14 @@ public class OrderServiceImpl implements OrderService {
         throw new DataAccessException("Incorrect activation key!");
     }
 
+    /**
+     * Retrieves a list of orders provided that the login token id is given
+     *
+     * @param uuid
+     * @return List<Orders>
+     * @throws DataAccessException
+     * @throws AccountNotActivatedException
+     */
     @Override
     public List<Orders> getOrders(int uuid) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
@@ -118,6 +195,13 @@ public class OrderServiceImpl implements OrderService {
         throw new DataAccessException("Incorrect Activation key");
     }
 
+    /**
+     * Remove an order with orderId, from user with login token id
+     *
+     * @param orderID
+     * @param uuid
+     * @throws AccountNotActivatedException
+     */
     @Override
     public void removeOrder(Integer orderID, int uuid) throws AccountNotActivatedException {
         if (this.isActivated(uuid)) {
@@ -125,7 +209,14 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    //Removes a purchase from the order
+    /**
+     * Removes a purchase from the order
+     *
+     * @param videoInfoId
+     * @param orderId
+     * @param uuid
+     * @throws AccountNotActivatedException
+     */
     @Override
     public void removePurchase(Integer videoInfoId, Integer orderId, int uuid) throws AccountNotActivatedException {
         if (this.isActivated(uuid)) {
@@ -138,8 +229,16 @@ public class OrderServiceImpl implements OrderService {
 
         }
     }
-    //Removes a rental from the order
 
+    /**
+     * Removes a rental from the order
+     *
+     * @param videoInfoId
+     * @param orderId
+     * @param uuid
+     * @param rentalExpiryDate
+     * @throws AccountNotActivatedException
+     */
     @Override
     public void removeRental(Integer videoInfoId, Integer orderId, int uuid, Date rentalExpiryDate) throws AccountNotActivatedException {
         if (this.isActivated(uuid)) {

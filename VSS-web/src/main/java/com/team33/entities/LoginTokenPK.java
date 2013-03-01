@@ -22,30 +22,58 @@ public class LoginTokenPK implements Serializable {
     @Column(name = "id")
     private int id;
 
+    /**
+     *
+     */
     public LoginTokenPK() {
     }
 
+    /**
+     *
+     * @param accountid
+     * @param id
+     */
     public LoginTokenPK(int accountid, int id) {
         this.accountid = accountid;
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAccountid() {
         return accountid;
     }
 
+    /**
+     *
+     * @param accountid
+     */
     public void setAccountid(int accountid) {
         this.accountid = accountid;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -54,6 +82,11 @@ public class LoginTokenPK implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -70,6 +103,10 @@ public class LoginTokenPK implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "javaapplication5.LogintokenPK[ accountid=" + accountid + ", id=" + id + " ]";

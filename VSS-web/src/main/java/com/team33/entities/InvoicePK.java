@@ -28,9 +28,19 @@ public class InvoicePK implements Serializable {
     @Column(name = "orderCharge")
     private int orderCharge;
 
+    /**
+     *
+     */
     public InvoicePK() {
     }
 
+    /**
+     *
+     * @param id
+     * @param ordersid
+     * @param ordersAccountid
+     * @param orderCharge
+     */
     public InvoicePK(int id, int ordersid, int ordersAccountid, int orderCharge) {
         this.id = id;
         this.ordersid = ordersid;
@@ -38,38 +48,74 @@ public class InvoicePK implements Serializable {
         this.orderCharge = orderCharge;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getOrdersid() {
         return ordersid;
     }
 
+    /**
+     *
+     * @param ordersid
+     */
     public void setOrdersid(int ordersid) {
         this.ordersid = ordersid;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getOrdersAccountid() {
         return ordersAccountid;
     }
 
+    /**
+     *
+     * @param ordersAccountid
+     */
     public void setOrdersAccountid(int ordersAccountid) {
         this.ordersAccountid = ordersAccountid;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getOrderCharge() {
         return orderCharge;
     }
 
+    /**
+     *
+     * @param orderCharge
+     */
     public void setOrderCharge(int orderCharge) {
         this.orderCharge = orderCharge;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -80,6 +126,11 @@ public class InvoicePK implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -102,6 +153,10 @@ public class InvoicePK implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "javaapplication5.InvoicePK[ id=" + id + ", ordersid=" + ordersid + ", ordersAccountid=" + ordersAccountid + ", orderCharge=" + orderCharge + " ]";

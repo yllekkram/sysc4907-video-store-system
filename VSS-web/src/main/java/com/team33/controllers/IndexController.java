@@ -22,10 +22,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class IndexController {
+    /**
+     *
+     * @return
+     */
     @RequestMapping(value = "/index")
     public ModelAndView indexPage() {
         return new ModelAndView("index");
     }
+    /**
+     *
+     * @param redirect
+     * @param session
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST)
     public String handleRequest(RedirectAttributes redirect,HttpSession session){
              return "redirect:"+redirect;
