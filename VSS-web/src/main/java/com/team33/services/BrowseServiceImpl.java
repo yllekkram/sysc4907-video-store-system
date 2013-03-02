@@ -3,7 +3,7 @@ package com.team33.services;
 import com.team33.entities.Genre;
 import com.team33.entities.ScreenRating;
 import com.team33.entities.VideoInfo;
-import com.team33.entities.dao.BrowseDaoImpl;
+import com.team33.entities.dao.BrowseDao;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,15 +18,15 @@ public class BrowseServiceImpl implements BrowseService {
      * Main display of featured content before user filters a new search
      */
     @Autowired
-    private BrowseDaoImpl browseDaoImpl;
+    private BrowseDao browseDao;
 
     /**
      * Sets the current implemented browse dao
      *
-     * @param browseDaoImpl
+     * @param browseDao
      */
-    public void setBrowseDaoImpl(BrowseDaoImpl browseDaoImpl) {
-        this.browseDaoImpl = browseDaoImpl;
+    public void setBrowseDao(BrowseDao browseDao) {
+        this.browseDao = browseDao;
     }
 
     /**
@@ -36,7 +36,7 @@ public class BrowseServiceImpl implements BrowseService {
      */
     @Override
     public List<VideoInfo> displayAllVideoContent() {
-        return this.browseDaoImpl.displayAllVideoContent();
+        return this.browseDao.displayAllVideoContent();
     }
 
     /**
@@ -48,7 +48,7 @@ public class BrowseServiceImpl implements BrowseService {
      */
     @Override
     public VideoInfo displayVideoDetails(int videoInfoId) {
-        return this.browseDaoImpl.displayVideoDetails(videoInfoId);
+        return this.browseDao.displayVideoDetails(videoInfoId);
     }
 
     /**
@@ -59,7 +59,7 @@ public class BrowseServiceImpl implements BrowseService {
      */
     @Override
     public List<VideoInfo> searchVideos(Genre genre) {
-        return this.browseDaoImpl.searchVideos(genre);
+        return this.browseDao.searchVideos(genre);
     }
 
     /**
@@ -70,7 +70,7 @@ public class BrowseServiceImpl implements BrowseService {
      */
     @Override
     public List<VideoInfo> searchVideos(ScreenRating rating) {
-        return this.browseDaoImpl.searchVideos(rating);
+        return this.browseDao.searchVideos(rating);
     }
 
     /**
@@ -81,7 +81,7 @@ public class BrowseServiceImpl implements BrowseService {
      */
     @Override
     public List<VideoInfo> searchVideos(String title) {
-        return this.browseDaoImpl.searchVideos(title);
+        return this.browseDao.searchVideos(title);
     }
 
 }

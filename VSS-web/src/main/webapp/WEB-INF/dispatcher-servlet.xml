@@ -128,7 +128,7 @@
         <property name = "creditCardValidator" ref = "creditCardValidator"/>
     </bean> 
     <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
-        <property name = "browseDaoImpl" ref = "browseDaoImpl"/>
+        <property name = "browseDao" ref = "browseDaoImpl"/>
     </bean> 
     <bean id = "videoAccessServiceImpl" class = "com.team33.services.VideoAccessServiceImpl">
         <property name = "videoAccessDaoImpl" ref = "videoAccessDaoImpl"/>
