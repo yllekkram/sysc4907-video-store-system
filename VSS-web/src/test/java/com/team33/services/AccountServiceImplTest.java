@@ -5,10 +5,16 @@
 package com.team33.services;
 
 import com.team33.entities.Account;
+import com.team33.entities.Orders;
 import com.team33.services.exception.AccountNotActivatedException;
 import com.team33.services.exception.AccountNotFoundException;
 import com.team33.services.exception.AuthenticationException;
+import com.team33.services.exception.DataAccessException;
+import com.team33.services.exception.LoginException;
+import com.team33.services.exception.RegistrationException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -16,224 +22,461 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.dao.DataAccessException;
+import org.junit.runner.RunWith;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
  * @author Daywalker
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:/test/service/service-test.xml"})
 public class AccountServiceImplTest {
-    
+
     private AccountServiceImpl accountServiceImpl;
-    
+
     public AccountServiceImplTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         this.accountServiceImpl = new AccountServiceImpl();
         this.accountServiceImpl.setAccountDaoImpl(new AccountDaoImplTestStub());
     }
-    
+
     @After
     public void tearDown() {
     }
 
-    /**
-     * Test of setAccountDAO method, of class AccountServiceImpl.
-     */
-    @Test
-    public void testSetAccountDAO() {
-        System.out.println("setAccountDAO");
-        assertNotNull("AssertNotNull - Expeceted Output : this.accountServiceImpl.getAccountDao(), Output : " + this.accountServiceImpl.getAccountDaoImpl(), this.accountServiceImpl.getAccountDaoImpl());
-        
-        this.accountServiceImpl.setAccountDaoImpl(null);
-        assertNull("AssertNull - Expected Output : this.accountServiceImpl.getAccountDao(), Ouptput : " + this.accountServiceImpl.getAccountDaoImpl(), this.accountServiceImpl.getAccountDaoImpl());
-    }
-
-    /**
-     * Test of loginAccount method, of class AccountServiceImpl.
-     */
     @Test
     @Rollback(true)
-    public void testLoginAccount() throws Exception {
-        System.out.println("loginAccount");
-        try{
-            this.accountServiceImpl.loginAccount(null, null);
-            fail("AccountNotFoundException not thrown");
-        }catch(AccountNotFoundException e){
-            // Suppose to happen
-        }
-        try{
-            this.accountServiceImpl.loginAccount("Test1", "1234");
-            fail("AccountNotActiviatedException not thrown");
-        }catch(AccountNotActivatedException e){
-            // Suppose to happen
-        }
-        try{
-            this.accountServiceImpl.loginAccount("Test1", "23");
-            fail("AuthenticationException not thrown");
-        }catch(AuthenticationException e){
-            //Suppose to happen
-        }
-        Account a = this.accountServiceImpl.loginAccount("Test1", "1234");
-        assertNotNull("AssertNotNull - Expected Output : a != NULL, Output : " + a , a);
-        assertEquals("AssertEquals - Expected Output : a.getName() == Test1, Output : " + a.getName(), a.getName().equals("Test1"));
-        assertEquals("AssertEquals - Expected Output : a.getPassword() == 1234, Output : " + a.getPassword(), a.getPassword().equals("1234"));
-        assertTrue("AssertTrue - Expected Output : a.getActivated() == TRUE, Output : " + a.getActivated(), a.getActivated());
-    }
-
-    /**
-     * Test of registerAccount method, of class AccountServiceImpl.
-     */
-    @Test
-    @Rollback(true)
-    public void testRegisterAccount() {
-        System.out.println("registerAccount");
-//        
-//        try{
-//            this.accountServiceImpl.registerAccount(null);
-//            fail("DataAccessException not thrown");
-//        }catch(DataAccessException e){
-//            //Suppose to happen
-//        }
-//        
-//        Account testAccount = new Account(0, "Test1");
-//        testAccount.setPassword("1234");
-//        try{
-//            this.accountServiceImpl.registerAccount(testAccount);
-//        }catch(DataAccessException e){
-//            fail("Exception Thrown : " + e.getLocalizedMessage());
-//        }
-//        Account account = null;
-//        try{
-//            account = this.accountServiceImpl.getAccount(0);
-//        }catch(DataAccessException e){
-//            fail("Exception Thrown (Data in Test): " + e.getLocalizedMessage());            
-//        }
-//        assertNotNull("AssertNotNull - Expected Output : account != NULL, Output : " + account, account);
-//        assertTrue("AssertTrue - Expected Output : account.getId() == 15, Output : " + account.getId(), account.getId() == 0);
-//        assertTrue("AssertTrue - Expected Output : account.getName() == Test1, Output : " + account.getName(), account.getName().equals("Test1"));
-//        assertTrue("AssertTrue - Expected Output : account.getPassword() == 1234, Output : " + account.getPassword(), account.getPassword().equals("1234"));
-    }
-
-    /**
-     * Test of getAccount method, of class AccountServiceImpl.
-     */
-    @Test
-    @Rollback(true)
-    public void testGetAccount() {
-        System.out.println("getAccount");
-        
-        try{
-            this.accountServiceImpl.getAccount(0);
-            fail("DataAccessException was not thrown");
-        }catch(DataAccessException e){
-            // Suppose to happen
-        }
-        
-        Account testAccount = new Account(15, "Test1");
-        testAccount.setPassword("1234");
-//        try{
-//            this.accountServiceImpl.registerAccount(testAccount);
-//        }catch(DataAccessException e){
-//            Assume.assumeNoException(e);
-//        }
-
+    public void testLoginAccount_ValidUsernameActivated() {
         Account account = null;
-        try{
-            account = this.accountServiceImpl.getAccount(15);
-        }catch(DataAccessException e){
-            fail("Exception Thrown (Data in Test): " + e.getLocalizedMessage());
+        try {
+            account = this.accountServiceImpl.loginAccount("Hello", "World");
+        } catch (AuthenticationException ex) {
+            fail("AuthenticationException should not be thrown");
+        } catch (AccountNotFoundException ex) {
+            fail("AccountNotFoundException should not be thrown");
+        } catch (AccountNotActivatedException ex) {
+            fail("AccountNotActivatedException should not be thrown");
+        } catch (LoginException ex) {
+            fail("LoginException should not be thrown");
         }
-        assertNotNull("AssertNotNull - Expected Output : account != NULL, Output : " + account, account);
-        assertTrue("AssertTrue - Expected Output : account.getId() == 15, Output : " + account.getId(), account.getId() == 15);
-        assertTrue("AssertTrue - Expected Output : account.getName() == Test1, Output : " + account.getName(), account.getName().equals("Test1"));
-        assertTrue("AssertTrue - Expected Output : account.getPassword() == 1234, Output : " + account.getPassword(), account.getPassword().equals("1234"));
+        assertNotNull(account);
+        assertEquals(account.getName(), "Hello");
+        assertEquals(account.getPassword(), "World");
+        assertTrue(account.getActivated());
     }
 
-    /**
-     * Test of getAccounts method, of class AccountServiceImpl.
-     */
+    @Test
+    @Rollback(true)
+    public void testLoginAccount_NullUsername() {
+        Account account = null;
+        try {
+            account = this.accountServiceImpl.loginAccount(null, "World");
+        } catch (AuthenticationException ex) {
+            fail("AuthenticationException should not be thrown");
+        } catch (AccountNotFoundException ex) {
+            fail("AccountNotFoundException should not be thrown");
+        } catch (AccountNotActivatedException ex) {
+            fail("AccountNotActivatedException should not be thrown");
+        } catch (LoginException ex) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testLoginAccount_BlankUsername() {
+        Account account = null;
+        try {
+            account = this.accountServiceImpl.loginAccount("", "World");
+        } catch (AuthenticationException ex) {
+            fail("AuthenticationException should not be thrown");
+        } catch (AccountNotFoundException ex) {
+            fail("AccountNotFoundException should not be thrown");
+        } catch (AccountNotActivatedException ex) {
+            fail("AccountNotActivatedException should not be thrown");
+        } catch (LoginException ex) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testLoginAccount_InvalidUsername() {
+        Account account = null;
+        try {
+            account = this.accountServiceImpl.loginAccount("People", "World");
+        } catch (AuthenticationException ex) {
+            fail("AuthenticationException should not be thrown");
+        } catch (AccountNotFoundException ex) {
+        } catch (AccountNotActivatedException ex) {
+            fail("AccountNotActivatedException should not be thrown");
+        } catch (LoginException ex) {
+            fail("LoginException should not be thrown");
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testLoginAccount_NullPassword() {
+        Account account = null;
+        try {
+            account = this.accountServiceImpl.loginAccount("Hello", null);
+        } catch (AuthenticationException ex) {
+            fail("AuthenticationException should not be thrown");
+        } catch (AccountNotFoundException ex) {
+            fail("AccountNotFoundException should not be thrown");
+        } catch (AccountNotActivatedException ex) {
+            fail("AccountNotActivatedException should not be thrown");
+        } catch (LoginException ex) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testLoginAccount_BlankPassword() {
+        Account account = null;
+        try {
+            account = this.accountServiceImpl.loginAccount("Hello", "");
+        } catch (AuthenticationException ex) {
+            fail("AuthenticationException should not be thrown");
+        } catch (AccountNotFoundException ex) {
+            fail("AccountNotFoundException should not be thrown");
+        } catch (AccountNotActivatedException ex) {
+            fail("AccountNotActivatedException should not be thrown");
+        } catch (LoginException ex) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testLoginAccount_InvalidPassword() {
+        Account account = null;
+        try {
+            account = this.accountServiceImpl.loginAccount("Hello", "People");
+        } catch (AuthenticationException ex) {
+        } catch (AccountNotFoundException ex) {
+            fail("AccountNotFoundException should not be thrown");
+        } catch (AccountNotActivatedException ex) {
+            fail("AccountNotActivatedException should not be thrown");
+        } catch (LoginException ex) {
+            fail("LoginException should not be thrown");
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRegisterAccount_ValidUsernameNotInDB() {
+        try {
+            this.accountServiceImpl.registerAccount("Hello", "World");
+        } catch (RegistrationException ex) {
+            fail("RegistrationException should not be thrown");
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRegisterAccount_NullUsername() {
+        try {
+            this.accountServiceImpl.registerAccount(null, "World");
+        } catch (RegistrationException ex) {
+            assertEquals(ex.getLocalizedMessage(), "Registration Failed");
+        }
+        fail("RegistrationException was not thrown");
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRegisterAccount_BlankUsername() {
+        try {
+            this.accountServiceImpl.registerAccount("", "World");
+        } catch (RegistrationException ex) {
+            assertEquals(ex.getLocalizedMessage(), "Registration Failed");
+        }
+        fail("RegistrationException was not thrown");
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRegisterAccount_InvalidUsername() {
+        try {
+            this.accountServiceImpl.registerAccount("People", "World");
+        } catch (RegistrationException ex) {
+            fail("RegistrationException should not be thrown");
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRegisterAccount_NullPassword() {
+        try {
+            this.accountServiceImpl.registerAccount("Hello", null);
+        } catch (RegistrationException ex) {
+            assertEquals(ex.getLocalizedMessage(), "Registration Failed");
+        }
+        fail("RegistrationException was not thrown");
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRegisterAccount_BlankPassword() {
+        try {
+            this.accountServiceImpl.registerAccount("Hello", "");
+        } catch (RegistrationException ex) {
+            assertEquals(ex.getLocalizedMessage(), "Registration Failed");
+        }
+        fail("RegistrationException was not thrown");
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRegisterAccount_InavlidUsername() {
+        try {
+            this.accountServiceImpl.registerAccount("Hello", "People");
+        } catch (RegistrationException ex) {
+            fail("RegistrationException should not be thrown");
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testGetAccount_NullId() {
+        Account account = null;
+        try {
+            account = this.accountServiceImpl.getAccount(null);
+            fail("DataAccessException should be thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testGetAccount_NegId() {
+        Account account = null;
+        try {
+            account = this.accountServiceImpl.getAccount(-1);
+            fail("DataAccessException should be thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testGetAccount_InvalidId() {
+        Account account = null;
+        try {
+            account = this.accountServiceImpl.getAccount(9999);
+            fail("DataAccessException should be thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testGetAccount_ValidId() {
+        Account account = null;
+        try {
+            account = this.accountServiceImpl.getAccount(0);
+        } catch (DataAccessException e) {
+            fail("DataAccessException should not be thrown");
+        }
+        assertNotNull(account);
+        assertEquals(account.getId().intValue(), 0);
+    }
+
     @Test
     @Rollback(true)
     public void testGetAccounts() {
-        System.out.println("getAccounts");
-        List<Account> expResult = null;
-        try{
-            expResult = this.accountServiceImpl.getAccounts();  
-        }catch(DataAccessException e){
-            fail("Exception Thrown (Empty Test): " + e.getLocalizedMessage());
+        List<Account> accounts = null;
+        try {
+            accounts = this.accountServiceImpl.getAccounts();
+        } catch (DataAccessException e) {
+            fail("DataAccessException should not be thrown");
         }
-        
-        assertNotNull("AssertNotNull - Expected Output : expResult != NULL, Output : " + expResult, expResult);
-        assertTrue("AssertTrue - Expected Output : expResult.isEmpty() == TRUE, Output : " + expResult.isEmpty(), expResult.isEmpty());
-        
-        Account testAccount = new Account(0, "Test1");
-        testAccount.setPassword("1234");
-//        try{
-//            this.accountServiceImpl.registerAccount(testAccount);
-//        }catch(DataAccessException e){
-//            Assume.assumeNoException(e);
-//        }
-//        
-        try{
-            expResult = this.accountServiceImpl.getAccounts();
-        }catch(DataAccessException e){
-            fail("Exception Thrown (Data in Test): " + e.getLocalizedMessage());
-        }
-        assertTrue("AssertTrue - Expected Output : expResult.size() == 1, Output : " + expResult.size(), expResult.size() == 1);
-        Account account = expResult.get(0);
-        assertNotNull("AssertNotNull - Expected Output : account != NULL, Output : " + account, account);
-        assertTrue("AssertTrue - Expected Output : account.getId() == 0, Output : " + account.getId(), account.getId() == 0);
-        assertTrue("AssertTrue - Expected Output : account.getName() == Test1, Output : " + account.getName(), account.getName().equals("Test1"));
-        assertTrue("AssertTrue - Expected Output : account.getPassword() == 1234, Output : " + account.getPassword(), account.getPassword().equals("1234"));
+        assertNotNull(accounts);
+        assertFalse(accounts.isEmpty());
     }
 
-    /**
-     * Test of removeAccount method, of class AccountServiceImpl.
-     */
     @Test
-    public void testRemoveAccount() {
-        System.out.println("removeAccount");
-        try{
+    @Rollback(true)
+    public void testRemoveAccount_NullId() {
+        try {
+            this.accountServiceImpl.removeAccount(null);
+            fail("DataAccessException should be thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRemoveAccount_NegId() {
+        try {
+            this.accountServiceImpl.removeAccount(-1);
+            fail("DataAccessException should be thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRemoveAccount_InvalidId() {
+        try {
+            this.accountServiceImpl.removeAccount(9999);
+            fail("DataAccessException should be thrown");
+        } catch (DataAccessException e) {
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRemoveAccount_ValidId() {
+        try {
             this.accountServiceImpl.removeAccount(0);
-            fail("Error thrown while removing non-exsisting account id");
-        }catch(DataAccessException e){
-            // Suppose to happen
+        } catch (DataAccessException e) {
+            fail("DataAccessException should not be thrown");
         }
-        
-        Account testAccount = new Account(0, "Test1");
-        testAccount.setPassword("1234");
-//        try{
-//            this.accountServiceImpl.registerAccount(testAccount);
-//        }catch(DataAccessException e){
-//            Assume.assumeNoException(e);
-//        }
-        
+    }
+
+    @Test
+    @Rollback(true)
+    public void testAddOrder_ValidId() {
+        try {
+            this.accountServiceImpl.addOrder(0, new Orders(0, 0));
+        } catch (DataAccessException e) {
+            fail("DataAccessException should not be thrown");
+        } catch (AccountNotActivatedException ex) {
+            fail("AccountNotActivatedException should not be thrown");
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testAddOrder_NullId() {
+        try {
+            this.accountServiceImpl.addOrder(null, new Orders(0, 0));
+            fail("DataAccessExceptiion should be thrown");
+        } catch (DataAccessException e) {
+        } catch (AccountNotActivatedException ex) {
+            fail("AccountNotActivatedException should not be thrown");
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testAddOrder_NegId() {
+        try {
+            this.accountServiceImpl.addOrder(-1, new Orders(0, 0));
+            fail("DataAccessExceptiion should be thrown");
+        } catch (DataAccessException e) {
+        } catch (AccountNotActivatedException ex) {
+            fail("AccountNotActivatedException should not be thrown");
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testAddOrder_InvalidId() {
+        try {
+            this.accountServiceImpl.addOrder(9999, new Orders(0, 0));
+            fail("DataAccessException should be thrown");
+        } catch (DataAccessException e) {
+        } catch (AccountNotActivatedException ex) {
+            fail("AccountNotActivatedException should not be thrown");
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testAddOrder_NullOrder() {
+        try {
+            this.accountServiceImpl.addOrder(0, null);
+            fail("DataAccessException should be thrown");
+        } catch (DataAccessException e) {
+        } catch (AccountNotActivatedException ex) {
+            fail("AccountNotActivatedException should not be thrown");
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testAddOrder_InvalidOrder() {
+        try {
+            this.accountServiceImpl.addOrder(0, new Orders(9999, 0));
+            fail("DataAccessException should be thrown");
+        } catch (DataAccessException e) {
+        } catch (AccountNotActivatedException ex) {
+            fail("AccountNotActivatedException should not be thrown");
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRemoveOrder_ValidId() {
         try{
-            this.accountServiceImpl.removeAccount(testAccount.getId());
+            this.accountServiceImpl.removeOrder(0, new Orders(0, 0));
         }catch(DataAccessException e){
-            fail("Exception Thrown : " + e.getLocalizedMessage());
+            fail("DataAccessException should not be thrown");
         }
-        
-        List<Account> expResult = null;
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRemoveOrder_NullId() {
         try{
-            expResult = this.accountServiceImpl.getAccounts();  
+            this.accountServiceImpl.removeOrder(null, new Orders(0, 0));
+            fail("DataAccessException should not be thrown");
         }catch(DataAccessException e){
-            fail("Exception Thrown (Empty Test): " + e.getLocalizedMessage());
         }
-        
-        assertNotNull("AssertNotNull - Expected Output : expResult != NULL, Output : " + expResult, expResult);
-        assertTrue("AssertTrue - Expected Output : expResult.size() == 0, Output : " + expResult.size(), expResult.isEmpty());
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRemoveOrder_NegId() {
+        try{
+            this.accountServiceImpl.removeOrder(-1, new Orders(0, 0));
+            fail("DataAccessException should not be thrown");
+        }catch(DataAccessException e){
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRemoveOrder_InvalidId() {
+        try{
+            this.accountServiceImpl.removeOrder(9999, new Orders(0, 0));
+            fail("DataAccessException should not be thrown");
+        }catch(DataAccessException e){
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRemoveOrder_NullOrder() {
+        try{
+            this.accountServiceImpl.removeOrder(0, null);
+            fail("DataAccessException should not be thrown");
+        }catch(DataAccessException e){
+        }
+    }
+
+    @Test
+    @Rollback(true)
+    public void testRemoveOrder_InvalidOrder() {
+        try{
+            this.accountServiceImpl.removeOrder(0, new Orders(0, 9999));
+            fail("DataAccessException should not be thrown");
+        }catch(DataAccessException e){
+        }
     }
 }
