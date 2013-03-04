@@ -9,10 +9,10 @@
     </tr>
     <c:forEach var="videoInfo" items="${videoInfoList}">
         <tr>
-            <td><c:out value="${videoInfo.getName()}"/></td>
-        <td><c:out value="${videoInfo.getDescription()}"/></td>
-        <td><c:out value="${videoInfo.getScreenRating()}"/></td>
-        <td><c:out value="${videoInfo.getGenre()}"/></td>
+            <td>${videoInfo.getName()}</td>
+            <td>${videoInfo.getDescription()}</td>
+            <td>${videoInfo.getScreenRating()}</td>
+            <td>${videoInfo.getGenre()}</td>
         </tr>
     </c:forEach>
 </table>
