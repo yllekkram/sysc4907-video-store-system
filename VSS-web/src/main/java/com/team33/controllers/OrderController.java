@@ -37,13 +37,17 @@ public class OrderController{
     
     @RequestMapping(value = "order/create", method = RequestMethod.POST)
     public String createOrder(@ModelAttribute("orderRequest")OrderRequest orderRequest, BindingResult result) {
-        System.out.println("Video Title: " + orderRequest.getVideotitle());
+        System.out.println("Video Title: " + orderRequest.getVideotitle() +
+                " Order Type: " + orderRequest.getOrderType() +
+                " Video ID: " + orderRequest.getVideoid());
         return "redirect:show.htm?order=" + orderRequest.getVideotitle();
     }
     
     @RequestMapping("/order/new")
-    public ModelAndView newOrder() {
-        return new ModelAndView("newOrder", "command", new OrderRequest());
+    public ModelAndView newOrder(@RequestParam(value="videoid")Integer videoid) {
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setVideoid(videoid);
+        return new ModelAndView("newOrder", "command", orderRequest);
     }
     
     @RequestMapping("/order/show")

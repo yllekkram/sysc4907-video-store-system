@@ -22,10 +22,17 @@
                 </tr>
                 <tr>
                     <td colspan="2">
+                        <form:radiobutton path="orderType" value="purchase" />Purchase <br/>
+                        <form:radiobutton path="orderType" value="rental" /> Rental
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
                         <input type="submit" value="Confirm" />
                     </td>
                 </tr>
             </table>
+            <input type="hidden" name="videoid" value="${param.videoid}" />
         </form:form>
     </body>
 </html>
