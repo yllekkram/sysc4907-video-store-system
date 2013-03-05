@@ -38,7 +38,7 @@ public class OrderController{
     @RequestMapping(value = "order/create", method = RequestMethod.POST)
     public String createOrder(@ModelAttribute("orderRequest")OrderRequest orderRequest, BindingResult result) {
         System.out.println("Video Title: " + orderRequest.getVideotitle());
-        return "redirect:show.htm";
+        return "redirect:show.htm?order=" + orderRequest.getVideotitle();
     }
     
     @RequestMapping("/order/new")
@@ -47,7 +47,7 @@ public class OrderController{
     }
     
     @RequestMapping("/order/show")
-    public ModelAndView showOrder() {
-        return new ModelAndView("showOrder");
+    public ModelAndView showOrder(@RequestParam("order")String order) {
+        return new ModelAndView("showOrder", "order", order);
     }
 }

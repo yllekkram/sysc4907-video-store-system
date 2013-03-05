@@ -12,6 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Showing Order!</h1>
+        <h1>Showing Order for ${order}!</h1>
     </body>
 </html>
