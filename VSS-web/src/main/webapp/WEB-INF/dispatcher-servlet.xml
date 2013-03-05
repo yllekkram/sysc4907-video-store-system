@@ -30,9 +30,6 @@
                 <entry key="/registerAccountView.htm">
                     <ref bean="registerAccountController"/>
                 </entry>
-                <entry key="/orderVideoView.htm">
-                    <ref bean="orderController"/>
-                </entry>
                 <entry key="/browseView.htm">
                     <ref bean="browseController"/>
                 </entry>
@@ -81,8 +78,6 @@
     <bean name = "orderController"
           class = "com.team33.controllers.OrderController" >
         <property name="orderServiceImpl" ref="orderServiceImpl" />
-        <property name="commandName" value = "orders" />
-        <property name="commandClass" value ="com.team33.entities.Orders"/>
     </bean>
     <bean name="browseVideoController"
         class="com.team33.controllers.BrowseVideosController">
