@@ -86,6 +86,38 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * Generates an id for purchase based on the order and account info
+     *
+     * @param orderId
+     * @param accountId
+     * @return Integer
+     * @throws AccountNotActivatedException
+     */
+    public int genPurchaseId(int orderId, int accountId) {
+        int hash = 0;
+        hash += (int) orderId;
+        hash += (int) accountId;
+        return hash;
+    }
+
+    /**
+     * Generates an id for purchase based on the order, account info and
+     * expiryDate
+     *
+     * @param orderId
+     * @param accountId
+     * @param rentalExpiryDate
+     * @return Integer
+     */
+    public int genRentalId(int orderId, int accountId, Date rentalExpiryDate) {
+        int hash = 0;
+        hash += (int) orderId;
+        hash += (int) accountId;
+        hash += (rentalExpiryDate != null ? rentalExpiryDate.hashCode() : 0);
+        return hash;
+    }
+
+    /**
      * Persists a new purchase in the system provided that the videoInfoId,
      * orderId, and login token id are given
      *
@@ -100,7 +132,7 @@ public class OrderServiceImpl implements OrderService {
         if (this.isActivated(uuid)) {
             Session session = this.getOrdersDaoImpl().getSessionFactory().getCurrentSession();
             session.beginTransaction();
-            Purchase purchase = new Purchase((int) Math.random(), orderId, this.getOrdersDaoImpl().getOrder(orderId).getOrdersPK().getAccountid(), videoInfoId);
+            Purchase purchase = new Purchase(genPurchaseId(orderId, this.getOrdersDaoImpl().getOrder(orderId).getAccount().getId()), orderId, this.getOrdersDaoImpl().getOrder(orderId).getOrdersPK().getAccountid(), videoInfoId);
             int newPrice = this.getOrdersDaoImpl().getOrder(orderId).getPendingCharge() + purchase.getVideoInfo().getPurchasePrice();
             this.getOrdersDaoImpl().getOrder(orderId).setPendingCharge(newPrice);
             this.getOrdersDaoImpl().savePurchase(this.getOrdersDaoImpl().getOrder(orderId), purchase);
@@ -123,7 +155,7 @@ public class OrderServiceImpl implements OrderService {
         if (this.isActivated(uuid)) {
             Session session = this.getOrdersDaoImpl().getSessionFactory().getCurrentSession();
             session.beginTransaction();
-            Rental rental = new Rental((int) Math.random(), videoInfoId, orderId, this.getOrdersDaoImpl().getOrder(orderId).getOrdersPK().getAccountid(), rentalExpiryDate);
+            Rental rental = new Rental(genRentalId(orderId, this.getOrdersDaoImpl().getOrder(orderId).getAccount().getId(), rentalExpiryDate), videoInfoId, orderId, this.getOrdersDaoImpl().getOrder(orderId).getOrdersPK().getAccountid(), rentalExpiryDate);
             int newPrice = this.getOrdersDaoImpl().getOrder(orderId).getPendingCharge() + rental.getVideoInfo().getPurchasePrice();
             this.getOrdersDaoImpl().getOrder(orderId).setPendingCharge(newPrice);
             this.getOrdersDaoImpl().saveRental(this.getOrdersDaoImpl().getOrder(orderId), rental);
@@ -153,6 +185,7 @@ public class OrderServiceImpl implements OrderService {
                 }
                 //if the charge can be processed create an invoice for the customer and charge him
                 if (this.getCreditCardValidator().isChargeValid(totalCost) && this.getCreditCardValidator().isUnderLOC(allCharges, totalCost)) {
+                    //Persists the order after payment is confirmed
                     Orders transactionOrder = new Orders(orderId, this.getOrdersDaoImpl().getLoginToken(uuid).getAccount().getId());
                     this.getOrdersDaoImpl().saveOrder(transactionOrder);
                     this.getCreditCardValidator().charge();
