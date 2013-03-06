@@ -31,14 +31,21 @@ public class UserController {
         return "users";
     }
     
-    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
+    @RequestMapping("/users/new")
+    public String newUser(Map<String,Object> map) {
+        map.put("user", new User());
+        
+        return "/newUser";
+    }
+    
+    @RequestMapping(value = "/users/add", method = RequestMethod.POST)
     public String addUser(@ModelAttribute("user")User user, BindingResult result) {
         userService.addUser(user);
         
         return "redirect:/users";
     }
     
-    @RequestMapping("/user/{userID}/delete")
+    @RequestMapping("/users/{userID}/delete")
     public String deleteUser(@PathVariable("userID")Integer contactID) {
         userService.removeUser(contactID);
         
