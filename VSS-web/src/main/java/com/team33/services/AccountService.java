@@ -55,7 +55,7 @@ public interface AccountService {
      * @throws AccountNotFoundException
      * @throws LoginException
      */
-    public Account loginAccount(String Username, String Password) throws AuthenticationException, AccountNotActivatedException, AccountNotFoundException, LoginException;
+    public int loginAccount(String Username, String Password) throws AuthenticationException, AccountNotActivatedException, AccountNotFoundException, LoginException;
 
     /**
      * Removes an account from the system
