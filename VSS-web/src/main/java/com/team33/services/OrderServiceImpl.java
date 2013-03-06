@@ -166,7 +166,7 @@ public class OrderServiceImpl implements OrderService {
      * Determines if payment can be processed for a given order based on the
      * orderId, login token id, the validation number, and the totalCost
      *
-     * @param orderId
+     * @param order
      * @param uuid
      * @param validationNum
      * @param totalCost
@@ -175,7 +175,7 @@ public class OrderServiceImpl implements OrderService {
      * @throws InsufficientFundsException
      */
     @Override
-    public void confirmPayment(Integer orderId, int uuid, int validationNum, int totalCost) throws AccountNotActivatedException, PaymentException, InsufficientFundsException {
+    public void confirmPayment(Orders order, int uuid, int validationNum, int totalCost) throws AccountNotActivatedException, PaymentException, InsufficientFundsException {
         if (this.isActivated(uuid)) {
             if (this.getCreditCardValidator().isCardValid(validationNum)) {
                 //accumulate charges for an account
@@ -186,7 +186,7 @@ public class OrderServiceImpl implements OrderService {
                 //if the charge can be processed create an invoice for the customer and charge him
                 if (this.getCreditCardValidator().isChargeValid(totalCost) && this.getCreditCardValidator().isUnderLOC(allCharges, totalCost)) {
                     //Persists the order after payment is confirmed
-                    Orders transactionOrder = new Orders(orderId, this.getOrdersDaoImpl().getLoginToken(uuid).getAccount().getId());
+                    Orders transactionOrder = new Orders(order.getOrdersPK().getId(), this.getOrdersDaoImpl().getLoginToken(uuid).getAccount().getId());
                     this.getOrdersDaoImpl().saveOrder(transactionOrder);
                     this.getCreditCardValidator().charge();
                 }

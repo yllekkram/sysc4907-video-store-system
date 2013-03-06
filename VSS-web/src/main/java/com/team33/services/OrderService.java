@@ -63,7 +63,7 @@ public interface OrderService {
     /**
      * Confirms payment of an order
      *
-     * @param orderId
+     * @param order
      * @param uuid
      * @param validationNum
      * @param totalCost
@@ -71,7 +71,7 @@ public interface OrderService {
      * @throws PaymentException
      * @throws InsufficientFundsException
      */
-    public void confirmPayment(Integer orderId, int uuid, int validationNum, int totalCost) throws AccountNotActivatedException, PaymentException, InsufficientFundsException;
+    public void confirmPayment(Orders order, int uuid, int validationNum, int totalCost) throws AccountNotActivatedException, PaymentException, InsufficientFundsException;
     /*
      * Removes an order attached to a specific account
      */
