@@ -14,30 +14,6 @@
     </head>
     <body>
         <h1>New User</h1>
-        <form:form method="post" action="add" commandName="user">
-            <table>
-                <tr>
-                    <td><form:label path="name">Name</form:label></td>
-                    <td><form:input path="name" /></td>
-                </tr>
-                <tr>
-                    <td><form:label path="email">Email Address</form:label></td>
-                    <td><form:input path="email" /></td>
-                </tr>
-                <tr>
-                    <td><form:label path="passwordHash">Password Hash</form:label></td>
-                    <td><form:input path="passwordHash" /></td>
-                </tr>
-                <tr>
-                    <td><form:label path="activated">Activated?</form:label></td>
-                    <td><form:checkbox path="activated" /></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input type="submit" value="Submit" />
-                    </td>
-                </tr>
-            </table>
-        </form:form>
+        <%@include file="/WEB-INF/jspf/userForm.jspf" %>
     </body>
 </html>

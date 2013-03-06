@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.mindrot.jBcrypt.BCrypt;
 
 /**
@@ -49,9 +50,9 @@ public class User {
         this.email = email;
     }
     
-    public void setPasswordHash(String passwordHash) {
-        BCrypt.hashpw(passwordHash, name);
-        this.passwordHash = passwordHash;
+    @Transient
+    public void setPassword(String password) {
+        this.passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     public void setActivated(Boolean activated) {
@@ -70,6 +71,11 @@ public class User {
         return email;
     }
 
+    @Transient
+    public String getPassword() {
+        return null;
+    }
+    
     public String getPasswordHash() {
         return passwordHash;
     }
