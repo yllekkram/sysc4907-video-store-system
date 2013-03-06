@@ -25,6 +25,12 @@ public class UserServiceImpl implements UserService{
     public void addUser(User user) {
         userDAO.addUser(user);
     }
+    
+    @Override
+    @Transactional
+    public User getUser(Integer id) {
+        return userDAO.getUser(id);
+    }
 
     @Override
     @Transactional

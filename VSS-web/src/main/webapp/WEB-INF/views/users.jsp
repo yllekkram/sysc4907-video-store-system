@@ -32,7 +32,8 @@
                             <td>${user.email}</td>
                             <td>${user.passwordHash}</td>
                             <td>${user.activated}</td>
-                            <td><a href="users/${user.id}/delete">delete</a></td>
+                            <td><a href="user/${user.id}/show">View</a></td>
+                            <td><a href="user/${user.id}/delete">delete</a></td>
                         </tr>
                     </c:forEach>
                 </table>

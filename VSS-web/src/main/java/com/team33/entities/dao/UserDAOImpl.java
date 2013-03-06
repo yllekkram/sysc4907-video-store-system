@@ -6,6 +6,7 @@ package com.team33.entities.dao;
 
 import com.team33.entities.User;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,6 +23,13 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void addUser(User user) {
         sessionFactory.getCurrentSession().save(user);
+    }
+    
+    @Override
+    public User getUser(Integer id) {
+        User user = (User)sessionFactory.getCurrentSession().load(User.class, id);
+        Hibernate.initialize(user);
+        return user;
     }
 
     @Override

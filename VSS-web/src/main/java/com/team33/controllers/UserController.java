@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -52,7 +53,11 @@ public class UserController {
         return "redirect:/users";
     }
     
-    @RequestMapping(value = "/users/{userID}/update", method = RequestMethod.POST)
+    @RequestMapping("/user/{userID}/show")
+    public ModelAndView showUser(@PathVariable("userID")Integer id) {
+        return new ModelAndView("showUser", "user", userService.getUser(id));
+    }
+    @RequestMapping(value = "/user/{userID}/update", method = RequestMethod.POST)
     public String updateUser(@ModelAttribute("user")User user, BindingResult result) {
         userService.updateUser(user);
         
