@@ -40,5 +40,6 @@
                 </table>
             </c:otherwise>
         </c:choose>
+        <a href="users/new">New User</a>
     </body>
 </html>
