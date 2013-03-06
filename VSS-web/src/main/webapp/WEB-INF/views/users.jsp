@@ -33,6 +33,7 @@
                             <td>${user.passwordHash}</td>
                             <td>${user.activated}</td>
                             <td><a href="user/${user.id}/show">View</a></td>
+                            <td><a href="user/${user.id}/edit">Edit</a></td>
                             <td><a href="user/${user.id}/delete">delete</a></td>
                         </tr>
                     </c:forEach>

@@ -57,6 +57,14 @@ public class UserController {
     public ModelAndView showUser(@PathVariable("userID")Integer id) {
         return new ModelAndView("showUser", "user", userService.getUser(id));
     }
+    
+    @RequestMapping("/user/{userID}/edit")
+    public String editUser(Map<String,Object> map, @PathVariable("userID")Integer userID) {
+        map.put("user", userService.getUser(userID));
+        
+        return "/editUser";
+    }
+    
     @RequestMapping(value = "/user/{userID}/update", method = RequestMethod.POST)
     public String updateUser(@ModelAttribute("user")User user, BindingResult result) {
         userService.updateUser(user);
