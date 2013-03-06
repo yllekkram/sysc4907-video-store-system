@@ -13,7 +13,4 @@
         http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-  <context:annotation-config/>
-   <import resource="classpath:spring-hibernate.xml"></import>
-  
 </beans>
