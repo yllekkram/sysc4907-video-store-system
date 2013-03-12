@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -13,11 +9,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
+ * Represents the primary key for rentals
  *
  * @author Samual
  */
 @Embeddable
 public class RentalPK implements Serializable {
+
     @Basic(optional = false)
     @Column(name = "id")
     private int id;
@@ -36,12 +34,13 @@ public class RentalPK implements Serializable {
     private Date rentalExpiryDate;
 
     /**
-     *
+     * Constructs the primary key for rental
      */
     public RentalPK() {
     }
 
     /**
+     * Constructs the primary key for rental
      *
      * @param id
      * @param videoInfoid
@@ -58,6 +57,7 @@ public class RentalPK implements Serializable {
     }
 
     /**
+     * Retrieves the id for the primary key
      *
      * @return
      */
@@ -66,6 +66,7 @@ public class RentalPK implements Serializable {
     }
 
     /**
+     * Sets id
      *
      * @param id
      */
@@ -74,6 +75,7 @@ public class RentalPK implements Serializable {
     }
 
     /**
+     * Retrieves the video info id
      *
      * @return
      */
@@ -82,6 +84,7 @@ public class RentalPK implements Serializable {
     }
 
     /**
+     * Sets video info id
      *
      * @param videoInfoid
      */
@@ -90,6 +93,7 @@ public class RentalPK implements Serializable {
     }
 
     /**
+     * Retrieves the order id
      *
      * @return
      */
@@ -98,6 +102,7 @@ public class RentalPK implements Serializable {
     }
 
     /**
+     * Sets order id
      *
      * @param ordersid
      */
@@ -106,6 +111,7 @@ public class RentalPK implements Serializable {
     }
 
     /**
+     * Retrieves the order account id
      *
      * @return
      */
@@ -114,6 +120,7 @@ public class RentalPK implements Serializable {
     }
 
     /**
+     * Sets the order account id
      *
      * @param ordersAccountid
      */
@@ -122,6 +129,7 @@ public class RentalPK implements Serializable {
     }
 
     /**
+     * Retrieves the expiry date for a rental
      *
      * @return
      */
@@ -130,6 +138,7 @@ public class RentalPK implements Serializable {
     }
 
     /**
+     * Sets the expiry date
      *
      * @param rentalExpiryDate
      */
@@ -138,6 +147,7 @@ public class RentalPK implements Serializable {
     }
 
     /**
+     * hashes the rental PK
      *
      * @return
      */
@@ -153,6 +163,7 @@ public class RentalPK implements Serializable {
     }
 
     /**
+     * Returns true if objects are equal
      *
      * @param object
      * @return
@@ -183,6 +194,7 @@ public class RentalPK implements Serializable {
     }
 
     /**
+     * Represents the rental PK a a string
      *
      * @return
      */
@@ -190,5 +202,4 @@ public class RentalPK implements Serializable {
     public String toString() {
         return "javaapplication5.RentalPK[ id=" + id + ", videoInfoid=" + videoInfoid + ", ordersid=" + ordersid + ", ordersAccountid=" + ordersAccountid + ", rentalExpiryDate=" + rentalExpiryDate + " ]";
     }
-    
 }

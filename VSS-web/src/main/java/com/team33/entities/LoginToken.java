@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -15,6 +11,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
+ * Represents the login token in the database
  *
  * @author Samual
  */
@@ -26,6 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "LoginToken.findByAccountid", query = "SELECT l FROM LoginToken l WHERE l.logintokenPK.accountid = :accountid"),
     @NamedQuery(name = "LoginToken.findById", query = "SELECT l FROM LoginToken l WHERE l.logintokenPK.id = :id")})
 public class LoginToken implements Serializable {
+
     private static final long serialVersionUID = 1L;
     /**
      *
@@ -37,12 +35,13 @@ public class LoginToken implements Serializable {
     private Account account;
 
     /**
-     *
+     * Constructs the login token
      */
     public LoginToken() {
     }
 
     /**
+     * Constructs the login token
      *
      * @param logintokenPK
      */
@@ -51,6 +50,7 @@ public class LoginToken implements Serializable {
     }
 
     /**
+     * Constructs the login token
      *
      * @param accountid
      * @param id
@@ -60,6 +60,7 @@ public class LoginToken implements Serializable {
     }
 
     /**
+     * Gets the login token PK
      *
      * @return
      */
@@ -68,6 +69,7 @@ public class LoginToken implements Serializable {
     }
 
     /**
+     * Sets the login token PK
      *
      * @param logintokenPK
      */
@@ -76,6 +78,7 @@ public class LoginToken implements Serializable {
     }
 
     /**
+     * Gets the account
      *
      * @return
      */
@@ -84,6 +87,7 @@ public class LoginToken implements Serializable {
     }
 
     /**
+     * Sets the account
      *
      * @param account
      */
@@ -92,6 +96,7 @@ public class LoginToken implements Serializable {
     }
 
     /**
+     * hashes the login token
      *
      * @return
      */
@@ -103,6 +108,7 @@ public class LoginToken implements Serializable {
     }
 
     /**
+     * Returns true if objects are equal
      *
      * @param object
      * @return
@@ -121,6 +127,7 @@ public class LoginToken implements Serializable {
     }
 
     /**
+     * Represents the login token as a string
      *
      * @return
      */
@@ -128,5 +135,4 @@ public class LoginToken implements Serializable {
     public String toString() {
         return "javaapplication5.Logintoken[ logintokenPK=" + logintokenPK + " ]";
     }
-    
 }

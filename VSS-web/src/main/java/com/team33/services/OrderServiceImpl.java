@@ -79,8 +79,10 @@ public class OrderServiceImpl implements OrderService {
             }
         } catch (DataAccessException dae) {
             dae.printStackTrace();
+            return false;
         } catch (AccountNotActivatedException ae) {
             ae.printStackTrace();
+            return false;
         }
         return true;
     }
@@ -97,6 +99,7 @@ public class OrderServiceImpl implements OrderService {
         int hash = 0;
         hash += (int) orderId;
         hash += (int) accountId;
+        hash += (int) System.currentTimeMillis();
         return hash;
     }
 
