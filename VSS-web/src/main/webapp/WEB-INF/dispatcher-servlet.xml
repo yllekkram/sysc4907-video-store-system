@@ -61,6 +61,7 @@
                 /login.htm=loginController
                 /registerAccountView.htm=registerAccountController
                 /orderVideoView.htm=orderController
+                /browseView.htm/*=browseController
                 /browseView.htm=browseController
                 /accessVideoOrders.htm=accessVideoController
                 /viewVideo=viewVideoController
