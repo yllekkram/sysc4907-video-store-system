@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -16,6 +12,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
+ * Represents the purchase in the database
  *
  * @author Samual
  */
@@ -29,6 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Purchase.findByOrdersAccountid", query = "SELECT p FROM Purchase p WHERE p.purchasePK.ordersAccountid = :ordersAccountid"),
     @NamedQuery(name = "Purchase.findByVideoInfoid", query = "SELECT p FROM Purchase p WHERE p.purchasePK.videoInfoid = :videoInfoid")})
 public class Purchase implements Serializable {
+
     private static final long serialVersionUID = 1L;
     /**
      *
@@ -45,12 +43,13 @@ public class Purchase implements Serializable {
     private Orders orders;
 
     /**
-     *
+     * Constructs the purchase
      */
     public Purchase() {
     }
 
     /**
+     * Constructs the purchase
      *
      * @param purchasePK
      */
@@ -59,6 +58,7 @@ public class Purchase implements Serializable {
     }
 
     /**
+     * Constructs the purchase
      *
      * @param id
      * @param ordersid
@@ -70,6 +70,7 @@ public class Purchase implements Serializable {
     }
 
     /**
+     * Gets the purchase PK
      *
      * @return
      */
@@ -78,6 +79,7 @@ public class Purchase implements Serializable {
     }
 
     /**
+     * Sets the purchase PK
      *
      * @param purchasePK
      */
@@ -86,6 +88,7 @@ public class Purchase implements Serializable {
     }
 
     /**
+     * Gets the video info
      *
      * @return
      */
@@ -94,6 +97,7 @@ public class Purchase implements Serializable {
     }
 
     /**
+     * Sets the video info
      *
      * @param videoInfo
      */
@@ -102,6 +106,7 @@ public class Purchase implements Serializable {
     }
 
     /**
+     * Gets the orders
      *
      * @return
      */
@@ -110,6 +115,7 @@ public class Purchase implements Serializable {
     }
 
     /**
+     * Sets the orders
      *
      * @param orders
      */
@@ -118,6 +124,7 @@ public class Purchase implements Serializable {
     }
 
     /**
+     * hashes the purchase
      *
      * @return
      */
@@ -129,6 +136,7 @@ public class Purchase implements Serializable {
     }
 
     /**
+     * Returns true if the objects are equal
      *
      * @param object
      * @return
@@ -147,6 +155,7 @@ public class Purchase implements Serializable {
     }
 
     /**
+     * Represents the purchase as a string
      *
      * @return
      */
@@ -154,5 +163,4 @@ public class Purchase implements Serializable {
     public String toString() {
         return "javaapplication5.Purchase[ purchasePK=" + purchasePK + " ]";
     }
-    
 }
