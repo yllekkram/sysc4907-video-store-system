@@ -18,7 +18,7 @@
     for the index controller we are using ParameterizableViewController, so we must
     define an explicit mapping for it.
     -->
-    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <!--bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="urlMap">
             <map>
                 <entry key="/index.htm">
@@ -53,7 +53,24 @@
                 </entry>
             </map>
         </property>
+    </bean-->
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <value>
+                /index.htm=indexController
+                /login.htm=loginController
+                /registerAccountView.htm=registerAccountController
+                /orderVideoView.htm=orderController
+                /browseView.htm=browseController
+                /accessVideoOrders.htm=accessVideoController
+                /viewVideo=viewVideoController
+                /browseVideos.htm=browseVideoController
+                /myAccountView.htm=myAccountController
+                /shoppingCartView.htm=shoppingCartController
+            </value>
+        </property>
     </bean>
+    
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/" />
