@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Caleb
  */
 @Controller
-@RequestMapping("/shoppingCartView.htm")
 public class ShoppingCartController {
     
     @Autowired
@@ -35,7 +34,7 @@ public class ShoppingCartController {
         this.browseService = service;
     }
     
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/shoppingCartView.htm", method = RequestMethod.GET)
     public String viewCart(/*@CookieValue("VIDEO_LIST")String videoList,*/ Map<String, Object> map){
         
         //map.put("VideoList", buildPotentialVideoOrderList(""));
@@ -47,7 +46,7 @@ public class ShoppingCartController {
         return "/shoppingCartView";
     }
     
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/shoppingCartView.htm", method = RequestMethod.POST)
     public String deleteOrder(@RequestParam("id")String id, /*@CookieValue("VIDEO_LIST") String videoList, */ HttpServletResponse response){
         String videoList = "";
         String newVideoList = videoList.replace("" + id, "");
@@ -58,7 +57,7 @@ public class ShoppingCartController {
         return "redirect:shoppingCartView.htm";
     }
     
-    @RequestMapping(value = "/${videoId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/shoppingCartView.htm/${videoId}", method = RequestMethod.POST)
     public String addToCart(@PathVariable("videoId")String videoId, HttpServletResponse response, HttpServletRequest request){
         Cookie cookies[] = request.getCookies();
         String videoList = "";

@@ -35,7 +35,7 @@ public class LoginController {
     /**
      *
      */
-    public static final String ACCOUNT_ATTRIBUTE = "account";
+    public static final String ACCOUNT_ATTRIBUTE = "alreadyLogin";
     // tells the application context to inject an instance of AccountServiceImpl here
     @Autowired
     private AccountServiceImpl accountServiceImpl;

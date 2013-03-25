@@ -68,6 +68,7 @@
                 /browseVideos.htm=browseVideoController
                 /myAccountView.htm=myAccountController
                 /shoppingCartView.htm=shoppingCartController
+                /logout.htm=logoutController
             </value>
         </property>
     </bean>
@@ -133,6 +134,9 @@
     <bean name="shoppingCartController"
           class = "com.team33.controllers.ShoppingCartController">
         <property name="browseService" ref="browseServiceImpl"/>
+    </bean>
+    <bean   name="logoutController"
+            class = "com.team33.controllers.LogoutController">
     </bean>
 
     <bean id = "creditCardValidator" class = "com.team33.services.CreditCardValidator"/>
