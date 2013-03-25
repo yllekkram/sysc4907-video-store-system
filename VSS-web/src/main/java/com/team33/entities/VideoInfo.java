@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -25,6 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
+ * Represents the video info in the database
  *
  * @author Samual
  */
@@ -40,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "VideoInfo.findByRunningTime", query = "SELECT v FROM VideoInfo v WHERE v.runningTime = :runningTime"),
     @NamedQuery(name = "VideoInfo.findByReleaseDate", query = "SELECT v FROM VideoInfo v WHERE v.releaseDate = :releaseDate")})
 public class VideoInfo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -83,6 +81,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Constructs the video info
      *
      * @param id
      */
@@ -91,6 +90,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Constructs the video info
      *
      * @param id
      * @param title
@@ -111,6 +111,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Returns the id for video info
      *
      * @return
      */
@@ -119,6 +120,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Sets the id
      *
      * @param id
      */
@@ -127,6 +129,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Gets the title of the video
      *
      * @return
      */
@@ -135,6 +138,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Sets the title
      *
      * @param title
      */
@@ -143,6 +147,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Retrieves the description for video
      *
      * @return
      */
@@ -151,6 +156,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Sets the description
      *
      * @param description
      */
@@ -159,6 +165,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Retrieves the purchase price of a video
      *
      * @return
      */
@@ -167,6 +174,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Sets the price
      *
      * @param purchasePrice
      */
@@ -175,6 +183,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Retrieves the rental price
      *
      * @return
      */
@@ -183,6 +192,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Sets the price
      *
      * @param rentalPrice
      */
@@ -191,6 +201,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Retrieves the running time
      *
      * @return
      */
@@ -199,6 +210,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Sets the running time of the video
      *
      * @param runningTime
      */
@@ -207,6 +219,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Retrieves the release date
      *
      * @return
      */
@@ -215,6 +228,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Sets the release date
      *
      * @param releaseDate
      */
@@ -223,6 +237,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Retrieves the id for the genre
      *
      * @return
      */
@@ -231,6 +246,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * sets genre id
      *
      * @param genreid
      */
@@ -239,6 +255,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Retrieves screen rating id
      *
      * @return
      */
@@ -247,6 +264,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Sets the screen rating id
      *
      * @param screenRatingid
      */
@@ -255,6 +273,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * returns a collection of purchases
      *
      * @return
      */
@@ -264,6 +283,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Sets the purchase collection
      *
      * @param purchaseCollection
      */
@@ -272,6 +292,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Retrieves the collection of rentals
      *
      * @return
      */
@@ -281,6 +302,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Sets the collection of rentals
      *
      * @param rentalCollection
      */
@@ -289,6 +311,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * hashes the video info
      *
      * @return
      */
@@ -300,6 +323,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Returns true if objects are equal
      *
      * @param object
      * @return
@@ -318,6 +342,7 @@ public class VideoInfo implements Serializable {
     }
 
     /**
+     * Represents the video info as a string
      *
      * @return
      */
@@ -325,5 +350,4 @@ public class VideoInfo implements Serializable {
     public String toString() {
         return "javaapplication5.VideoInfo[ id=" + id + " ]";
     }
-    
 }

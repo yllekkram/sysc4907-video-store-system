@@ -4,12 +4,14 @@
  */
 package com.team33.controllers;
 
+import com.team33.entities.VideoInfo;
 import com.team33.services.BrowseServiceImpl;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-// Causing java.lang.NoClassDefFoundError
-//import org.springframework.web.portlet.mvc.AbstractController;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * This is the controller for the browsing feature
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Samual
  */
 @Controller
-@RequestMapping(value = "/browseView.htm")
+@RequestMapping("/browseView.htm")
 public class BrowseController {
 
     @Autowired
@@ -37,10 +39,18 @@ public class BrowseController {
     /**
      *
      * @return
-     */
-    @RequestMapping("/browseView")
-    public String displayAllVideo() {
-        this.browseServiceImpl.displayAllVideoContent();
+     */    
+    @RequestMapping(value = "/{videoId}", method=RequestMethod.GET)
+    public String displayVideoInformation(@PathVariable("videoId")String videoId, Map<String, Object> map){
+        
+        int vidId = Integer.parseInt(videoId);
+        VideoInfo info = this.browseServiceImpl.displayVideoDetails(vidId);
+        int runningTimeMin = (int)(info.getRunningTime() / 60);
+        int runningTimeHour = (int)(runningTimeMin / 60);
+        runningTimeMin = runningTimeMin % 60;
+        map.put("videoInfo", info);
+        map.put("runningMin", runningTimeMin);
+        map.put("runningHour", runningTimeHour);
         return "redirect:/browseView";
     }
 }

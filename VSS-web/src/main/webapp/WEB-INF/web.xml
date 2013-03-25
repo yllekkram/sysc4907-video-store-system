@@ -23,6 +23,12 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
     </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>*.html*</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30

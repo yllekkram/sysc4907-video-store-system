@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
- * Provides the dao for the brose service
+ * Provides the dao for the browse inventory service
  *
  * @author Samual
  */

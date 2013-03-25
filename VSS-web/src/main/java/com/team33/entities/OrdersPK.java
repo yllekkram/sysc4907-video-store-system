@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -10,11 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
+ * Represents the primary key for orders
  *
  * @author Samual
  */
 @Embeddable
 public class OrdersPK implements Serializable {
+
     @Basic(optional = false)
     @Column(name = "id")
     private int id;
@@ -23,12 +21,13 @@ public class OrdersPK implements Serializable {
     private int accountid;
 
     /**
-     *
+     * Constructs the primary key for orders
      */
     public OrdersPK() {
     }
 
     /**
+     * Constructs the primary key for orders
      *
      * @param id
      * @param accountid
@@ -39,6 +38,7 @@ public class OrdersPK implements Serializable {
     }
 
     /**
+     * Retrieves the id for the primary key
      *
      * @return
      */
@@ -47,6 +47,7 @@ public class OrdersPK implements Serializable {
     }
 
     /**
+     * Sets the id
      *
      * @param id
      */
@@ -55,6 +56,7 @@ public class OrdersPK implements Serializable {
     }
 
     /**
+     * Retreieves the account id
      *
      * @return
      */
@@ -63,6 +65,7 @@ public class OrdersPK implements Serializable {
     }
 
     /**
+     * Sets account id
      *
      * @param accountid
      */
@@ -71,6 +74,7 @@ public class OrdersPK implements Serializable {
     }
 
     /**
+     * hashes the order PK
      *
      * @return
      */
@@ -83,6 +87,7 @@ public class OrdersPK implements Serializable {
     }
 
     /**
+     * Returns true if objects are equal
      *
      * @param object
      * @return
@@ -104,6 +109,7 @@ public class OrdersPK implements Serializable {
     }
 
     /**
+     * Represents the orders PK as a string
      *
      * @return
      */
@@ -111,5 +117,4 @@ public class OrdersPK implements Serializable {
     public String toString() {
         return "javaapplication5.OrdersPK[ id=" + id + ", accountid=" + accountid + " ]";
     }
-    
 }

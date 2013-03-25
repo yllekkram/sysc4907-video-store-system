@@ -4,6 +4,7 @@
  */
 package com.team33.controllers;
 
+import com.team33.entities.VideoInfo;
 import com.team33.services.BrowseServiceImpl;
 import com.team33.services.VideoAccessServiceImpl;
 import java.util.ArrayList;
@@ -37,10 +38,13 @@ public class BrowseVideosController {
     
     @RequestMapping(value = "/browseVideos", method = RequestMethod.GET)
     public String getVideos(Map<String,Object> map) {
-        List<Object> list = new ArrayList<Object>();
+        /*List<Object> list = new ArrayList<Object>();
         list.add(new DummyVideoInfo("The Lion King", "Mufasa dies.", "G", "Family"));
         list.add(new DummyVideoInfo("Top Gun", "Goose dies.", "PG-13", "Action"));
         list.add(new DummyVideoInfo("Final Destination", "They all die.", "14A", "Horror"));
+        map.put("videoInfoList", list);*/
+        
+        List<VideoInfo> list = this.browseServiceImpl.displayAllVideoContent();
         map.put("videoInfoList", list);
         return "/browseVideos";
     }

@@ -10,25 +10,28 @@ import com.team33.services.exception.DataAccessException;
 import java.util.List;
 
 /**
+ * Dictates the features required for accessing video purchases
  *
  * @author Caleb,Samual
  */
 public interface VideoAccessService {
 
     /**
+     * Retrieves all videos purchased
      *
      * @param uuid
-     * @return
+     * @return List<VideoInfo>
      * @throws DataAccessException
      * @throws AccountNotActivatedException
      */
     public List<VideoInfo> getVideoInfoList(int uuid) throws DataAccessException, AccountNotActivatedException;
 
     /**
+     * Retrieves the video info for a particular video
      *
      * @param videoInfoId
      * @param uuid
-     * @return
+     * @return VideoInfo
      * @throws DataAccessException
      * @throws AccountNotActivatedException
      */
