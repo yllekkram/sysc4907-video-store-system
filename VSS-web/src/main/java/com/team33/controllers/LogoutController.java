@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/logout.htm")
 public class LogoutController {
     
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.GET)
     public String logout(HttpSession session){
         session.removeAttribute(LoginController.ACCOUNT_ATTRIBUTE);
-        return "redirect:/index.htm";
+        return "redirect:/";
     }
 }
