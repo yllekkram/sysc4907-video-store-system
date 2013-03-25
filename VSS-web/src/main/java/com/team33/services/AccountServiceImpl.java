@@ -78,7 +78,7 @@ public class AccountServiceImpl implements AccountService {
      */
     @Transactional
     @Override
-    public Account loginAccount(String username, String password) throws AuthenticationException, AccountNotFoundException, AccountNotActivatedException, LoginException {
+    public int loginAccount(String username, String password) throws AuthenticationException, AccountNotFoundException, AccountNotActivatedException, LoginException {
         Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
         session.beginTransaction();
         if (username == null || username.equals("")
@@ -98,7 +98,7 @@ public class AccountServiceImpl implements AccountService {
                 }
             }
         }
-        return account;
+        return this.accountDaoImpl.getLoginToken(account.getId()).getLogintokenPK().getId();
     }
 
     /**

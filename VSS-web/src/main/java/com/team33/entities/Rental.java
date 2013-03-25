@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -17,6 +13,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
+ * Represents the rentals in the database
  *
  * @author Samual
  */
@@ -31,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rental.findByOrdersAccountid", query = "SELECT r FROM Rental r WHERE r.rentalPK.ordersAccountid = :ordersAccountid"),
     @NamedQuery(name = "Rental.findByRentalExpiryDate", query = "SELECT r FROM Rental r WHERE r.rentalPK.rentalExpiryDate = :rentalExpiryDate")})
 public class Rental implements Serializable {
+
     private static final long serialVersionUID = 1L;
     /**
      *
@@ -47,12 +45,13 @@ public class Rental implements Serializable {
     private VideoInfo videoInfo;
 
     /**
-     *
+     * Constructs the rental
      */
     public Rental() {
     }
 
     /**
+     * Constructs the rental
      *
      * @param rentalPK
      */
@@ -61,6 +60,7 @@ public class Rental implements Serializable {
     }
 
     /**
+     * Constructs the rental
      *
      * @param id
      * @param videoInfoid
@@ -73,6 +73,7 @@ public class Rental implements Serializable {
     }
 
     /**
+     * Gets the rental PK
      *
      * @return
      */
@@ -81,6 +82,7 @@ public class Rental implements Serializable {
     }
 
     /**
+     * Sets the rental PK
      *
      * @param rentalPK
      */
@@ -89,6 +91,7 @@ public class Rental implements Serializable {
     }
 
     /**
+     * Retrieves the orders
      *
      * @return
      */
@@ -97,6 +100,7 @@ public class Rental implements Serializable {
     }
 
     /**
+     * Sets the orders
      *
      * @param orders
      */
@@ -105,6 +109,7 @@ public class Rental implements Serializable {
     }
 
     /**
+     * Retrieves the video info
      *
      * @return
      */
@@ -113,6 +118,7 @@ public class Rental implements Serializable {
     }
 
     /**
+     * Sets the video info
      *
      * @param videoInfo
      */
@@ -121,6 +127,7 @@ public class Rental implements Serializable {
     }
 
     /**
+     * hashes the rental
      *
      * @return
      */
@@ -132,6 +139,7 @@ public class Rental implements Serializable {
     }
 
     /**
+     * Returns true if the objects are equal
      *
      * @param object
      * @return
@@ -150,6 +158,7 @@ public class Rental implements Serializable {
     }
 
     /**
+     * Represents the rental as a string
      *
      * @return
      */
@@ -157,5 +166,4 @@ public class Rental implements Serializable {
     public String toString() {
         return "javaapplication5.Rental[ rentalPK=" + rentalPK + " ]";
     }
-    
 }

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -21,6 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
+ * This class represents account entities persisted in the database
  *
  * @author Samual
  */
@@ -34,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Account.findByPassword", query = "SELECT a FROM Account a WHERE a.password = :password"),
     @NamedQuery(name = "Account.findByActivated", query = "SELECT a FROM Account a WHERE a.activated = :activated")})
 public class Account implements Serializable {
+
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -56,12 +54,13 @@ public class Account implements Serializable {
     private Collection<LoginToken> logintokenCollection;
 
     /**
-     *
+     * Constructs an account entity
      */
     public Account() {
     }
 
     /**
+     * Constructs an account entity
      *
      * @param id
      */
@@ -70,6 +69,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Constructs an account entity
      *
      * @param id
      * @param name
@@ -80,6 +80,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Retrieves account id
      *
      * @return
      */
@@ -88,6 +89,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Sets the account id to provided number
      *
      * @param id
      */
@@ -96,6 +98,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Retrieves the username of an account
      *
      * @return
      */
@@ -104,6 +107,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Sets the name of an account
      *
      * @param name
      */
@@ -112,6 +116,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Retrieves account password
      *
      * @return
      */
@@ -120,6 +125,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Sets the password to the provided password
      *
      * @param password
      */
@@ -128,6 +134,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Retrieves the account activation status
      *
      * @return
      */
@@ -136,6 +143,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Sets the account activation status
      *
      * @param activated
      */
@@ -144,6 +152,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Retrieves the orders attached to an account
      *
      * @return
      */
@@ -153,6 +162,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Sets the orders attached to the account
      *
      * @param ordersCollection
      */
@@ -161,6 +171,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Retrieves the login token collection
      *
      * @return
      */
@@ -170,6 +181,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Sets the login token collection
      *
      * @param logintokenCollection
      */
@@ -178,6 +190,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * hashes the id
      *
      * @return
      */
@@ -189,6 +202,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Returns true if the accounts are equal
      *
      * @param object
      * @return
@@ -207,6 +221,7 @@ public class Account implements Serializable {
     }
 
     /**
+     * Returns the account entity as a string
      *
      * @return
      */
@@ -214,5 +229,4 @@ public class Account implements Serializable {
     public String toString() {
         return "com.team33.entities.Account[ id=" + id + ", name=" + name + ", password=" + password + " ]";
     }
-    
 }

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -10,11 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
+ * Represents the primary key for purchases
  *
  * @author Samual
  */
 @Embeddable
 public class PurchasePK implements Serializable {
+
     @Basic(optional = false)
     @Column(name = "id")
     private int id;
@@ -29,12 +27,13 @@ public class PurchasePK implements Serializable {
     private int videoInfoid;
 
     /**
-     *
+     * Constructs the primary key for purchase
      */
     public PurchasePK() {
     }
 
     /**
+     * Constructs the primary key for purchase
      *
      * @param id
      * @param ordersid
@@ -49,6 +48,7 @@ public class PurchasePK implements Serializable {
     }
 
     /**
+     * Retrieves the id for the primary key
      *
      * @return
      */
@@ -57,6 +57,7 @@ public class PurchasePK implements Serializable {
     }
 
     /**
+     * Sets the id
      *
      * @param id
      */
@@ -65,6 +66,7 @@ public class PurchasePK implements Serializable {
     }
 
     /**
+     * Retrieves the orders id
      *
      * @return
      */
@@ -73,6 +75,7 @@ public class PurchasePK implements Serializable {
     }
 
     /**
+     * Sets orders id
      *
      * @param ordersid
      */
@@ -81,6 +84,7 @@ public class PurchasePK implements Serializable {
     }
 
     /**
+     * Retrieves the orders account id
      *
      * @return
      */
@@ -89,6 +93,7 @@ public class PurchasePK implements Serializable {
     }
 
     /**
+     * Sets the orders account id
      *
      * @param ordersAccountid
      */
@@ -97,6 +102,7 @@ public class PurchasePK implements Serializable {
     }
 
     /**
+     * Retrieves the video info id
      *
      * @return
      */
@@ -105,6 +111,7 @@ public class PurchasePK implements Serializable {
     }
 
     /**
+     * Sets the video info id
      *
      * @param videoInfoid
      */
@@ -113,6 +120,7 @@ public class PurchasePK implements Serializable {
     }
 
     /**
+     * hashes the purchase PK
      *
      * @return
      */
@@ -127,6 +135,7 @@ public class PurchasePK implements Serializable {
     }
 
     /**
+     * Returns true if objects are equal
      *
      * @param object
      * @return
@@ -154,6 +163,7 @@ public class PurchasePK implements Serializable {
     }
 
     /**
+     * Represents the purchase PK as a string
      *
      * @return
      */
@@ -161,5 +171,4 @@ public class PurchasePK implements Serializable {
     public String toString() {
         return "javaapplication5.PurchasePK[ id=" + id + ", ordersid=" + ordersid + ", ordersAccountid=" + ordersAccountid + ", videoInfoid=" + videoInfoid + " ]";
     }
-    
 }

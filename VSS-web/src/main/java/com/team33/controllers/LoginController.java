@@ -35,7 +35,7 @@ public class LoginController {
     /**
      *
      */
-    public static final String ACCOUNT_ATTRIBUTE = "account";
+    public static final String ACCOUNT_ATTRIBUTE = "alreadyLogin";
     // tells the application context to inject an instance of AccountServiceImpl here
     @Autowired
     private AccountServiceImpl accountServiceImpl;
@@ -154,8 +154,8 @@ public class LoginController {
                     || password == null || password.equals("")) {
                 throw new LoginException("Invalid login info!");
             }
-            Account account = this.accountServiceImpl.loginAccount(username, password);
-            session.setAttribute(ACCOUNT_ATTRIBUTE, account);
+            int tokenId = this.accountServiceImpl.loginAccount(username, password);
+            session.setAttribute(ACCOUNT_ATTRIBUTE, tokenId);
             return this.getSuccessView();
         } catch (LoginException le) {
             redirect.addFlashAttribute("exception", le);

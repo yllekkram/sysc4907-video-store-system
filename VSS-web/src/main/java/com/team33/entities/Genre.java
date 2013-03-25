@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -19,6 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
+ * Represents a video genre in the database
  *
  * @author Samual
  */
@@ -30,6 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Genre.findById", query = "SELECT g FROM Genre g WHERE g.id = :id"),
     @NamedQuery(name = "Genre.findByCategory", query = "SELECT g FROM Genre g WHERE g.category = :category")})
 public class Genre implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -42,12 +40,13 @@ public class Genre implements Serializable {
     private Collection<VideoInfo> videoInfoCollection;
 
     /**
-     *
+     * Constructs the genre entity
      */
     public Genre() {
     }
 
     /**
+     * Constructs the genre entity
      *
      * @param id
      */
@@ -56,6 +55,7 @@ public class Genre implements Serializable {
     }
 
     /**
+     * Constructs the genre entity
      *
      * @param id
      * @param category
@@ -66,6 +66,7 @@ public class Genre implements Serializable {
     }
 
     /**
+     * Retrieves the genre id
      *
      * @return
      */
@@ -74,6 +75,7 @@ public class Genre implements Serializable {
     }
 
     /**
+     * Sets genre id
      *
      * @param id
      */
@@ -82,6 +84,7 @@ public class Genre implements Serializable {
     }
 
     /**
+     * Return genre category i.e. "Comedy"
      *
      * @return
      */
@@ -90,6 +93,7 @@ public class Genre implements Serializable {
     }
 
     /**
+     * Sets the genre category
      *
      * @param category
      */
@@ -98,6 +102,7 @@ public class Genre implements Serializable {
     }
 
     /**
+     * Gets the collection of videoinfo attached to specific genre
      *
      * @return
      */
@@ -107,6 +112,7 @@ public class Genre implements Serializable {
     }
 
     /**
+     * Sets the videoinfo collection for a genre
      *
      * @param videoInfoCollection
      */
@@ -115,6 +121,7 @@ public class Genre implements Serializable {
     }
 
     /**
+     * hashes the id
      *
      * @return
      */
@@ -126,6 +133,7 @@ public class Genre implements Serializable {
     }
 
     /**
+     * Returns true if object are equal
      *
      * @param object
      * @return
@@ -144,6 +152,7 @@ public class Genre implements Serializable {
     }
 
     /**
+     * Returns the string representation of the genre
      *
      * @return
      */
@@ -151,5 +160,4 @@ public class Genre implements Serializable {
     public String toString() {
         return "javaapplication5.Genre[ id=" + id + " ]";
     }
-    
 }
