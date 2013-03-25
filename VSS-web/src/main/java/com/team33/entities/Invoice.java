@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -21,6 +17,7 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
+ * Represents the invoice of an order in the database
  *
  * @author Samual
  */
@@ -35,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Invoice.findByDate", query = "SELECT i FROM Invoice i WHERE i.date = :date"),
     @NamedQuery(name = "Invoice.findByOrderCharge", query = "SELECT i FROM Invoice i WHERE i.invoicePK.orderCharge = :orderCharge")})
 public class Invoice implements Serializable {
+
     private static final long serialVersionUID = 1L;
     /**
      *
@@ -52,12 +50,13 @@ public class Invoice implements Serializable {
     private Orders orders;
 
     /**
-     *
+     * Constructs the invoice entity
      */
     public Invoice() {
     }
 
     /**
+     * Constructs the invoice entity
      *
      * @param invoicePK
      */
@@ -66,6 +65,7 @@ public class Invoice implements Serializable {
     }
 
     /**
+     * Constructs the invoice entity
      *
      * @param invoicePK
      * @param date
@@ -76,6 +76,7 @@ public class Invoice implements Serializable {
     }
 
     /**
+     * Constructs the invoice entity
      *
      * @param id
      * @param ordersid
@@ -87,6 +88,7 @@ public class Invoice implements Serializable {
     }
 
     /**
+     * Retrieves the primary key for invoice
      *
      * @return
      */
@@ -95,6 +97,7 @@ public class Invoice implements Serializable {
     }
 
     /**
+     * Sets the primary key
      *
      * @param invoicePK
      */
@@ -103,6 +106,7 @@ public class Invoice implements Serializable {
     }
 
     /**
+     * Retrieves date of invoice
      *
      * @return
      */
@@ -111,6 +115,7 @@ public class Invoice implements Serializable {
     }
 
     /**
+     * Sets the date of invoice
      *
      * @param date
      */
@@ -119,6 +124,7 @@ public class Invoice implements Serializable {
     }
 
     /**
+     * Retrieves the orders for an invoice
      *
      * @return
      */
@@ -127,6 +133,7 @@ public class Invoice implements Serializable {
     }
 
     /**
+     * sets the orders for the invoice
      *
      * @param orders
      */
@@ -135,6 +142,7 @@ public class Invoice implements Serializable {
     }
 
     /**
+     * hashes the invoice
      *
      * @return
      */
@@ -164,6 +172,7 @@ public class Invoice implements Serializable {
     }
 
     /**
+     * Represents the invoice as a string
      *
      * @return
      */
@@ -171,5 +180,4 @@ public class Invoice implements Serializable {
     public String toString() {
         return "javaapplication5.Invoice[ invoicePK=" + invoicePK + " ]";
     }
-    
 }

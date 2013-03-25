@@ -54,8 +54,10 @@ public class VideoAccessServiceImpl implements VideoAccessService {
             }
         } catch (DataAccessException dae) {
             dae.printStackTrace();
+            return false;
         } catch (AccountNotActivatedException ae) {
             ae.printStackTrace();
+            return false;
         }
         return true;
     }

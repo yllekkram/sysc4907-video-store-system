@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -19,6 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
+ * Represents the screen rating of a video i.e. "PG-13"
  *
  * @author Samual
  */
@@ -30,6 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScreenRating.findById", query = "SELECT s FROM ScreenRating s WHERE s.id = :id"),
     @NamedQuery(name = "ScreenRating.findByRatingType", query = "SELECT s FROM ScreenRating s WHERE s.ratingType = :ratingType")})
 public class ScreenRating implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -42,12 +40,13 @@ public class ScreenRating implements Serializable {
     private Collection<VideoInfo> videoInfoCollection;
 
     /**
-     *
+     * Constructs the screen rating
      */
     public ScreenRating() {
     }
 
     /**
+     * Constructs the screen rating
      *
      * @param id
      */
@@ -56,6 +55,7 @@ public class ScreenRating implements Serializable {
     }
 
     /**
+     * Constructs the screen rating
      *
      * @param id
      * @param ratingType
@@ -66,6 +66,7 @@ public class ScreenRating implements Serializable {
     }
 
     /**
+     * Retrieves screen rating id
      *
      * @return
      */
@@ -74,6 +75,7 @@ public class ScreenRating implements Serializable {
     }
 
     /**
+     * Sets the id
      *
      * @param id
      */
@@ -82,6 +84,7 @@ public class ScreenRating implements Serializable {
     }
 
     /**
+     * Retrieves the type i.e. "PG-13"
      *
      * @return
      */
@@ -90,6 +93,7 @@ public class ScreenRating implements Serializable {
     }
 
     /**
+     * Sets the type
      *
      * @param ratingType
      */
@@ -98,6 +102,7 @@ public class ScreenRating implements Serializable {
     }
 
     /**
+     * Retrieves the collection of video info
      *
      * @return
      */
@@ -107,6 +112,7 @@ public class ScreenRating implements Serializable {
     }
 
     /**
+     * Sets the video info collection
      *
      * @param videoInfoCollection
      */
@@ -115,6 +121,7 @@ public class ScreenRating implements Serializable {
     }
 
     /**
+     * hashes the rating
      *
      * @return
      */
@@ -126,6 +133,7 @@ public class ScreenRating implements Serializable {
     }
 
     /**
+     * Returns true if objects are equal
      *
      * @param object
      * @return
@@ -144,6 +152,7 @@ public class ScreenRating implements Serializable {
     }
 
     /**
+     * Represents the rating as a string
      *
      * @return
      */
@@ -151,5 +160,4 @@ public class ScreenRating implements Serializable {
     public String toString() {
         return "javaapplication5.ScreenRating[ id=" + id + " ]";
     }
-    
 }

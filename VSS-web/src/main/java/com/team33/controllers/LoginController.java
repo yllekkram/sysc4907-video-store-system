@@ -154,8 +154,8 @@ public class LoginController {
                     || password == null || password.equals("")) {
                 throw new LoginException("Invalid login info!");
             }
-            Account account = this.accountServiceImpl.loginAccount(username, password);
-            session.setAttribute(ACCOUNT_ATTRIBUTE, account);
+            int tokenId = this.accountServiceImpl.loginAccount(username, password);
+            session.setAttribute(ACCOUNT_ATTRIBUTE, tokenId);
             return this.getSuccessView();
         } catch (LoginException le) {
             redirect.addFlashAttribute("exception", le);

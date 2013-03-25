@@ -61,7 +61,7 @@ public class AccountServiceImplTest {
     @Test
     @Rollback(true)
     public void testLoginAccount_ValidUsernameActivated() {
-        Account account = null;
+        int account = -9999;
         try {
             account = this.accountServiceImpl.loginAccount("Hello", "World");
         } catch (AuthenticationException ex) {
@@ -74,15 +74,13 @@ public class AccountServiceImplTest {
             fail("LoginException should not be thrown");
         }
         assertNotNull(account);
-        assertEquals(account.getName(), "Hello");
-        assertEquals(account.getPassword(), "World");
-        assertTrue(account.getActivated());
+        assertEquals(account, 1);
     }
 
     @Test
     @Rollback(true)
     public void testLoginAccount_NullUsername() {
-        Account account = null;
+        int account = -9999;
         try {
             account = this.accountServiceImpl.loginAccount(null, "World");
         } catch (AuthenticationException ex) {
@@ -98,7 +96,7 @@ public class AccountServiceImplTest {
     @Test
     @Rollback(true)
     public void testLoginAccount_BlankUsername() {
-        Account account = null;
+        int account = -9999;
         try {
             account = this.accountServiceImpl.loginAccount("", "World");
         } catch (AuthenticationException ex) {
@@ -114,7 +112,7 @@ public class AccountServiceImplTest {
     @Test
     @Rollback(true)
     public void testLoginAccount_InvalidUsername() {
-        Account account = null;
+        int account = -9999;
         try {
             account = this.accountServiceImpl.loginAccount("People", "World");
         } catch (AuthenticationException ex) {
@@ -130,7 +128,7 @@ public class AccountServiceImplTest {
     @Test
     @Rollback(true)
     public void testLoginAccount_NullPassword() {
-        Account account = null;
+        int account = -9999;
         try {
             account = this.accountServiceImpl.loginAccount("Hello", null);
         } catch (AuthenticationException ex) {
@@ -146,7 +144,7 @@ public class AccountServiceImplTest {
     @Test
     @Rollback(true)
     public void testLoginAccount_BlankPassword() {
-        Account account = null;
+        int account = -9999;
         try {
             account = this.accountServiceImpl.loginAccount("Hello", "");
         } catch (AuthenticationException ex) {
@@ -162,7 +160,7 @@ public class AccountServiceImplTest {
     @Test
     @Rollback(true)
     public void testLoginAccount_InvalidPassword() {
-        Account account = null;
+        int account = -9999;
         try {
             account = this.accountServiceImpl.loginAccount("Hello", "People");
         } catch (AuthenticationException ex) {
