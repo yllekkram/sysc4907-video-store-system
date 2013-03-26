@@ -68,8 +68,10 @@ public class MyAccountController {
             Account account = this.accountService.getAccount(uuid);
             //Account account = new Account();
             //account.setName("Jim");
-            map.put("Name", account.getName());
-            map.put("Orders", (account.getOrdersCollection() == null ? new ArrayList<Orders>() : account.getOrdersCollection()));
+            if (account != null){
+                map.put("Name", account.getName());
+                map.put("Orders", (account.getOrdersCollection() == null ? new ArrayList<Orders>() : account.getOrdersCollection()));
+            }
         }catch(DataAccessException e){
             //redirect.addFlashAttribute("exception", e);
             return "redirect:/myAccountView.htm";

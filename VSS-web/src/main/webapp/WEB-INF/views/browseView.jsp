@@ -24,7 +24,8 @@
         <h3>Genre : <c:out value="${info.genre.category}"/></h3>
         <h3>Screen Rating : <c:out value="${info.screenRating.ratingType}"/></h3>
         <h3>Purchase : <c:out value="${info.purchasePrice}"/></h3>
+        <button type="button" value="/shoppingCartView.htm/purchase/${info.id}"></button>
         <h3>Rental : <c:out value="${info.rentalPrice}"/></h3>
-        <button type="button" value="/shoppingCartView.htm/${info.id}"></button>
+        <button type="button" value="/shoppingCartView.htm/rental/${info.id}"></button>
     </body>
 </html>

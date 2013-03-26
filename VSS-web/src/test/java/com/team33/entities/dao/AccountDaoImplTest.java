@@ -227,6 +227,83 @@ public class AccountDaoImplTest {
         }
         System.out.println("testSaveAccount_NullAccount() passed");
     }
+    
+    @Test
+    @Rollback(true)
+    public void testSaveAccount_ValidAccount(){
+        try{
+            this.accountDaoImpl.saveAccount(new Account(1, "Test1"));
+        }catch(DataAccessException e){
+            fail("DataAccessException should not be thrown");
+        }
+        System.out.println("testSaveAccount_ValidAccount() passed");
+    }
+    
+    @Test
+    @Rollback(true)
+    public void testSaveAccount_NullID(){
+        try{
+            this.accountDaoImpl.saveAccount(new Account(null, "Test1"));
+            fail("Failed to throw DataAccessException for null");
+        }catch(DataAccessException e){
+        }
+        System.out.println("testSaveAccount_NullID() passed");
+    }
+    
+    @Test
+    @Rollback(true)
+    public void testSaveAccount_NegID(){
+        try{
+            this.accountDaoImpl.saveAccount(new Account(-1, "Test1"));
+            fail("Failed to throw DataAccessException for null");
+        }catch(DataAccessException e){
+        }
+        System.out.println("testSaveAccount_NegID() passed");
+    }
+    
+    @Test
+    @Rollback(true)
+    public void testSaveAccount_InvalidID(){
+        try{
+            this.accountDaoImpl.saveAccount(new Account(9999, "Test1"));
+            fail("Failed to throw DataAccessException for null");
+        }catch(DataAccessException e){
+        }
+        System.out.println("testSaveAccount_InvalidID() passed");
+    }
+    
+    @Test
+    @Rollback(true)
+    public void testSaveAccount_NullName(){
+        try{
+            this.accountDaoImpl.saveAccount(new Account(1, null));
+            fail("Failed to throw DataAccessException for null");
+        }catch(DataAccessException e){
+        }
+        System.out.println("testSaveAccount_NullName() passed");
+    }
+    
+    @Test
+    @Rollback(true)
+    public void testSaveAccount_BlankName(){
+        try{
+            this.accountDaoImpl.saveAccount(new Account(1, ""));
+            fail("Failed to throw DataAccessException for null");
+        }catch(DataAccessException e){
+        }
+        System.out.println("testSaveAccount_BlankName() passed");
+    }
+    
+    @Test
+    @Rollback(true)
+    public void testSaveAccount_InvalidName(){
+        try{
+            this.accountDaoImpl.saveAccount(new Account(1, "Invalid"));
+            fail("Failed to throw DataAccessException for null");
+        }catch(DataAccessException e){
+        }
+        System.out.println("testSaveAccount_InvalidName() passed");
+    }
 
     @Test
     @Rollback(true)
@@ -332,6 +409,53 @@ public class AccountDaoImplTest {
             fail("DataAccessException was thrown");
         }
         System.out.println("testRemoveAccount_ValidId() passed");
+    }
+    
+    @Test
+    @Rollback(true)
+    public void testRemoveLoginToken_NullId(){
+        try{
+            this.accountDaoImpl.removeLoginToken(null);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+        
+        }
+        System.out.println("testRemoveLoginToken_NullId() passed");
+    }
+    
+    @Test
+    @Rollback(true)
+    public void testRemoveLoginToken_NegId(){
+        try{
+            this.accountDaoImpl.removeLoginToken(-1);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+        
+        }
+        System.out.println("testRemoveLoginToken_NegId() passed");
+    }
+    
+    @Test
+    @Rollback(true)
+    public void testRemoveLoginToken_InvalidId(){
+        try{
+            this.accountDaoImpl.removeLoginToken(9999);
+            fail("Failed to throw DataAccessException");
+        }catch(DataAccessException e){
+        
+        }
+        System.out.println("testRemoveLoginToken_InvalidId() passed");
+    }
+    
+    @Test
+    @Rollback(true)
+    public void testRemoveLoginToken_ValidId(){
+        try{
+            this.accountDaoImpl.removeLoginToken(1);
+        }catch(DataAccessException e){
+            fail("DataAccessException was thrown");
+        }
+        System.out.println("testRemoveLoginToken_ValidId() passed");
     }
     
 }
