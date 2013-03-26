@@ -10,6 +10,7 @@ import com.team33.services.exception.DataAccessException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ShoppingCartController {
     
+    public static final String SHOPPING_CART_COOKIE_NAME = "VIDEO_LIST";
+    
     @Autowired
     private BrowseService browseService;
     
@@ -35,48 +38,78 @@ public class ShoppingCartController {
     }
     
     @RequestMapping(value = "/shoppingCartView.htm", method = RequestMethod.GET)
-    public String viewCart(/*@CookieValue("VIDEO_LIST")String videoList,*/ Map<String, Object> map){
-        
-        //map.put("VideoList", buildPotentialVideoOrderList(""));
-        
+    public String viewCart(Map<String, Object> map, HttpServletRequest request){
         ArrayList<VideoInfo> info = new ArrayList<VideoInfo>();
-        info.add(new VideoInfo(0, "Hello World", "1234", 10, 10, 10, new Date(System.currentTimeMillis())));
+        Cookie videoCookie = getCartCookie(request);
+        if (videoCookie == null){
+            map.put("VideoList", info);
+            return "/shoppingCartView";
+        }
+        ShoppingCart cart = ShoppingCart.fromString(videoCookie.getValue());
+        Set<Integer> videoList = cart.getVideoList();
+        for(Integer i : videoList){
+            info.add(this.browseService.displayVideoDetails(i.intValue()));
+        }
         map.put("VideoList", info);
         
         return "/shoppingCartView";
     }
     
     @RequestMapping(value = "/shoppingCartView.htm", method = RequestMethod.POST)
-    public String deleteOrder(@RequestParam("id")String id, /*@CookieValue("VIDEO_LIST") String videoList, */ HttpServletResponse response){
-        String videoList = "";
-        String newVideoList = videoList.replace("" + id, "");
-        newVideoList = newVideoList.replaceAll(",,", ",");
-        Cookie cookie = new Cookie("VIDEO_LIST", newVideoList);
+    public String deleteOrder(@RequestParam("id")String id, HttpServletResponse response, HttpServletRequest request){
+        Cookie videoList = getCartCookie(request);
+        String cartString = "";
+        if (videoList != null){
+            ShoppingCart cart = ShoppingCart.fromString(videoList.getValue());
+            cart.removeFromCart(Integer.parseInt(id));
+            cartString = cart.toString();
+        }else{
+            return "redirect:/shoppingCartView.htm";
+        }
+        Cookie cookie = new Cookie(SHOPPING_CART_COOKIE_NAME, cartString);
         cookie.setPath("http://localhost:8080/cart");
         response.addCookie(cookie);
-        return "redirect:shoppingCartView.htm";
+        return "redirect:/shoppingCartView.htm";
     }
     
-    @RequestMapping(value = "/shoppingCartView.htm/${videoId}", method = RequestMethod.POST)
-    public String addToCart(@PathVariable("videoId")String videoId, HttpServletResponse response, HttpServletRequest request){
-        Cookie cookies[] = request.getCookies();
-        String videoList = "";
-        boolean isFound = false;
-        for(Cookie c : cookies){
-            if (c.getName().equals("VIDEO_LIST")){
-                videoList = c.getValue();
-                isFound = true;
-            }
-        }
-        Cookie cookie = null;
-        if (isFound){
-            cookie = new Cookie("VIDEO_LIST", videoList + "," + videoId);
-        }else{
-            cookie = new Cookie("VIDEO_LIST", videoId);
-        }
+    @RequestMapping(value = "/shoppingCartView.htm/purchase/${videoId}", method = RequestMethod.POST)
+    public String addPurchaseToCart(@PathVariable("videoId")String videoId, HttpServletResponse response, HttpServletRequest request){
+        Cookie videoList = getCartCookie(request);
+        String cartString = handleAddToCart(videoId, false, videoList);
+        Cookie cookie = new Cookie(SHOPPING_CART_COOKIE_NAME, cartString);
         cookie.setPath("http://localhost:8080/cart");
         response.addCookie(cookie);
         return "redirect:/browseView.htm/" + videoId;
+    }
+    
+    @RequestMapping(value = "/shoppingCartView.htm/rental/${videoId}", method = RequestMethod.POST)
+    public String addrentalToCart(@PathVariable("videoId")String videoId, HttpServletResponse response, HttpServletRequest request){
+        Cookie videoList = getCartCookie(request);
+        String cartString = handleAddToCart(videoId, true, videoList);
+        Cookie cookie = new Cookie(SHOPPING_CART_COOKIE_NAME, cartString);
+        cookie.setPath("http://localhost:8080/cart");
+        response.addCookie(cookie);
+        return "redirect:/browseView.htm/" + videoId;
+    }
+    
+    private Cookie getCartCookie(HttpServletRequest request){
+        Cookie cookies[] = request.getCookies();
+        for(Cookie c : cookies){
+            if (c.getName().equals(SHOPPING_CART_COOKIE_NAME)){
+                return c;
+            }
+        }
+        return null;
+    }
+    
+    private String handleAddToCart(String videoId, boolean isRented, Cookie originalCookie){
+        String videoList = "";
+        if (originalCookie != null){
+            videoList = originalCookie.getName();
+        }
+        ShoppingCart cart = ShoppingCart.fromString(videoList);
+        cart.addToCart(Integer.parseInt(videoId), isRented);
+        return cart.toString();
     }
     
     private ArrayList<VideoInfo> buildPotentialVideoOrderList(String videoList){
