@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -10,11 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
+ * Represents the primary key for login token
  *
  * @author Samual
  */
 @Embeddable
 public class LoginTokenPK implements Serializable {
+
     @Basic(optional = false)
     @Column(name = "Account_id")
     private int accountid;
@@ -23,12 +21,13 @@ public class LoginTokenPK implements Serializable {
     private int id;
 
     /**
-     *
+     * Constructs the primary key for login token
      */
     public LoginTokenPK() {
     }
 
     /**
+     * Constructs the primary key for login token
      *
      * @param accountid
      * @param id
@@ -39,6 +38,7 @@ public class LoginTokenPK implements Serializable {
     }
 
     /**
+     * Gets the account id
      *
      * @return
      */
@@ -47,6 +47,7 @@ public class LoginTokenPK implements Serializable {
     }
 
     /**
+     * Sets the id
      *
      * @param accountid
      */
@@ -55,6 +56,7 @@ public class LoginTokenPK implements Serializable {
     }
 
     /**
+     * Gets the id for the primary key
      *
      * @return
      */
@@ -63,6 +65,7 @@ public class LoginTokenPK implements Serializable {
     }
 
     /**
+     * Sets the id
      *
      * @param id
      */
@@ -71,6 +74,7 @@ public class LoginTokenPK implements Serializable {
     }
 
     /**
+     * hashes the login token PK
      *
      * @return
      */
@@ -83,6 +87,7 @@ public class LoginTokenPK implements Serializable {
     }
 
     /**
+     * Returns true if the objects are equal
      *
      * @param object
      * @return
@@ -104,6 +109,7 @@ public class LoginTokenPK implements Serializable {
     }
 
     /**
+     * Represents the login token PK as a string
      *
      * @return
      */
@@ -111,5 +117,4 @@ public class LoginTokenPK implements Serializable {
     public String toString() {
         return "javaapplication5.LogintokenPK[ accountid=" + accountid + ", id=" + id + " ]";
     }
-    
 }

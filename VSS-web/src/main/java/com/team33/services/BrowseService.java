@@ -10,32 +10,38 @@ import com.team33.entities.VideoInfo;
 import java.util.List;
 
 /**
+ * This interface dictate all services required for browsing the system's
+ * inventory
  *
  * @author Samual
  */
 public interface BrowseService {
 
     /**
+     * Retrieves all video content for the user
      *
-     * @return
+     * @return List<VideoInfo>
      */
     public List<VideoInfo> displayAllVideoContent();
 
     /**
+     * Retrieves the details for a single video
      *
      * @param videoInfoId
-     * @return
+     * @return VideoInfo
      */
     public VideoInfo displayVideoDetails(int videoInfoId);
 
     /**
+     * Retrieves all video content for a particular genre
      *
      * @param genre
-     * @return
+     * @return List<VideoInfo>
      */
     public List<VideoInfo> searchVideos(Genre genre);
 
     /**
+     * Retrieves all video content with a particular rating
      *
      * @param rating
      * @return
@@ -43,6 +49,7 @@ public interface BrowseService {
     public List<VideoInfo> searchVideos(ScreenRating rating);
 
     /**
+     * Retrieves all video content with a particular title
      *
      * @param title
      * @return

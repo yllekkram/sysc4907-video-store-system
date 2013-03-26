@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -10,11 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
+ * Represents the primary key for invoice
  *
  * @author Samual
  */
 @Embeddable
 public class InvoicePK implements Serializable {
+
     @Basic(optional = false)
     @Column(name = "id")
     private int id;
@@ -29,12 +27,13 @@ public class InvoicePK implements Serializable {
     private int orderCharge;
 
     /**
-     *
+     * Constructs the primary key for invoice
      */
     public InvoicePK() {
     }
 
     /**
+     * Constructs the primary key for invoice
      *
      * @param id
      * @param ordersid
@@ -49,6 +48,7 @@ public class InvoicePK implements Serializable {
     }
 
     /**
+     * Retrieves the id of the primary key
      *
      * @return
      */
@@ -57,6 +57,7 @@ public class InvoicePK implements Serializable {
     }
 
     /**
+     * Sets the id
      *
      * @param id
      */
@@ -65,6 +66,7 @@ public class InvoicePK implements Serializable {
     }
 
     /**
+     * Retrieves the order id for invoice
      *
      * @return
      */
@@ -73,6 +75,7 @@ public class InvoicePK implements Serializable {
     }
 
     /**
+     * Sets the order id
      *
      * @param ordersid
      */
@@ -81,6 +84,7 @@ public class InvoicePK implements Serializable {
     }
 
     /**
+     * Retrieves orders account id
      *
      * @return
      */
@@ -89,6 +93,7 @@ public class InvoicePK implements Serializable {
     }
 
     /**
+     * Sets the orders account id
      *
      * @param ordersAccountid
      */
@@ -97,6 +102,7 @@ public class InvoicePK implements Serializable {
     }
 
     /**
+     * Retrieves the charge of the order
      *
      * @return
      */
@@ -105,6 +111,7 @@ public class InvoicePK implements Serializable {
     }
 
     /**
+     * Sets the charge
      *
      * @param orderCharge
      */
@@ -113,6 +120,7 @@ public class InvoicePK implements Serializable {
     }
 
     /**
+     * hashes the primary key
      *
      * @return
      */
@@ -127,6 +135,7 @@ public class InvoicePK implements Serializable {
     }
 
     /**
+     * Returns true if objects are equal
      *
      * @param object
      * @return
@@ -154,6 +163,7 @@ public class InvoicePK implements Serializable {
     }
 
     /**
+     * Represents the invoice PK as a string
      *
      * @return
      */
@@ -161,5 +171,4 @@ public class InvoicePK implements Serializable {
     public String toString() {
         return "javaapplication5.InvoicePK[ id=" + id + ", ordersid=" + ordersid + ", ordersAccountid=" + ordersAccountid + ", orderCharge=" + orderCharge + " ]";
     }
-    
 }

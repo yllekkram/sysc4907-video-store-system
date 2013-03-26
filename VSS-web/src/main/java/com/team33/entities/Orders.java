@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.team33.entities;
 
 import java.io.Serializable;
@@ -20,6 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
+ * Represents the orders in the database
  *
  * @author Samual
  */
@@ -32,6 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Orders.findByAccountid", query = "SELECT o FROM Orders o WHERE o.ordersPK.accountid = :accountid"),
     @NamedQuery(name = "Orders.findByPendingCharge", query = "SELECT o FROM Orders o WHERE o.pendingCharge = :pendingCharge")})
 public class Orders implements Serializable {
+
     private static final long serialVersionUID = 1L;
     /**
      *
@@ -51,12 +49,13 @@ public class Orders implements Serializable {
     private Collection<Rental> rentalCollection;
 
     /**
-     *
+     * Constructs the orders
      */
     public Orders() {
     }
 
     /**
+     * Constructs the orders
      *
      * @param ordersPK
      */
@@ -65,6 +64,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Constructs the orders
      *
      * @param id
      * @param accountid
@@ -74,6 +74,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Retrieves the orders PK
      *
      * @return
      */
@@ -82,6 +83,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Sets the orders PK
      *
      * @param ordersPK
      */
@@ -90,6 +92,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Retrieves the pending charge for an order
      *
      * @return
      */
@@ -98,6 +101,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Sets the pending charge
      *
      * @param pendingCharge
      */
@@ -106,6 +110,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Retrieves the collection of invoices
      *
      * @return
      */
@@ -115,6 +120,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Sets the invoice collection
      *
      * @param invoiceCollection
      */
@@ -123,6 +129,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Gets the account
      *
      * @return
      */
@@ -131,6 +138,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Sets the account
      *
      * @param account
      */
@@ -139,6 +147,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Gets the purchase collection
      *
      * @return
      */
@@ -148,6 +157,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Sets the purchase collection
      *
      * @param purchaseCollection
      */
@@ -156,6 +166,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Gets the rental collection
      *
      * @return
      */
@@ -165,6 +176,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Sets the rental collection
      *
      * @param rentalCollection
      */
@@ -173,6 +185,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * hashes the orders
      *
      * @return
      */
@@ -184,6 +197,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Returns true if the objects are equal
      *
      * @param object
      * @return
@@ -202,6 +216,7 @@ public class Orders implements Serializable {
     }
 
     /**
+     * Represents the orders as a string
      *
      * @return
      */
@@ -209,5 +224,4 @@ public class Orders implements Serializable {
     public String toString() {
         return "javaapplication5.Orders[ ordersPK=" + ordersPK + " ]";
     }
-    
 }
