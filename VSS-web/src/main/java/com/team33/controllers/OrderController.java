@@ -6,7 +6,7 @@ package com.team33.controllers;
 
 import com.team33.entities.Orders;
 import com.team33.form.OrderRequest;
-import com.team33.services.OrderServiceImpl;
+import com.team33.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -25,14 +25,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class OrderController{
 
     @Autowired
-    private OrderServiceImpl orderServiceImpl;  
+    private OrderService orderService;  
 
-    public void setOrderServiceImpl(OrderServiceImpl orderServiceImpl) {
-        this.orderServiceImpl = orderServiceImpl;
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
     }
     
-    public OrderServiceImpl getOrderServiceImpl(){
-        return this.orderServiceImpl;
+    public OrderService getOrderService(){
+        return this.orderService;
     }
     
     @RequestMapping(value = "order/create", method = RequestMethod.POST)

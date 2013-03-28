@@ -9,7 +9,7 @@ package com.team33.controllers;
  * @author Samual
  */
 import com.team33.entities.Account;
-import com.team33.services.AccountServiceImpl;
+import com.team33.services.AccountService;
 import com.team33.services.exception.RegistrationException;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -34,20 +34,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class RegisterAccountController {
 
     @Autowired
-    private AccountServiceImpl accountServiceImpl;
-    @Autowired
+    private AccountService accountService;
     private String successView;
-    @Autowired
     private String commandName;
-    @Autowired
     private Class commandClass;
 
     /**
      *
      * @param service
      */
-    public void setAccountServiceImpl(AccountServiceImpl service) {
-        this.accountServiceImpl = service;
+    public void setAccountService(AccountService service) {
+        this.accountService = service;
     }
 
     /**
@@ -70,8 +67,8 @@ public class RegisterAccountController {
      *
      * @return
      */
-    public AccountServiceImpl getAccountServiceImpl() {
-        return this.accountServiceImpl;
+    public AccountService getAccountService() {
+        return this.accountService;
     }
 
     /**
@@ -127,7 +124,7 @@ public class RegisterAccountController {
                 throw new RegistrationException("Password must not be blank");
             }
             //if username already exists in system throw exception
-            this.getAccountServiceImpl().registerAccount(username, password);
+            this.getAccountService().registerAccount(username, password);
             return this.getSuccessView();
         } catch (RegistrationException re) {
             redirect.addFlashAttribute("exception", re);
