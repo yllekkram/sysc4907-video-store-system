@@ -89,28 +89,8 @@
         <property name="commandName" value = "account" />
         <property name="commandClass" value ="com.team33.entities.Account"/>
     </bean>
-    <bean name="browseVideoController"
-        class="com.team33.controllers.BrowseVideosController">
-        <property name="browseServiceImpl" ref="browseServiceImpl"/>
-    </bean>
-    <bean name = "viewVideoController"
-          class = "com.team33.controllers.VideoViewController">
-    </bean>
-    <bean name="myAccountController"
-          class = "com.team33.controllers.MyAccountController">
-        <property name="videoAccessService" ref="videoAccessServiceImpl"/>
-        <property name="accountService" ref="accountServiceImpl"/>
-    </bean>
-    <bean name="shoppingCartController"
-          class = "com.team33.controllers.ShoppingCartController">
-        <property name="browseService" ref="browseServiceImpl"/>
-    </bean>
-    <bean   name="logoutController"
-            class = "com.team33.controllers.LogoutController">
-    </bean>
-
+    
     <bean id = "creditCardValidator" class = "com.team33.services.CreditCardValidator"/>
-         
     <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
         <property name = "creditCardValidator" ref = "creditCardValidator"/>
     </bean>
