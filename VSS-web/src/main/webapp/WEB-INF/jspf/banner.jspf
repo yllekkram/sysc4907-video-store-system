@@ -73,7 +73,7 @@
                 <a href="viewVideo.htm" class="bannerNavLink">Watch Video</a>
             </li>
             <li>
-                <a href="orderVideoView.htm" class="bannerNavLink">Order</a>
+                <a href="order/new.htm" class="bannerNavLink">Order</a>
             </li>
             <li>
                 <a href="adminView.htm" class="bannerNavLink">Admin View</a>
