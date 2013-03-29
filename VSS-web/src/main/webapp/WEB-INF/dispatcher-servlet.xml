@@ -2,52 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
-
-    <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
-
-    <!--
-    Most controllers will use the ControllerClassNameHandlerMapping above, but
-    for the index controller we are using ParameterizableViewController, so we must
-    define an explicit mapping for it.
-    -->
-    <!--bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="urlMap">
-            <map>
-                <entry key="/index.htm">
-                    <ref bean="indexController"/>
-                </entry>
-                <entry key="/login.htm">
-                    <ref bean="loginController"/>
-                </entry>
-                <entry key="/registerAccountView.htm">
-                    <ref bean="registerAccountController"/>
-                </entry>
-                <entry key="/browseView.htm">
-                    <ref bean="browseController"/>
-                </entry>
-                <entry key="/accessVideoOrders.htm">
-                    <ref bean="accessVideoController"/>
-                </entry>
-                <entry key="/viewVideo">
-                    <ref bean="viewVideoController"/>
-                </entry>
-                <entry key="/myAccountView.htm">
-                    <ref bean="myAccountController"/>
-                </entry>
-                <entry key="/shoppingCartView.htm">
-                    <ref bean="shoppingCartController"/>
-                </entry>
-            </map>
-        </property>
-    </bean-->
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
     <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <value>
@@ -69,9 +24,11 @@
     
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.JstlView" />
         <property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" />
-    </bean>  
+    </bean>
           
     <!-- Controller beans -->
     <bean name="indexController"
@@ -94,6 +51,5 @@
     <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
         <property name = "creditCardValidator" ref = "creditCardValidator"/>
     </bean>
-      
-    <mvc:annotation-driven />
+    
 </beans>
