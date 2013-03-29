@@ -42,7 +42,7 @@ public class VideoAccessServiceImplTest {
     @Before
     public void setUp() {
         this.videoAccessServiceImpl = new VideoAccessServiceImpl();
-        this.videoAccessServiceImpl.setVideoAccessDaoImpl(new VideoAccessDaoImplTestStub());
+        this.videoAccessServiceImpl.setVideoAccessDao(new VideoAccessDaoImplTestStub());
     }
     
     @After

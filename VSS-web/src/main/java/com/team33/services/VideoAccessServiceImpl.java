@@ -2,30 +2,32 @@ package com.team33.services;
 
 import com.team33.entities.LoginToken;
 import com.team33.entities.VideoInfo;
-import com.team33.entities.dao.VideoAccessDaoImpl;
+import com.team33.entities.dao.VideoAccessDao;
 import com.team33.services.exception.AccountNotActivatedException;
 import com.team33.services.exception.DataAccessException;
 import java.util.List;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class will implement methods to access the videos ordered by an account
  *
  * @author Samual
  */
+@Service
 public class VideoAccessServiceImpl implements VideoAccessService {
 
     @Autowired
-    private VideoAccessDaoImpl videoAccessDaoImpl;
+    private VideoAccessDao videoAccessDao;
 
     /**
      * Gets the current instance of the implemented dao
      *
      * @return VideoAccessDaoImpl
      */
-    public VideoAccessDaoImpl getVideoAccessDaoImpl() {
-        return videoAccessDaoImpl;
+    public VideoAccessDao getVideoAccessDao() {
+        return videoAccessDao;
     }
 
     /**
@@ -33,8 +35,8 @@ public class VideoAccessServiceImpl implements VideoAccessService {
      *
      * @param videoAccessDaoImpl
      */
-    public void setVideoAccessDaoImpl(VideoAccessDaoImpl videoAccessDaoImpl) {
-        this.videoAccessDaoImpl = videoAccessDaoImpl;
+    public void setVideoAccessDao(VideoAccessDao videoAccessDao) {
+        this.videoAccessDao = videoAccessDao;
     }
 
     /**
@@ -47,7 +49,7 @@ public class VideoAccessServiceImpl implements VideoAccessService {
      */
     public boolean isActivated(int uuid) throws AccountNotActivatedException {
         try {
-            LoginToken loginToken = this.getVideoAccessDaoImpl().getLoginToken(uuid);
+            LoginToken loginToken = this.getVideoAccessDao().getLoginToken(uuid);
 
             if (!loginToken.getAccount().getActivated()) {
                 throw new AccountNotActivatedException("Account Inactive");
@@ -73,11 +75,10 @@ public class VideoAccessServiceImpl implements VideoAccessService {
      * @throws AccountNotActivatedException
      */
     @Override
+    @Transactional
     public VideoInfo getVideoInfo(int videoInfoId, int uuid) throws DataAccessException, AccountNotActivatedException {
-        Session session = this.getVideoAccessDaoImpl().getSessionFactory().getCurrentSession();
-        session.beginTransaction();
         if (this.isActivated(uuid)) {
-            return this.videoAccessDaoImpl.getVideoInfo(videoInfoId, uuid);
+            return this.videoAccessDao.getVideoInfo(videoInfoId, uuid);
         }
         throw new DataAccessException("Incorrect activation key!");
     }
@@ -91,11 +92,10 @@ public class VideoAccessServiceImpl implements VideoAccessService {
      * @throws AccountNotActivatedException
      */
     @Override
+    @Transactional
     public List<VideoInfo> getVideoInfoList(int uuid) throws DataAccessException, AccountNotActivatedException {
-        Session session = this.getVideoAccessDaoImpl().getSessionFactory().getCurrentSession();
-        session.beginTransaction();
         if (this.isActivated(uuid)) {
-            return this.videoAccessDaoImpl.getVideoInfoList(uuid);
+            return this.videoAccessDao.getVideoInfoList(uuid);
         }
         throw new DataAccessException("Invalid activation key!");
     }

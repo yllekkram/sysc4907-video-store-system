@@ -5,14 +5,12 @@
 package com.team33.controllers;
 
 import com.team33.entities.VideoInfo;
-import com.team33.services.BrowseServiceImpl;
-import com.team33.services.VideoAccessServiceImpl;
-import java.util.ArrayList;
+import com.team33.services.BrowseService;
+import com.team33.services.VideoAccessService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,17 +21,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class BrowseVideosController {
     @Autowired
-    private BrowseServiceImpl browseServiceImpl;
+    private BrowseService browseService;
     
     @Autowired
-    private VideoAccessServiceImpl videoAccessServiceImpl;
+    private VideoAccessService videoAccessService;
             
-    public void setBrowseServiceImpl(BrowseServiceImpl browseServiceImpl){
-        this.browseServiceImpl = browseServiceImpl;
+    public void setBrowseService(BrowseService browseService){
+        this.browseService = browseService;
     }
 
-    public void setVideoAccessServiceImpl(VideoAccessServiceImpl videoAccessServiceImpl) {
-        this.videoAccessServiceImpl = videoAccessServiceImpl;
+    public void setVideoAccessService(VideoAccessService videoAccessService) {
+        this.videoAccessService = videoAccessService;
     }
     
     @RequestMapping(value = "/browseVideos", method = RequestMethod.GET)
@@ -44,7 +42,7 @@ public class BrowseVideosController {
         list.add(new DummyVideoInfo("Final Destination", "They all die.", "14A", "Horror"));
         map.put("videoInfoList", list);*/
         
-        List<VideoInfo> list = this.browseServiceImpl.displayAllVideoContent();
+        List<VideoInfo> list = this.browseService.displayAllVideoContent();
         map.put("videoInfoList", list);
         return "/browseVideos";
     }

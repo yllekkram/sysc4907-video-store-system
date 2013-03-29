@@ -4,18 +4,15 @@
  */
 package com.team33.services;
 
-import com.team33.entities.Orders;
-import com.team33.entities.dao.OrdersDaoImpl;
 import com.team33.services.exception.AccountNotActivatedException;
 import com.team33.services.exception.DataAccessException;
 import java.util.Date;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -44,7 +41,7 @@ public class OrderServiceImplTest {
     @Before
     public void setUp() {
         orderServiceImpl = new OrderServiceImpl();
-        orderServiceImpl.setOrdersDaoImpl(new OrderDaoImplTestStub());
+        orderServiceImpl.setOrdersDao(new OrderDaoImplTestStub());
     }
     
     @After

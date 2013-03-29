@@ -4,13 +4,11 @@ import com.team33.entities.Account;
 import com.team33.entities.LoginToken;
 import com.team33.entities.LoginTokenPK;
 import com.team33.entities.Orders;
-import com.team33.entities.dao.AccountDaoImpl;
+import com.team33.entities.dao.AccountDao;
 import com.team33.services.exception.*;
 import java.util.List;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.springframework.dao.DataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +23,8 @@ public class AccountServiceImpl implements AccountService {
     //tells Spring to inject the dependency
     //be sure to include setter method
     @Autowired
-    private AccountDaoImpl accountDaoImpl;
-    @Autowired
+    private AccountDao accountDao;
+    
     private List<Orders> orders;
 
     /**
@@ -34,17 +32,17 @@ public class AccountServiceImpl implements AccountService {
      *
      * @param dao
      */
-    public void setAccountDaoImpl(AccountDaoImpl dao) {
-        this.accountDaoImpl = dao;
+    public void setAccountDao(AccountDao dao) {
+        this.accountDao = dao;
     }
 
     /**
      * Retrieves the current implemented account dao
      *
-     * @return AccountDaoImpl
+     * @return AccountDao
      */
-    public AccountDaoImpl getAccountDaoImpl() {
-        return this.accountDaoImpl;
+    public AccountDao getAccountDao() {
+        return this.accountDao;
     }
 
     /**
@@ -79,13 +77,11 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public int loginAccount(String username, String password) throws AuthenticationException, AccountNotFoundException, AccountNotActivatedException, LoginException {
-        Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
-        session.beginTransaction();
         if (username == null || username.equals("")
                 || password == null || password.equals("")) {
             throw new LoginException("Invalid login info!");
         }
-        Account account = this.accountDaoImpl.getAccount(username);
+        Account account = this.accountDao.getAccount(username);
         if (account == null) {
             throw new AccountNotFoundException("Account was not found");
         }
@@ -98,7 +94,7 @@ public class AccountServiceImpl implements AccountService {
                 }
             }
         }
-        return this.accountDaoImpl.getLoginToken(account.getId()).getLogintokenPK().getId();
+        return this.accountDao.getLoginToken(account.getId()).getLogintokenPK().getId();
     }
 
     /**
@@ -108,31 +104,24 @@ public class AccountServiceImpl implements AccountService {
      * @param password
      * @throws RegistrationException
      */
-    @Transactional
+    @Transactional(rollbackFor=RegistrationException.class)
     @Override
     public void registerAccount(String username, String password) throws RegistrationException {
-        Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
-        session.beginTransaction();
         //if username already exists in system throw exception
-        if (this.getAccountDaoImpl().getAccount(username) != null) {
+        if (this.getAccountDao().getAccount(username) != null) {
             throw new RegistrationException("Username already exists, please try another.");
         }
         Account acc = new Account();
         acc.setName(username);
         acc.setPassword(password);
         try {
-            this.getAccountDaoImpl().saveAccount(acc);
+            this.getAccountDao().saveAccount(acc);
 
             LoginToken token = new LoginToken(new LoginTokenPK());
             token.getLogintokenPK().setAccountid(acc.getId());
             token.setAccount(acc);
-            this.getAccountDaoImpl().saveLoginToken(token);
-            session.getTransaction().commit();
+            this.getAccountDao().saveLoginToken(token);
         } catch (com.team33.services.exception.DataAccessException e) {
-            Transaction tx = session.getTransaction();
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             throw new RegistrationException("Registration Failed");
         }
     }
@@ -147,7 +136,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public Account getAccount(Integer accountId) throws DataAccessException {
-        return accountDaoImpl.getAccount(accountId);
+        return accountDao.getAccount(accountId);
     }
 
     /**
@@ -159,7 +148,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public List<Account> getAccounts() throws DataAccessException {
-        return accountDaoImpl.getAccounts();
+        return accountDao.getAccounts();
     }
 
     /**
@@ -170,7 +159,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public void removeAccount(Integer accountID) {
-        accountDaoImpl.removeAccount(accountID);
+        accountDao.removeAccount(accountID);
     }
 
     /**
@@ -181,9 +170,8 @@ public class AccountServiceImpl implements AccountService {
      * @throws AccountNotActivatedException
      */
     @Override
+    @Transactional
     public void addOrder(Integer accountId, Orders order) throws AccountNotActivatedException {
-        Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
-        session.beginTransaction();
         if (this.getAccount(accountId).getActivated()) {
             //Is the order already tied to the account?
             if (!this.getOrders().contains(order)) {
@@ -200,9 +188,8 @@ public class AccountServiceImpl implements AccountService {
      * @param order
      */
     @Override
+    @Transactional
     public void removeOrder(Integer accountId, Orders order) {
-        Session session = this.getAccountDaoImpl().getSessionFactory().getCurrentSession();
-        session.beginTransaction();
         if (this.getOrders().contains(order)) {
             this.getOrders().remove(order);
         }

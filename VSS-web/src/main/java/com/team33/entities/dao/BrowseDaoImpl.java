@@ -8,14 +8,15 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.stereotype.Repository;
 
 /**
  * Provides the dao for the browse inventory service
  *
  * @author Samual
  */
-public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
+@Repository
+public class BrowseDaoImpl implements BrowseDao {
 
     //tells Spring to inject the dependency
     @Autowired
@@ -30,7 +31,7 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
      */
     @Override
     public List<VideoInfo> searchVideos(ScreenRating rating) {
-        Session curSession = this.getSessionFactory().getCurrentSession();
+        Session curSession = sessionFactory.getCurrentSession();
         Query videoQuery;
         videoQuery = curSession.getNamedQuery("VideoInfo.findByScreenRating");
         videoQuery.setParameter("Screen_Rating", rating);
@@ -45,7 +46,7 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
      */
     @Override
     public List<VideoInfo> searchVideos(String title) {
-        Session curSession = this.getSessionFactory().getCurrentSession();
+        Session curSession = sessionFactory.getCurrentSession();
         Query videoQuery;
         videoQuery = curSession.getNamedQuery("VideoInfo.findByTitle");
         videoQuery.setParameter("title", title);
@@ -59,7 +60,7 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
      */
     @Override
     public List<VideoInfo> displayAllVideoContent() {
-        Session curSession = this.getSessionFactory().getCurrentSession();
+        Session curSession = sessionFactory.getCurrentSession();
         Query videoQuery;
         videoQuery = curSession.getNamedQuery("VideoInfo.findAll");
         return videoQuery.list();
@@ -73,7 +74,7 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
      */
     @Override
     public VideoInfo displayVideoDetails(int videoInfoId) {
-        Session curSession = this.getSessionFactory().getCurrentSession();
+        Session curSession = sessionFactory.getCurrentSession();
         Query videoQuery;
         videoQuery = curSession.getNamedQuery("VideoInfo.findById");
         videoQuery.setParameter("id", videoInfoId);
@@ -88,7 +89,7 @@ public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
      */
     @Override
     public List<VideoInfo> searchVideos(Genre genre) {
-        Session curSession = this.getSessionFactory().getCurrentSession();
+        Session curSession = sessionFactory.getCurrentSession();
         Query videoQuery;
         videoQuery = curSession.getNamedQuery("VideoInfo.findByGenre");
         videoQuery.setParameter("genre", genre);
