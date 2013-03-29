@@ -6,12 +6,15 @@ import com.team33.entities.VideoInfo;
 import com.team33.entities.dao.BrowseDao;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Provides the functionality for video browsing services
  *
  * @author Samual
  */
+@Service
 public class BrowseServiceImpl implements BrowseService {
 
     /*
@@ -35,6 +38,7 @@ public class BrowseServiceImpl implements BrowseService {
      * @return List<VideoInfo>
      */
     @Override
+    @Transactional
     public List<VideoInfo> displayAllVideoContent() {
         return this.browseDao.displayAllVideoContent();
     }
@@ -47,6 +51,7 @@ public class BrowseServiceImpl implements BrowseService {
      * @return VideoInfo
      */
     @Override
+    @Transactional
     public VideoInfo displayVideoDetails(int videoInfoId) {
         return this.browseDao.displayVideoDetails(videoInfoId);
     }
@@ -58,6 +63,7 @@ public class BrowseServiceImpl implements BrowseService {
      * @return List<VideoInfo>
      */
     @Override
+    @Transactional
     public List<VideoInfo> searchVideos(Genre genre) {
         return this.browseDao.searchVideos(genre);
     }
@@ -69,6 +75,7 @@ public class BrowseServiceImpl implements BrowseService {
      * @return List<VideoInfo>
      */
     @Override
+    @Transactional
     public List<VideoInfo> searchVideos(ScreenRating rating) {
         return this.browseDao.searchVideos(rating);
     }
@@ -80,6 +87,7 @@ public class BrowseServiceImpl implements BrowseService {
      * @return List<VideoInfo>
      */
     @Override
+    @Transactional
     public List<VideoInfo> searchVideos(String title) {
         return this.browseDao.searchVideos(title);
     }
