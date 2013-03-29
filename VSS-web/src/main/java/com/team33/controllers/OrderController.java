@@ -4,54 +4,70 @@
  */
 package com.team33.controllers;
 
-import com.team33.entities.Orders;
-import com.team33.form.OrderRequest;
-import com.team33.services.OrderService;
+import com.team33.services.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+// Causing java.lang.NoClassDefFoundError
+//import org.springframework.web.portlet.mvc.AbstractController;
 
 /**
  * This is the controller for the order feature
  *
- * @author Mark
+ * @author Samual
  */
 @Controller
+//NoClassDefFound portler error fixed with the requestmapping
+@RequestMapping(value = "/orderVideoView.htm")
 public class OrderController{
 
     @Autowired
-    private OrderService orderService;  
+    private OrderServiceImpl orderServiceImpl;
+    @Autowired
+    private String commandName;
+    @Autowired
+    private Class commandClass;
+  
 
-    public void setOrderService(OrderService orderService) {
-        this.orderService = orderService;
+    /**
+     *
+     * @param orderServiceImpl
+     */
+    public void setOrderServiceImpl(OrderServiceImpl orderServiceImpl) {
+        this.orderServiceImpl = orderServiceImpl;
     }
     
-    public OrderService getOrderService(){
-        return this.orderService;
+    /**
+     *
+     * @return
+     */
+    public OrderServiceImpl getOrderServiceImpl(){
+        return this.orderServiceImpl;
     }
     
-    @RequestMapping(value = "order/create", method = RequestMethod.POST)
-    public String createOrder(@ModelAttribute("orderRequest")OrderRequest orderRequest, BindingResult result) {
-        System.out.println("Video Title: " + orderRequest.getVideotitle() +
-                " Order Type: " + orderRequest.getOrderType() +
-                " Video ID: " + orderRequest.getVideoid());
-        return "redirect:show.htm?order=" + orderRequest.getVideotitle();
+    /**
+     *
+     * @param commandName
+     */
+    public void setCommandName(String commandName) {
+        this.commandName = commandName;
     }
-    
-    @RequestMapping("/order/new")
-    public ModelAndView newOrder(@RequestParam(value="videoid")Integer videoid) {
-        OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setVideoid(videoid);
-        return new ModelAndView("newOrder", "command", orderRequest);
-    }
-    
-    @RequestMapping("/order/show")
-    public ModelAndView showOrder(@RequestParam("order")String order) {
-        return new ModelAndView("showOrder", "order", order);
+
+    /**
+     *
+     * @param commandClass
+     */
+    public void setCommandClass(Class commandClass) {
+        this.commandClass = commandClass;
+    } 
+    //The get orders method should be invoked here
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    public String order() {
+        return "orderVideoView";
     }
 }

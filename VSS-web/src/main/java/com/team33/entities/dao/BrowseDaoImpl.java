@@ -8,15 +8,14 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
  * Provides the dao for the browse inventory service
  *
  * @author Samual
  */
-@Repository
-public class BrowseDaoImpl implements BrowseDao {
+public class BrowseDaoImpl extends HibernateDaoSupport implements BrowseDao {
 
     //tells Spring to inject the dependency
     @Autowired
@@ -31,7 +30,7 @@ public class BrowseDaoImpl implements BrowseDao {
      */
     @Override
     public List<VideoInfo> searchVideos(ScreenRating rating) {
-        Session curSession = sessionFactory.getCurrentSession();
+        Session curSession = this.getSessionFactory().getCurrentSession();
         Query videoQuery;
         videoQuery = curSession.getNamedQuery("VideoInfo.findByScreenRating");
         videoQuery.setParameter("Screen_Rating", rating);
@@ -46,7 +45,7 @@ public class BrowseDaoImpl implements BrowseDao {
      */
     @Override
     public List<VideoInfo> searchVideos(String title) {
-        Session curSession = sessionFactory.getCurrentSession();
+        Session curSession = this.getSessionFactory().getCurrentSession();
         Query videoQuery;
         videoQuery = curSession.getNamedQuery("VideoInfo.findByTitle");
         videoQuery.setParameter("title", title);
@@ -60,7 +59,7 @@ public class BrowseDaoImpl implements BrowseDao {
      */
     @Override
     public List<VideoInfo> displayAllVideoContent() {
-        Session curSession = sessionFactory.getCurrentSession();
+        Session curSession = this.getSessionFactory().getCurrentSession();
         Query videoQuery;
         videoQuery = curSession.getNamedQuery("VideoInfo.findAll");
         return videoQuery.list();
@@ -74,7 +73,7 @@ public class BrowseDaoImpl implements BrowseDao {
      */
     @Override
     public VideoInfo displayVideoDetails(int videoInfoId) {
-        Session curSession = sessionFactory.getCurrentSession();
+        Session curSession = this.getSessionFactory().getCurrentSession();
         Query videoQuery;
         videoQuery = curSession.getNamedQuery("VideoInfo.findById");
         videoQuery.setParameter("id", videoInfoId);
@@ -89,7 +88,7 @@ public class BrowseDaoImpl implements BrowseDao {
      */
     @Override
     public List<VideoInfo> searchVideos(Genre genre) {
-        Session curSession = sessionFactory.getCurrentSession();
+        Session curSession = this.getSessionFactory().getCurrentSession();
         Query videoQuery;
         videoQuery = curSession.getNamedQuery("VideoInfo.findByGenre");
         videoQuery.setParameter("genre", genre);

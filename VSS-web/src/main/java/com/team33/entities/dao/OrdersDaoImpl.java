@@ -9,15 +9,14 @@ import java.util.List;
 import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.team33.services.exception.*;
-import org.springframework.stereotype.Repository;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
  * Provides data access during order processing
  *
  * @author Samual
  */
-@Repository
-public class OrdersDaoImpl implements OrdersDao {
+public class OrdersDaoImpl extends HibernateDaoSupport implements OrdersDao {
     //tells Spring to inject the dependency
 
     @Autowired
@@ -32,7 +31,7 @@ public class OrdersDaoImpl implements OrdersDao {
      */
     @Override
     public List<Orders> getOrders(LoginToken loginToken) throws DataAccessException {
-        Session curSession = sessionFactory.getCurrentSession();
+        Session curSession = this.getSessionFactory().getCurrentSession();
         Query orderQuery;
         orderQuery = curSession.getNamedQuery("Orders.findByActiveAccount");
         orderQuery.setParameter("accountid", loginToken.getAccount().getId());

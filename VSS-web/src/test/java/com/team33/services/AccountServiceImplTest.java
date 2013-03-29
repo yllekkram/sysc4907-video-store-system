@@ -13,9 +13,12 @@ import com.team33.services.exception.DataAccessException;
 import com.team33.services.exception.LoginException;
 import com.team33.services.exception.RegistrationException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -48,7 +51,7 @@ public class AccountServiceImplTest {
     @Before
     public void setUp() {
         this.accountServiceImpl = new AccountServiceImpl();
-        this.accountServiceImpl.setAccountDao(new AccountDaoImplTestStub());
+        this.accountServiceImpl.setAccountDaoImpl(new AccountDaoImplTestStub());
     }
 
     @After

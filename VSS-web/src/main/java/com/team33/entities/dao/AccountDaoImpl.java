@@ -2,10 +2,12 @@ package com.team33.entities.dao;
 
 import com.team33.entities.Account;
 import com.team33.entities.LoginToken;
-import com.team33.services.exception.DataAccessException;
 import java.util.List;
 import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.team33.services.exception.DataAccessException;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Repository;
  * @author Samual
  */
 @Repository
-public class AccountDaoImpl implements AccountDao, LoginTokenDao {
+public class AccountDaoImpl extends HibernateDaoSupport implements AccountDao, LoginTokenDao {
 
     private static final int FIRST = 0;
     //tells Spring to inject the dependency
@@ -29,7 +31,7 @@ public class AccountDaoImpl implements AccountDao, LoginTokenDao {
      */
     @Override
     public List<Account> getAccounts() throws DataAccessException {
-        Session curSession = sessionFactory.getCurrentSession();
+        Session curSession = this.getSessionFactory().getCurrentSession();
         Query accountQuery;
         accountQuery = curSession.getNamedQuery("Account.findAll");
         return accountQuery.list();
@@ -44,7 +46,7 @@ public class AccountDaoImpl implements AccountDao, LoginTokenDao {
      */
     @Override
     public Account getAccount(Integer accountId) throws DataAccessException {
-        Session curSession = sessionFactory.getCurrentSession();
+        Session curSession = this.getSessionFactory().getCurrentSession();
         return (Account) curSession.get(Account.class,
                 accountId);
     }
@@ -59,7 +61,7 @@ public class AccountDaoImpl implements AccountDao, LoginTokenDao {
      */
     @Override
     public Account getAccount(String username) throws DataAccessException {
-        Session curSession = sessionFactory.getCurrentSession();
+        Session curSession = this.getSessionFactory().getCurrentSession();
         Query accountQuery;
         try {
             if (curSession == null) {
@@ -85,7 +87,7 @@ public class AccountDaoImpl implements AccountDao, LoginTokenDao {
      */
     @Override
     public LoginToken getLoginToken(Integer accountID) {
-        Session curSession = sessionFactory.getCurrentSession();
+        Session curSession = this.getSessionFactory().getCurrentSession();
         Query tokenQuery;
         try {
             if (curSession == null) {
@@ -111,7 +113,8 @@ public class AccountDaoImpl implements AccountDao, LoginTokenDao {
      */
     @Override
     public void saveAccount(Account account) throws DataAccessException {
-        sessionFactory.getCurrentSession().saveOrUpdate(account);
+        HibernateTemplate hibTemp = this.getHibernateTemplate();
+        hibTemp.saveOrUpdate(account);
     }
 
     /**
@@ -122,7 +125,8 @@ public class AccountDaoImpl implements AccountDao, LoginTokenDao {
      */
     @Override
     public void saveLoginToken(LoginToken token) throws DataAccessException {
-        sessionFactory.getCurrentSession().saveOrUpdate(token);
+        HibernateTemplate hibTemp = this.getHibernateTemplate();
+        hibTemp.saveOrUpdate(token);
     }
 
     /**
@@ -146,7 +150,7 @@ public class AccountDaoImpl implements AccountDao, LoginTokenDao {
      */
     @Override
     public void removeLoginToken(Integer accountId) {
-        Session curSession = sessionFactory.getCurrentSession();
+        Session curSession = this.getSessionFactory().getCurrentSession();
         Query tokenQuery;
         try {
             if (curSession == null) {

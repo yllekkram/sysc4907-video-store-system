@@ -5,7 +5,7 @@
 package com.team33.controllers;
 
 import com.team33.entities.VideoInfo;
-import com.team33.services.BrowseService;
+import com.team33.services.BrowseServiceImpl;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class BrowseController {
 
     @Autowired
-    private BrowseService browseService;
+    private BrowseServiceImpl browseServiceImpl;
 
     /**
      *
-     * @param browseService
+     * @param browseServiceImpl
      */
-    public void setBrowseService(BrowseService browseService) {
-        this.browseService = browseService;
+    public void setBrowseServiceImpl(BrowseServiceImpl browseServiceImpl) {
+        this.browseServiceImpl = browseServiceImpl;
     }
 
     /*
@@ -44,7 +44,7 @@ public class BrowseController {
     public String displayVideoInformation(@PathVariable("videoId")String videoId, Map<String, Object> map){
         
         int vidId = Integer.parseInt(videoId);
-        VideoInfo info = this.browseService.displayVideoDetails(vidId);
+        VideoInfo info = this.browseServiceImpl.displayVideoDetails(vidId);
         int runningTimeMin = (int)(info.getRunningTime() / 60);
         int runningTimeHour = (int)(runningTimeMin / 60);
         runningTimeMin = runningTimeMin % 60;

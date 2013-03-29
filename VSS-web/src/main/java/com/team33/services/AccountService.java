@@ -4,6 +4,7 @@
  */
 package com.team33.services;
 
+import com.team33.services.exception.AuthenticationException;
 import com.team33.entities.Account;
 import com.team33.entities.Orders;
 import com.team33.services.exception.*;

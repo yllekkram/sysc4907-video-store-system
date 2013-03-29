@@ -5,7 +5,7 @@
 package com.team33.controllers;
 
 import com.team33.entities.Account;
-import com.team33.services.AccountService;
+import com.team33.services.AccountServiceImpl;
 import com.team33.services.exception.AccountNotActivatedException;
 import com.team33.services.exception.AccountNotFoundException;
 import com.team33.services.exception.AuthenticationException;
@@ -36,11 +36,14 @@ public class LoginController {
      *
      */
     public static final String ACCOUNT_ATTRIBUTE = "alreadyLogin";
-    // tells the application context to inject an instance of AccountService here
+    // tells the application context to inject an instance of AccountServiceImpl here
     @Autowired
-    private AccountService accountService;
+    private AccountServiceImpl accountServiceImpl;
+    @Autowired
     private String successView;
+    @Autowired
     private String commandName;
+    @Autowired
     private Class commandClass;
 
     /**
@@ -63,16 +66,16 @@ public class LoginController {
      *
      * @return
      */
-    public AccountService getAccountService() {
-        return this.accountService;
+    public AccountServiceImpl getAccountService() {
+        return this.accountServiceImpl;
     }
 
     /**
      *
      * @param service
      */
-    public void setAccountService(AccountService service) {
-        this.accountService = service;
+    public void setAccountServiceImpl(AccountServiceImpl service) {
+        this.accountServiceImpl = service;
     }
 
     /**
@@ -151,7 +154,7 @@ public class LoginController {
                     || password == null || password.equals("")) {
                 throw new LoginException("Invalid login info!");
             }
-            int tokenId = this.accountService.loginAccount(username, password);
+            int tokenId = this.accountServiceImpl.loginAccount(username, password);
             session.setAttribute(ACCOUNT_ATTRIBUTE, tokenId);
             return this.getSuccessView();
         } catch (LoginException le) {

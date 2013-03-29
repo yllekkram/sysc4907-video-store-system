@@ -42,7 +42,7 @@ public class BrowseServiceImplTest {
     @Before
     public void setUp() {
         browseServiceImpl = new BrowseServiceImpl();
-        browseServiceImpl.setBrowseDao(new BrowseDaoImplTestStub());
+        browseServiceImpl.setBrowseDaoImpl(new BrowseDaoImplTestStub());
     }
     
     @After
