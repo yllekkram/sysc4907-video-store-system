@@ -3,24 +3,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="mappings">
-            <value>
-                /index.htm=indexController
-                /login.htm=loginController
-                /registerAccountView.htm=registerAccountController
-                /orderVideoView.htm=orderController
-                /browseView.htm/*=browseController
-                /browseView.htm=browseController
-                /accessVideoOrders.htm=accessVideoController
-                /viewVideo=viewVideoController
-                /browseVideos.htm=browseVideoController
-                /myAccountView.htm=myAccountController
-                /shoppingCartView.htm=shoppingCartController
-                /logout.htm=logoutController
-            </value>
-        </property>
-    </bean>
     
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
