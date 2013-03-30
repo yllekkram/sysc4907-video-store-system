@@ -3,7 +3,7 @@
  */
 package com.team33.controllers;
 
-import com.team33.services.VideoAccessServiceImpl;
+import com.team33.services.VideoAccessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value ="/accessVideoOrders.htm")
 public class AccessVideoController{
     @Autowired
-    private VideoAccessServiceImpl videoAccessServiceImpl;
+    private VideoAccessService videoAccessService;
     
     /**
      *
-     * @param videoAccessServiceImpl
+     * @param videoAccessService
      */
-    public void setVideoAccessServiceImpl(VideoAccessServiceImpl videoAccessServiceImpl){
-        this.videoAccessServiceImpl = videoAccessServiceImpl;
+    public void setVideoAccessService(VideoAccessService videoAccessService){
+        this.videoAccessService = videoAccessService;
     }
 }

@@ -7,15 +7,15 @@ import com.team33.services.exception.DataAccessException;
 import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.stereotype.Repository;
 
 /**
  * Data Access layer for the video access features
  *
  * @author Mark,Samual
  */
-public class VideoAccessDaoImpl extends HibernateDaoSupport implements
-        VideoAccessDao {
+@Repository
+public class VideoAccessDaoImpl implements VideoAccessDao {
 
     @Autowired
     private SessionFactory sessionFactory;
