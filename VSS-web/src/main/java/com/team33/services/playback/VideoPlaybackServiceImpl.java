@@ -11,12 +11,14 @@ import com.team33.services.exception.DataAccessException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Caleb
  */
+@Service
 public class VideoPlaybackServiceImpl implements VideoPlaybackService{
 
     @Autowired
