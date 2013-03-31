@@ -15,10 +15,10 @@
         <c:otherwise>
             <c:forEach var="videoInfo" items="${videoInfoList}">
                 <tr>
-                    <td>${videoInfo.getName()}</td>
+                    <td>${videoInfo.getTitle()}</td>
                     <td>${videoInfo.getDescription()}</td>
-                    <td>${videoInfo.getScreenRating()}</td>
-                    <td>${videoInfo.getGenre()}</td>
+                    <td>${videoInfo.getScreenRatingid().getRatingType()}</td>
+                    <td>${videoInfo.getGenreid().getCategory()}</td>
                 </tr>
             </c:forEach>
         </c:otherwise>
