@@ -29,9 +29,9 @@
                 </th>
             </tr>
             <c:forEach items="${Orders}" var="ordersItem">
-                <c:forEach items="${ordersItem.purchaseCollection}" var="purchase">
+                <c:forEach items="${ordersItem.getPurchaseCollection()}" var="purchase">
                     <tr>
-                        <td><a href="viewVideo.htm/${purchase.videoInfo.id}"><c:out value="${purchase.videoInfo.title}"/></a></td>
+                        <td><a href="viewVideo.htm/${purchase.getVideoInfo().getId()}"><c:out value="${purchase.getVideoInfo().getTitle()}"/></a></td>
                     </tr>
                 </c:forEach>
             </c:forEach>
@@ -44,9 +44,9 @@
                 <th>Video</th>
             </tr>
             <c:forEach items="${Orders}" var="ordersItem">
-                <c:forEach items="${ordersItem.rentalCollection}" var="rental">
+                <c:forEach items="${ordersItem.getRentalCollection()}" var="rental">
                     <tr>
-                        <td><a href="viewVideo.htm/${rental.videoInfo.id}"><c:out value="${rental.videoInfo.title}"/></a></td>
+                        <td><a href="viewVideo.htm/${rental.getVideoInfo().getId()}"><c:out value="${rental.getVideoInfo().getTitle()}"/></a></td>
                     </tr>
                 </c:forEach>
             </c:forEach>

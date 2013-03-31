@@ -26,10 +26,10 @@
             </tr>
             <c:forEach items="${VideoList}" var="videoItem">
                 <tr>
-                    <td><a href="/VSS-web/viewVideo.htm/${videoItem.id}"><c:out value="${videoItem.title}"/></a></td>
+                    <td><a href="/VSS-web/viewVideo.htm/${videoItem.getId()}"><c:out value="${videoItem.getTitle()}"/></a></td>
                     <td>
                         <form action="/VSS-web/shoppingCartView.htm" method="post">
-                            <input type="hidden" name="id" value="${videoItem.id}"/>
+                            <input type="hidden" name="id" value="${videoItem.getId()}"/>
                             <input type="submit" value="delete"/>
                         </form>
                     </td>
