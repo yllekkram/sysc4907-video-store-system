@@ -6,10 +6,9 @@ package com.team33.services.playback;
 
 import com.team33.entities.LoginToken;
 import com.team33.entities.dao.VideoAccessDao;
+import com.team33.entities.dao.playback.VideoPlaybackDao;
 import com.team33.services.exception.AccountNotActivatedException;
 import com.team33.services.exception.DataAccessException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +23,19 @@ public class VideoPlaybackServiceImpl implements VideoPlaybackService{
     @Autowired
     private VideoAccessDao videoAccessDao;
     
+    @Autowired
+    private VideoPlaybackDao videoPlaybackDao;
+    
     public void setVideoAccessDao(VideoAccessDao videoAccessDao) {
         this.videoAccessDao = videoAccessDao;
     }
     
     private VideoAccessDao getVideoAccessDao() {
         return videoAccessDao;
+    }
+    
+    public void setVideoPlaybackDao(VideoPlaybackDao videoPlaybackDao){
+        this.videoPlaybackDao = videoPlaybackDao;
     }
     
     /**
@@ -68,7 +74,8 @@ public class VideoPlaybackServiceImpl implements VideoPlaybackService{
         } catch (AccountNotActivatedException ex) {
             return;
         }
-        // Save Stuff
+        LoginToken token = this.videoAccessDao.getLoginToken(loginToken);
+        this.videoPlaybackDao.saveVideoPlaybackInformation(orderId, videoId, token.getLogintokenPK().getAccountid(), seconds);
     }
 
     @Override
@@ -81,8 +88,8 @@ public class VideoPlaybackServiceImpl implements VideoPlaybackService{
         } catch (AccountNotActivatedException ex) {
             return -1;
         }
-        throw new UnsupportedOperationException("Not supported yet.");
-        //Get Stuff
+        LoginToken token = this.videoAccessDao.getLoginToken(loginToken);
+        return this.videoPlaybackDao.getVideoPlaybackInformation(orderId, videoId, token.getLogintokenPK().getAccountid());
     }
 
     @Override
@@ -95,7 +102,7 @@ public class VideoPlaybackServiceImpl implements VideoPlaybackService{
         } catch (AccountNotActivatedException ex) {
             return "";
         }
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.videoPlaybackDao.getFileInformation(videoId);
     }
     
 }
