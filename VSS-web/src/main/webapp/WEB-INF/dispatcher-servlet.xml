@@ -2,82 +2,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
-
-    <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
-
-    <!--
-    Most controllers will use the ControllerClassNameHandlerMapping above, but
-    for the index controller we are using ParameterizableViewController, so we must
-    define an explicit mapping for it.
-    -->
-    <!--bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="urlMap">
-            <map>
-                <entry key="/index.htm">
-                    <ref bean="indexController"/>
-                </entry>
-                <entry key="/login.htm">
-                    <ref bean="loginController"/>
-                </entry>
-                <entry key="/registerAccountView.htm">
-                    <ref bean="registerAccountController"/>
-                </entry>
-                <entry key="/orderVideoView.htm">
-                    <ref bean="orderController"/>
-                </entry>
-                <entry key="/browseView.htm">
-                    <ref bean="browseController"/>
-                </entry>
-                <entry key="/accessVideoOrders.htm">
-                    <ref bean="accessVideoController"/>
-                </entry>
-                <entry key="/viewVideo">
-                    <ref bean="viewVideoController"/>
-                </entry>
-                <entry key="/browseVideos.htm">
-                    <ref bean="browseVideoController"/>
-                </entry>
-                <entry key="/myAccountView.htm">
-                    <ref bean="myAccountController"/>
-                </entry>
-                <entry key="/shoppingCartView.htm">
-                    <ref bean="shoppingCartController"/>
-                </entry>
-            </map>
-        </property>
-    </bean-->
-    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="mappings">
-            <value>
-                /index.htm=indexController
-                /login.htm=loginController
-                /registerAccountView.htm=registerAccountController
-                /orderVideoView.htm=orderController
-                /browseView.htm/*=browseController
-                /browseView.htm=browseController
-                /accessVideoOrders.htm=accessVideoController
-                /viewVideo=viewVideoController
-                /browseVideos.htm=browseVideoController
-                /myAccountView.htm=myAccountController
-                /shoppingCartView.htm=shoppingCartController
-                /logout.htm=logoutController
-            </value>
-        </property>
-    </bean>
-    
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+            
+   <context:annotation-config />
+   <context:component-scan base-package="com.team33.controllers" />
+   
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.JstlView" />
         <property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" />
-    </bean>  
+    </bean>
           
     <!-- Controller beans -->
     <bean name="indexController"
@@ -85,89 +23,20 @@
           p:viewName="index" />
     <bean name="loginController" 
           class="com.team33.controllers.LoginController">
-        <property name="accountServiceImpl" ref="accountServiceImpl" />
         <property name="successView" value = "loginSuccess"     />
         <property name="commandName" value = "account" />
         <property name="commandClass" value ="com.team33.entities.Account"/>
     </bean>
     <bean name = "registerAccountController"
           class = "com.team33.controllers.RegisterAccountController" >
-        <property name="accountServiceImpl" ref="accountServiceImpl" />
         <property name="successView" value = "registerSuccess"     />
         <property name="commandName" value = "account" />
         <property name="commandClass" value ="com.team33.entities.Account"/>
     </bean>
-    <bean name = "orderController"
-          class = "com.team33.controllers.OrderController" >
-        <property name="orderServiceImpl" ref="orderServiceImpl" />
-        <property name="commandName" value = "orders" />
-        <property name="commandClass" value ="com.team33.entities.Orders"/>
-    </bean>
-    <bean name="browseVideoController"
-        class="com.team33.controllers.BrowseVideosController">
-        <property name="browseServiceImpl" ref="browseServiceImpl"/>
-    </bean>
-    <bean name = "browseController"
-          class = "com.team33.controllers.BrowseController" >
-        <property name="browseServiceImpl" ref="browseServiceImpl" />
-        <!-- Entity not established yet
-        <property name="commandName" value = "order1" />
-        <property name="commandClass" value ="com.team33.entities.Order1"/>
-        -->
-    </bean>
-    <bean name = "accessVideoController"
-          class = "com.team33.controllers.AccessVideoController" >
-        <property name="videoAccessServiceImpl" ref="videoAccessServiceImpl" />
-        <!-- Entity not established yet
-        <property name="commandName" value = "order1" />
-        <property name="commandClass" value ="com.team33.entities.Order1"/>
-        -->
-    </bean>
-    <bean name = "viewVideoController"
-          class = "com.team33.controllers.VideoViewController">
-    </bean>
-    <bean name="myAccountController"
-          class = "com.team33.controllers.MyAccountController">
-        <property name="videoAccessService" ref="videoAccessServiceImpl"/>
-        <property name="accountService" ref="accountServiceImpl"/>
-    </bean>
-    <bean name="shoppingCartController"
-          class = "com.team33.controllers.ShoppingCartController">
-        <property name="browseService" ref="browseServiceImpl"/>
-    </bean>
-    <bean   name="logoutController"
-            class = "com.team33.controllers.LogoutController">
-    </bean>
-
-    <bean id = "creditCardValidator" class = "com.team33.services.CreditCardValidator"/>
-         
-    <!-- Inject  sessionfactory here --> 
-    <bean id = "accountServiceImpl" class = "com.team33.services.AccountServiceImpl">
-        <property name = "accountDaoImpl" ref = "accountDaoImpl"/>
-    </bean> 
-    <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
-        <property name = "ordersDaoImpl" ref = "ordersDaoImpl"/>
-        <property name = "creditCardValidator" ref = "creditCardValidator"/>
-    </bean> 
-    <bean id = "browseServiceImpl" class = "com.team33.services.BrowseServiceImpl">
-        <property name = "browseDaoImpl" ref = "browseDaoImpl"/>
-    </bean> 
-    <bean id = "videoAccessServiceImpl" class = "com.team33.services.VideoAccessServiceImpl">
-        <property name = "videoAccessDaoImpl" ref = "videoAccessDaoImpl"/>
-    </bean> 
     
-    <bean  id="accountDaoImpl" class="com.team33.entities.dao.AccountDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory" />  
+    <bean id = "creditCardValidator" class = "com.team33.services.CreditCardValidator"/>
+    <bean id = "orderServiceImpl" class = "com.team33.services.OrderServiceImpl">
+        <property name = "creditCardValidator" ref = "creditCardValidator"/>
     </bean>
-    <bean  id="ordersDaoImpl" class="com.team33.entities.dao.OrdersDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory" />  
-    </bean>
-    <bean  id="browseDaoImpl" class="com.team33.entities.dao.BrowseDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory" />  
-    </bean>
-    <bean  id="videoAccessDaoImpl" class="com.team33.entities.dao.VideoAccessDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory" />  
-    </bean>    
-      
-    <mvc:annotation-driven />
+    
 </beans>

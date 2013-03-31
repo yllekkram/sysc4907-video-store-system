@@ -52,4 +52,8 @@ public interface AccountDao {
      * @param accountID
      */
     public void removeAccount(Integer accountID);
+
+    public LoginToken getLoginToken(Integer id);
+
+    public void saveLoginToken(LoginToken token);
 }
