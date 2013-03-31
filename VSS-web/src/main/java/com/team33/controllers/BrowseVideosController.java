@@ -44,6 +44,7 @@ public class BrowseVideosController {
         
         List<VideoInfo> list = this.browseService.displayAllVideoContent();
         map.put("videoInfoList", list);
+        System.out.println("Done Add to List : " + list.size());
         return "/browseVideos";
     }
     
