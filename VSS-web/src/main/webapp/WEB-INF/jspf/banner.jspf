@@ -51,32 +51,32 @@
                 <input type="button" value="Search"/>
             </form>
             <c:if test="${alreadyLogin ne null}">
-                <a href="shoppingCartView.htm">Shopping Cart</a>
-                <a href="myAccountView.htm">My Account</a>
-                <a href="logout.htm">Logout</a>
+                <a href="/VSS-web/shoppingCartView.htm">Shopping Cart</a>
+                <a href="/VSS-web/myAccountView.htm">My Account</a>
+                <a href="/VSS-web/logout.htm">Logout</a>
             </c:if>
             <c:if test="${alreadyLogin eq null}">
-                <a href="registerAccountView.htm">Register</a>
-                <a href="login.htm">Login</a>
+                <a href="/VSS-web/registerAccountView.htm">Register</a>
+                <a href="/VSS-web/login.htm">Login</a>
             </c:if>
         </div>
     </div>
     <div id="navLinks">
         <ul id="bannerLinks">
             <li>
-                <a href="http://localhost:8080/VSS-web/" class="bannerNavLink">Home</a>
+                <a href="/VSS-web/" class="bannerNavLink">Home</a>
             </li>
             <li>
-                <a href="browseVideos.htm" class="bannerNavLink">Browse Videos</a>
+                <a href="/VSS-web/browseVideos.htm" class="bannerNavLink">Browse Videos</a>
             </li>
             <li>
-                <a href="viewVideo.htm" class="bannerNavLink">Watch Video</a>
+                <a href="/VSS-web/viewVideo.htm" class="bannerNavLink">Watch Video</a>
             </li>
             <li>
-                <a href="order/new.htm" class="bannerNavLink">Order</a>
+                <a href="/VSS-web/order/new.htm" class="bannerNavLink">Order</a>
             </li>
             <li>
-                <a href="adminView.htm" class="bannerNavLink">Admin View</a>
+                <a href="/VSS-web/adminView.htm" class="bannerNavLink">Admin View</a>
             </li>
         </ul>
     </div>
