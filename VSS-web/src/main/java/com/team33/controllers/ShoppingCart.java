@@ -16,11 +16,13 @@ class ShoppingCart {
     
     static ShoppingCart fromString(String shoppingCartString){
         ShoppingCart cart = new ShoppingCart();
-        if (shoppingCartString == null){
+        if (shoppingCartString == null || shoppingCartString.equals("")){
             return cart;
         }
         String videos[] = shoppingCartString.split(",");
+        System.out.println("VIDEOS : " + shoppingCartString);
         for(String video : videos){
+            System.out.println("VID : " + video);
             String vidInfo[] = video.split(":");
             if (vidInfo[0].equals("R")){
                 cart.addToCart(Integer.parseInt(vidInfo[1]), true);
@@ -82,6 +84,10 @@ class ShoppingCart {
             s += ",";
         }
         
-        return s.substring(0, s.length() - 2);
+        return s.substring(0, s.length() - 1);
+    }
+    
+    private class ShoppingCartKey{
+    
     }
 }

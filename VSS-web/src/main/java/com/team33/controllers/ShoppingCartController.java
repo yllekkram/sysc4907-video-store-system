@@ -67,29 +67,28 @@ public class ShoppingCartController {
             return "redirect:/shoppingCartView.htm";
         }
         Cookie cookie = new Cookie(SHOPPING_CART_COOKIE_NAME, cartString);
-        cookie.setPath("http://localhost:8080/cart");
         response.addCookie(cookie);
         return "redirect:/shoppingCartView.htm";
     }
     
-    @RequestMapping(value = "/shoppingCartView.htm/purchase/${videoId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/shoppingCartView/purchase/{videoId}", method = RequestMethod.GET)
     public String addPurchaseToCart(@PathVariable("videoId")String videoId, HttpServletResponse response, HttpServletRequest request){
+        System.out.println("----------------------- Add Purchase To Cart ----------------------------------");
         Cookie videoList = getCartCookie(request);
         String cartString = handleAddToCart(videoId, false, videoList);
         Cookie cookie = new Cookie(SHOPPING_CART_COOKIE_NAME, cartString);
-        cookie.setPath("http://localhost:8080/cart");
         response.addCookie(cookie);
-        return "redirect:/browseView.htm/" + videoId;
+        return "redirect:/browseView/" + videoId + ".htm";
     }
     
-    @RequestMapping(value = "/shoppingCartView.htm/rental/${videoId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/shoppingCartView/rental/{videoId}", method = RequestMethod.GET)
     public String addrentalToCart(@PathVariable("videoId")String videoId, HttpServletResponse response, HttpServletRequest request){
+        System.out.println("----------------------- Add Rental To Cart ----------------------------------");
         Cookie videoList = getCartCookie(request);
         String cartString = handleAddToCart(videoId, true, videoList);
         Cookie cookie = new Cookie(SHOPPING_CART_COOKIE_NAME, cartString);
-        cookie.setPath("http://localhost:8080/cart");
         response.addCookie(cookie);
-        return "redirect:/browseView.htm/" + videoId;
+        return "redirect:/browseView/" + videoId + ".htm";
     }
     
     private Cookie getCartCookie(HttpServletRequest request){
@@ -105,8 +104,10 @@ public class ShoppingCartController {
     private String handleAddToCart(String videoId, boolean isRented, Cookie originalCookie){
         String videoList = "";
         if (originalCookie != null){
-            videoList = originalCookie.getName();
+            videoList = originalCookie.getValue();
+            
         }
+        System.out.println("Original Value : " + videoList);
         ShoppingCart cart = ShoppingCart.fromString(videoList);
         cart.addToCart(Integer.parseInt(videoId), isRented);
         return cart.toString();

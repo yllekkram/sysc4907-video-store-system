@@ -24,8 +24,8 @@
         <h3>Genre : <c:out value="${videoInfo.getGenreid().getCategory()}"/></h3>
         <h3>Screen Rating : <c:out value="${videoInfo.getScreenRatingid().getRatingType()}"/></h3>
         <h3>Purchase : <c:out value="${videoInfo.getPurchasePrice()}"/></h3>
-        <button type="button" value="/shoppingCartView/purchase/${videoInfo.getId()}.htm">Buy</button>
+        <a href="/VSS-web/shoppingCartView/purchase/${videoInfo.getId()}.htm">Buy</a>
         <h3>Rental : <c:out value="${videoInfo.getRentalPrice()}"/></h3>
-        <button type="button" value="/shoppingCartView/rental/${videoInfo.getId()}.htm">Rent</button>
+        <a href="/VSS-web/shoppingCartView/rental/${videoInfo.getId()}.htm">Rent</a>
     </body>
 </html>
