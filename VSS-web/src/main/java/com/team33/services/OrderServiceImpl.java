@@ -185,8 +185,8 @@ public class OrderServiceImpl implements OrderService {
             if (this.getCreditCardValidator().isCardValid(validationNum)) {
                 //accumulate charges for an account
                 int allCharges = 0;
-                for (int i = 0; i < this.getOrdersDao().getOrders(this.getOrdersDao().getLoginToken(uuid)).size(); i++) {
-                    allCharges += this.getOrdersDao().getOrders(this.getOrdersDao().getLoginToken(uuid)).get(i).getPendingCharge();
+                for (Orders o : this.getOrdersDao().getOrders(this.getOrdersDao().getLoginToken(uuid))) {
+                    allCharges += o.getPendingCharge();
                 }
                 //if the charge can be processed create an invoice for the customer and charge him
                 if (this.getCreditCardValidator().isChargeValid(totalCost) && this.getCreditCardValidator().isUnderLOC(allCharges, totalCost)) {
