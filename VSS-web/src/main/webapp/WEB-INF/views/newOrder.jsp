@@ -11,28 +11,40 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>New Order</title>
+        <title>Order</title>
     </head>
     <body>
         <form:form method="post" action="create.htm">
             <table>
                 <tr>
-                    <td><form:label path="videotitle">Video Title</form:label></td>
-                    <td><form:input path="videotitle"/></td>
+                    <td>Account:</td>
+                    <td>${account.getName()}</td>
                 </tr>
                 <tr>
-                    <td colspan="2">
-                        <form:radiobutton path="orderType" value="purchase" />Purchase <br/>
-                        <form:radiobutton path="orderType" value="rental" /> Rental
-                    </td>
+                    <td>Price:</td>
+                    <td>${totalPrice}</td>
                 </tr>
                 <tr>
-                    <td colspan="2">
-                        <input type="submit" value="Confirm" />
-                    </td>
+                    <td>Payment Method:</td>
+                    <td><form:radiobutton path="paymentMethod" value="creditCard" />Credit Card</td>
                 </tr>
             </table>
-            <input type="hidden" name="videoid" value="${param.videoid}" />
+                <h3>Credit Card Info</h3>
+                <table>
+                    <tr>
+                        <td><form:label path="cardholderName">Cardholder Name:</form:label></td>
+                        <td><form:input path="cardholderName" /></td>
+                    </tr>
+                    <tr>
+                        <td><form:label path="creditCardNumber">Card Number:</form:label></td>
+                        <td><form:input path="creditCardNumber" /></td>
+                    </tr>
+                    <tr>
+                        <td><form:label path="creditCardVerification">Verification Number:</form:label></td>
+                        <td><form:input path="creditCardVerification" /></td>
+                    </tr>
+                </table>
+            <input type="submit" value="Confirm" />
         </form:form>
     </body>
 </html>
