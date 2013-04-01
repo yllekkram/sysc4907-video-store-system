@@ -14,11 +14,18 @@ public class OrderRequest {
 
     private Account account;
     private Integer totalPrice;
-    private String paymentMethod="creditCard";
+    private String paymentMethod;
     private String cardholderName;
     private String creditCardNumber;
     private String creditCardVerification;
 
+    public OrderRequest() {
+        account = new Account();
+        account.setName("No User Logged In");
+        totalPrice = 0;
+        paymentMethod = "creditCard";
+    }
+    
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }

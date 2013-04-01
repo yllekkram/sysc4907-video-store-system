@@ -4,6 +4,7 @@
  */
 package com.team33.controllers;
 
+import com.team33.entities.Account;
 import com.team33.entities.Orders;
 import com.team33.entities.Purchase;
 import com.team33.entities.VideoInfo;
@@ -56,39 +57,43 @@ public class OrderController {
 
     @RequestMapping("/order/new")
     public ModelAndView newOrder(HttpServletRequest request) {
-        OrderRequest or = new OrderRequest();
-        
+        HashMap<String, Object> model = new HashMap<String, Object>();
+        Integer totalPrice = 0;
+
         Integer tokenID = (Integer) request.getSession().getAttribute(LoginController.ACCOUNT_ATTRIBUTE);
 
-        if (tokenID != null) {
-            Integer totalPrice = 0;
-
-            Cookie cartCookie = null;
-            Cookie cookies[] = request.getCookies();
-            for (Cookie c : cookies) {
-                if (c.getName().equals(ShoppingCartController.SHOPPING_CART_COOKIE_NAME)) {
-                    cartCookie = c;
-                    break;
-                }
+        Cookie cartCookie = null;
+        Cookie cookies[] = request.getCookies();
+        for (Cookie c : cookies) {
+            if (c.getName().equals(ShoppingCartController.SHOPPING_CART_COOKIE_NAME)) {
+                cartCookie = c;
+                break;
             }
-
-            if (cartCookie != null) {
-                ShoppingCart cart = ShoppingCart.fromString(cartCookie.getValue());
-                for (Integer pid : cart.getPurchaseList()) {
-                    totalPrice += browseService.displayVideoDetails(pid).getPurchasePrice();
-                }
-                for (Integer rid : cart.getRentedList()) {
-                    totalPrice += browseService.displayVideoDetails(rid).getRentalPrice();
-                }
-            }
-
-            or.setTotalPrice(totalPrice);
-
-
-            or.setAccount(accountService.getAccountByLoginToken(tokenID));
         }
 
-        return new ModelAndView("newOrder", "command", or);
+        if (cartCookie != null) {
+            ShoppingCart cart = ShoppingCart.fromString(cartCookie.getValue());
+            for (Integer pid : cart.getPurchaseList()) {
+                totalPrice += browseService.displayVideoDetails(pid).getPurchasePrice();
+            }
+            for (Integer rid : cart.getRentedList()) {
+                totalPrice += browseService.displayVideoDetails(rid).getRentalPrice();
+            }
+        }
+
+        Account a = null;
+        if (tokenID != null) {
+            a = accountService.getAccountByLoginToken(tokenID);
+        }
+        
+        if (a == null) {
+            a = new Account();
+            a.setName("No User Logged In");
+        }
+        model.put("account", a);
+        model.put("totalPrice", totalPrice);
+
+        return new ModelAndView("newOrder", model);
     }
 
     @RequestMapping("/order/show")

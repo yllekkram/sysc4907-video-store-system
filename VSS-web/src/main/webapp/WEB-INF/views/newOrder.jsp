@@ -14,37 +14,43 @@
         <title>Order</title>
     </head>
     <body>
-        <form:form method="post" action="create.htm">
+        <%@include file="../jspf/banner.jspf" %>
+        <table>
+            <tr>
+                <td>Account:</td>
+                <td>${account.getName()}</td>
+            </tr>
+            <tr>
+                <td>Price:</td>
+                <td>&#36;${totalPrice}</td>
+            </tr>
+        </table>
+
+        <form method="post" action="create.htm">
             <table>
                 <tr>
-                    <td>Account:</td>
-                    <td>${account.getName()}</td>
-                </tr>
-                <tr>
-                    <td>Price:</td>
-                    <td>${totalPrice}</td>
-                </tr>
-                <tr>
                     <td>Payment Method:</td>
-                    <td><form:radiobutton path="paymentMethod" value="creditCard" />Credit Card</td>
+                    <td><input type="radio" name="paymentMethod" value="creditCard" checked />Credit Card</td>
                 </tr>
             </table>
-                <h3>Credit Card Info</h3>
-                <table>
-                    <tr>
-                        <td><form:label path="cardholderName">Cardholder Name:</form:label></td>
-                        <td><form:input path="cardholderName" /></td>
-                    </tr>
-                    <tr>
-                        <td><form:label path="creditCardNumber">Card Number:</form:label></td>
-                        <td><form:input path="creditCardNumber" /></td>
-                    </tr>
-                    <tr>
-                        <td><form:label path="creditCardVerification">Verification Number:</form:label></td>
-                        <td><form:input path="creditCardVerification" /></td>
-                    </tr>
-                </table>
+            <table>
+                <tr>
+                    <th colspan="2">Credit Card Info</th>
+                </tr>
+                <tr>
+                    <td>Cardholder Name:</td>
+                    <td><input type="text" name="cardholderName" /></td>
+                </tr>
+                <tr>
+                    <td>Card Number:</td>
+                    <td><input type="text" name="creditCardNumber" /></td>
+                </tr>
+                <tr>
+                    <td>Verification Number:</td>
+                    <td><input type="text" name="creditCardVerification" /></td>
+                </tr>
+            </table>
             <input type="submit" value="Confirm" />
-        </form:form>
+        </form>
     </body>
 </html>
