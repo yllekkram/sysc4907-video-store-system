@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SessionAttributes("alreadyLogin")
 public class VideoViewController {
     
+    @Autowired
     private VideoPlaybackService playbackService;
     
     public void setPlaybackService(VideoPlaybackService service){
