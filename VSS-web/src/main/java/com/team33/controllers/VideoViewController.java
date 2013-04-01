@@ -9,9 +9,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
@@ -29,8 +29,8 @@ public class VideoViewController {
         this.playbackService = service;
     }
     
-    @RequestMapping(value = "/viewVideo.htm/${orderId}/${videoId}", method = RequestMethod.GET)
-    public String loadVideoOnStartup(Map<String, Object> map, @RequestParam("orderId")String orderId, @RequestParam("videoId")String videoId, @ModelAttribute("alreadyLogin")Integer tokenId){
+    @RequestMapping(value = "/viewVideo/{orderId}/{videoId}", method = RequestMethod.GET)
+    public String loadVideoOnStartup(Map<String, Object> map, @PathVariable("orderId")String orderId, @PathVariable("videoId")String videoId, @ModelAttribute("alreadyLogin")Integer tokenId){
         System.out.println("------ Loading Video -------");
         // Load video location from DB
         
@@ -47,15 +47,14 @@ public class VideoViewController {
         map.put("orderId", orderId);
         map.put("videoId", videoId);
         
-        return "viewVideo";
+        return "/viewVideo";
     }
-    @RequestMapping(value = "/viewVideo", method = RequestMethod.POST)
-    public String saveVideoTimeLocation(@ModelAttribute("savedTime") String currentTime, @ModelAttribute("orderId")String orderId, @ModelAttribute("videoId")String videoId, @ModelAttribute("alreadyLogin")Integer tokenId){
+    @RequestMapping(value = "/viewVideo/{orderId}/{videoId}", method = RequestMethod.POST)
+    public void saveVideoTimeLocation(@ModelAttribute("savedTime") String currentTime, @PathVariable("orderId")String orderId, @PathVariable("videoId")String videoId, @ModelAttribute("alreadyLogin")Integer tokenId){
         // Save currentTime
         System.out.println("--------------------------------- Current Time is : " + currentTime);
-                
-        playbackService.saveInformation(tokenId.intValue(), Integer.parseInt(orderId), Integer.parseInt(videoId), Integer.parseInt(currentTime));
+        System.out.println("Order : " + orderId + ", Video : " + videoId + ", Login : " + tokenId);        
         
-        return "redirect:/viewVideo.htm";
+        playbackService.saveInformation(tokenId.intValue(), Integer.parseInt(orderId), Integer.parseInt(videoId), Integer.parseInt(currentTime));        
     }
 }

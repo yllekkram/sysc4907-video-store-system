@@ -4,6 +4,7 @@
  */
 package com.team33.entities.dao.playback;
 
+import com.team33.entities.playback.VideoFile;
 import com.team33.entities.playback.VideoPlayback;
 import com.team33.services.exception.DataAccessException;
 import org.hibernate.Query;
@@ -29,11 +30,11 @@ public class VideoPlaybackDaoImpl implements VideoPlaybackDao{
             throw new DataAccessException("Invalid session");
         }
         Query query = curSession.getNamedQuery("VideoFile.findById");
-        query.setParameter("id", videoId);
+        query.setParameter("videoId", videoId);
         if (query.list().isEmpty()){
             throw new DataAccessException("Video Not Found");
         }
-        return (String) query.list().get(0);
+        return ((VideoFile) query.list().get(0)).getFileLocation();
     }
     
     @Override
@@ -49,13 +50,13 @@ public class VideoPlaybackDaoImpl implements VideoPlaybackDao{
         if (query.list().isEmpty()){
             return -1;
         }
-        return ((Integer)query.list().get(0)).intValue();
+        return ((VideoPlayback)query.list().get(0)).getCurrentTime();
     }
     
     @Override
     public void saveVideoPlaybackInformation(int orderId, int videoId, int accountId, int seconds){
         VideoPlayback playback = new VideoPlayback(orderId, accountId, videoId, seconds);
-        sessionFactory.getCurrentSession().save(playback);
+        sessionFactory.getCurrentSession().saveOrUpdate(playback);
     }
     
 }
