@@ -34,7 +34,7 @@ public class OrdersDaoImpl implements OrdersDao {
     public List<Orders> getOrders(LoginToken loginToken) throws DataAccessException {
         Session curSession = sessionFactory.getCurrentSession();
         Query orderQuery;
-        orderQuery = curSession.getNamedQuery("Orders.findByActiveAccount");
+        orderQuery = curSession.getNamedQuery("Orders.findByAccountid");
         orderQuery.setParameter("accountid", loginToken.getAccount().getId());
         return orderQuery.list();
     }

@@ -19,19 +19,18 @@
         Name : <c:out value="${Name}" />
         <br>
         <h1>Orders</h1>
-        <br>
         <h2>Purchases</h2>
         <br>
         <table border="1">
             <tr>
-                <th>
-                    Video
-                </th>
+                <th>Video</th>
+                <th>Price</th>
             </tr>
             <c:forEach items="${Orders}" var="ordersItem">
                 <c:forEach items="${ordersItem.getPurchaseCollection()}" var="purchase">
                     <tr>
-                        <td><a href="viewVideo.htm/${purchase.getVideoInfo().getId()}"><c:out value="${purchase.getVideoInfo().getTitle()}"/></a></td>
+                        <td><a href="viewVideo/${purchase.getOrders().getOrdersPK().getId()}/${purchase.getVideoInfo().getId()}.htm"><c:out value="${purchase.getVideoInfo().getTitle()}"/></a></td>
+                        <td>${purchase.getVideoInfo().getPurchasePrice()}</td>
                     </tr>
                 </c:forEach>
             </c:forEach>
@@ -42,11 +41,15 @@
         <table border="1">
             <tr>
                 <th>Video</th>
+                <th>Price</th>
+                <th>Expiry Date</th>
             </tr>
             <c:forEach items="${Orders}" var="ordersItem">
                 <c:forEach items="${ordersItem.getRentalCollection()}" var="rental">
                     <tr>
-                        <td><a href="viewVideo.htm/${rental.getVideoInfo().getId()}"><c:out value="${rental.getVideoInfo().getTitle()}"/></a></td>
+                        <td><a href="viewVideo/${purchase.getOrders().getOrdersPK().getId()}/${rental.getVideoInfo().getId()}.htm"><c:out value="${rental.getVideoInfo().getTitle()}"/></a></td>
+                        <td>${purchase.getVideoInfo().getRentalPrice()}</td>
+                        <td>${rental.getRentalPK().getRentalExpiryDate().toString()}</td>
                     </tr>
                 </c:forEach>
             </c:forEach>
