@@ -10,7 +10,6 @@ Without this configuration present, some functionality in the IDE may be limited
         <config-files>
             <config-file>src/main/webapp/WEB-INF/applicationContext.xml</config-file>
             <config-file>src/main/webapp/WEB-INF/dispatcher-servlet.xml</config-file>
-            <config-file>src/main/webapp/WEB-INF/applicationContext-test.xml</config-file>
             <config-file>services-context.xml.xml</config-file>
             <config-file>src/main/resources/service-context.xml</config-file>
             <config-file>src/main/resources/mailsender.xml.xml</config-file>

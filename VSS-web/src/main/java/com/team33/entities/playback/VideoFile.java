@@ -20,15 +20,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "VideoFile")
 @NamedQueries({
-    @NamedQuery(name = "VideoFile.findById", query = "SELECT v FROM VideoFile v WHERE v.id = :id")
+    @NamedQuery(name = "VideoFile.findById", query = "SELECT v FROM VideoFile v WHERE v.videoId = :videoId")
 })
 public class VideoFile implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
     @Basic(optional = false)
-    @Column(name = "id")
-    private int id;
+    @Column(name = "videoId")
+    private int videoId;
 
     @Basic(optional = false)
     @Column(name = "fileLocation")
@@ -42,18 +42,18 @@ public class VideoFile implements Serializable {
         return this.fileLocation;
     }
     
-    public int getId() {
-        return id;
+    public int getVideoId() {
+        return videoId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setVideoId(int id) {
+        this.videoId = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += id;
+        hash += videoId;
         return hash;
     }
 
@@ -64,7 +64,7 @@ public class VideoFile implements Serializable {
             return false;
         }
         VideoFile other = (VideoFile) object;
-        if (this.id != other.id) {
+        if (this.videoId != other.videoId) {
             return false;
         }
         return true;
@@ -72,7 +72,7 @@ public class VideoFile implements Serializable {
 
     @Override
     public String toString() {
-        return "com.team33.entities.playback.VideoFile[ id=" + id + " ]";
+        return "com.team33.entities.playback.VideoFile[ id=" + videoId + " ]";
     }
     
 }

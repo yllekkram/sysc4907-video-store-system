@@ -7,9 +7,11 @@ package com.team33.controllers;
 import com.team33.entities.Account;
 import com.team33.entities.Orders;
 import com.team33.services.AccountService;
+import com.team33.services.OrderService;
 import com.team33.services.VideoAccessService;
+import com.team33.services.exception.AccountNotActivatedException;
 import com.team33.services.exception.DataAccessException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class MyAccountController {
     @Autowired
     private AccountService accountService;
     
+    @Autowired
+    private OrderService orderService;
+    
     public void setVideoAccessService(VideoAccessService service){
         this.videoAccessService = service;
     }
@@ -51,31 +56,22 @@ public class MyAccountController {
         
         int uuid = token.intValue();        
         
-//        List<VideoInfo> videoList = null;
-//        try{
-//            videoList = videoAccessService.getVideoInfoList(uuid);
-//        }catch(DataAccessException e){
-//            redirect.addFlashAttribute("exception", e);
-//            return "redirect:/myAccountView.htm";
-//        }catch(AccountNotActivatedException e){
-//            redirect.addFlashAttribute("exception", e);
-//            return "redirect:/myAccountView.htm";
-//        }
-//        
-//        map.put("videoList", videoList);
-        
         try{
             Account account = this.accountService.getAccount(uuid);
+            List<Orders> orders = this.orderService.getOrders(uuid);
+           
             //Account account = new Account();
             //account.setName("Jim");
             if (account != null){
                 map.put("Name", account.getName());
-                map.put("Orders", (account.getOrdersCollection() == null ? new ArrayList<Orders>() : account.getOrdersCollection()));
+                map.put("Orders", orders);
             }
         }catch(DataAccessException e){
             //redirect.addFlashAttribute("exception", e);
             return "redirect:/myAccountView.htm";
-        }                
+        }catch(AccountNotActivatedException e){
+            return "redirect:/myAccountView.htm";
+        }            
         return "/myAccountView";
     }
 }
