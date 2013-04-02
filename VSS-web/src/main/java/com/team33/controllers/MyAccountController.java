@@ -6,14 +6,11 @@ package com.team33.controllers;
 
 import com.team33.entities.Account;
 import com.team33.entities.Orders;
-import com.team33.entities.Purchase;
-import com.team33.entities.Rental;
 import com.team33.services.AccountService;
 import com.team33.services.OrderService;
 import com.team33.services.VideoAccessService;
 import com.team33.services.exception.AccountNotActivatedException;
 import com.team33.services.exception.DataAccessException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;

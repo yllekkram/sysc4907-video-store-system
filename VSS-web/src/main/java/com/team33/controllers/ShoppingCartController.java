@@ -4,22 +4,18 @@
  */
 package com.team33.controllers;
 
+import com.team33.controllers.ShoppingCart.ShoppingCartKey;
 import com.team33.entities.VideoInfo;
 import com.team33.services.BrowseService;
-import com.team33.services.exception.DataAccessException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -38,97 +34,97 @@ public class ShoppingCartController {
     }
     
     @RequestMapping(value = "/shoppingCartView.htm", method = RequestMethod.GET)
-    public String viewCart(Map<String, Object> map, HttpServletRequest request){
+    public String viewCart(Map<String, Object> map, HttpSession session){
         ArrayList<VideoInfo> info = new ArrayList<VideoInfo>();
-        Cookie videoCookie = getCartCookie(request);
-        if (videoCookie == null){
+        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_COOKIE_NAME);
+        if (cart == null){
             map.put("VideoList", info);
-            return "/shoppingCartView";
+            return "/shoppingCartView"; 
         }
-        ShoppingCart cart = ShoppingCart.fromString(videoCookie.getValue());
-        Set<Integer> videoList = cart.getVideoList();
-        for(Integer i : videoList){
-            info.add(this.browseService.displayVideoDetails(i.intValue()));
+        
+        List<ShoppingCart.ShoppingCartKey> shoppingCartinfo = cart.getShoppingCartInfo();
+        for(ShoppingCart.ShoppingCartKey i : shoppingCartinfo){
+            info.add(this.browseService.displayVideoDetails(i.getVideoId()));
         }
-        map.put("VideoList", info);
+        
+        ArrayList<ShoppingCartControllerDataFrame> frame = new ArrayList<ShoppingCartControllerDataFrame>();
+        int totalCost = 0;   
+        for (int i = 0; i < shoppingCartinfo.size(); i++){
+            frame.add(new ShoppingCartControllerDataFrame(shoppingCartinfo.get(i), info.get(i)));
+            if (shoppingCartinfo.get(i).getIsRented()){
+                totalCost += info.get(i).getRentalPrice();
+            }else{
+                totalCost += info.get(i).getPurchasePrice();
+            }
+        }
+        
+        map.put("Frame", frame);
+        map.put("TotalCost", totalCost);
         
         return "/shoppingCartView";
     }
     
-    @RequestMapping(value = "/shoppingCartView.htm", method = RequestMethod.POST)
-    public String deleteOrder(@RequestParam("id")String id, HttpServletResponse response, HttpServletRequest request){
-        Cookie videoList = getCartCookie(request);
-        String cartString = "";
-        if (videoList != null){
-            ShoppingCart cart = ShoppingCart.fromString(videoList.getValue());
-            cart.removeFromCart(Integer.parseInt(id));
-            cartString = cart.toString();
-        }else{
+    @RequestMapping(value = "/shoppingCartView/purchase/delete/{videoId}", method = RequestMethod.POST)
+    public String deletePurchaseOrder(@PathVariable("videoId")String videoId, HttpSession session){
+        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_COOKIE_NAME);
+        if (cart == null){
             return "redirect:/shoppingCartView.htm";
         }
-        Cookie cookie = new Cookie(SHOPPING_CART_COOKIE_NAME, cartString);
-        response.addCookie(cookie);
+        cart.removeFromCart(Integer.parseInt(videoId), false);
+        session.setAttribute(SHOPPING_CART_COOKIE_NAME, cart);
+        return "redirect:/shoppingCartView.htm";
+    }
+    
+    @RequestMapping(value = "/shoppingCartView/rental/delete/{videoId}", method = RequestMethod.POST)
+    public String deleteRentalOrder(@PathVariable("videoId")String videoId, HttpSession session){
+        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_COOKIE_NAME);
+        if (cart == null){
+            return "redirect:/shoppingCartView.htm";
+        }
+        cart.removeFromCart(Integer.parseInt(videoId), true);
+        session.setAttribute(SHOPPING_CART_COOKIE_NAME, cart);
         return "redirect:/shoppingCartView.htm";
     }
     
     @RequestMapping(value = "/shoppingCartView/purchase/{videoId}", method = RequestMethod.GET)
-    public String addPurchaseToCart(@PathVariable("videoId")String videoId, HttpServletResponse response, HttpServletRequest request){
+    public String addPurchaseToCart(@PathVariable("videoId")String videoId, HttpSession session){
         System.out.println("----------------------- Add Purchase To Cart ----------------------------------");
-        Cookie videoList = getCartCookie(request);
-        String cartString = handleAddToCart(videoId, false, videoList);
-        Cookie cookie = new Cookie(SHOPPING_CART_COOKIE_NAME, cartString);
-        response.addCookie(cookie);
+        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_COOKIE_NAME);
+        if (cart == null){
+            cart = new ShoppingCart();
+        }
+        cart.addToCart(Integer.parseInt(videoId), false);
+        session.setAttribute(SHOPPING_CART_COOKIE_NAME, cart);
         return "redirect:/browseView/" + videoId + ".htm";
     }
     
     @RequestMapping(value = "/shoppingCartView/rental/{videoId}", method = RequestMethod.GET)
-    public String addrentalToCart(@PathVariable("videoId")String videoId, HttpServletResponse response, HttpServletRequest request){
+    public String addrentalToCart(@PathVariable("videoId")String videoId, HttpSession session){
         System.out.println("----------------------- Add Rental To Cart ----------------------------------");
-        Cookie videoList = getCartCookie(request);
-        String cartString = handleAddToCart(videoId, true, videoList);
-        Cookie cookie = new Cookie(SHOPPING_CART_COOKIE_NAME, cartString);
-        response.addCookie(cookie);
+        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_COOKIE_NAME);
+        if (cart == null){
+            cart = new ShoppingCart();
+        }
+        cart.addToCart(Integer.parseInt(videoId), true);
+        session.setAttribute(SHOPPING_CART_COOKIE_NAME, cart);
         return "redirect:/browseView/" + videoId + ".htm";
     }
     
-    private Cookie getCartCookie(HttpServletRequest request){
-        Cookie cookies[] = request.getCookies();
-        for(Cookie c : cookies){
-            if (c.getName().equals(SHOPPING_CART_COOKIE_NAME)){
-                return c;
-            }
-        }
-        return null;
-    }
-    
-    private String handleAddToCart(String videoId, boolean isRented, Cookie originalCookie){
-        String videoList = "";
-        if (originalCookie != null){
-            videoList = originalCookie.getValue();
-            
-        }
-        System.out.println("Original Value : " + videoList);
-        ShoppingCart cart = ShoppingCart.fromString(videoList);
-        cart.addToCart(Integer.parseInt(videoId), isRented);
-        return cart.toString();
-    }
-    
-    private ArrayList<VideoInfo> buildPotentialVideoOrderList(String videoList){
-        ArrayList<VideoInfo> list = new ArrayList<VideoInfo>();
+    public class ShoppingCartControllerDataFrame{
+        private ShoppingCart.ShoppingCartKey key;
+        private VideoInfo videoInfo;
         
-        String vidList[] = videoList.split(" ");
-        
-        for(String video : vidList){
-            try{
-                int videoId = Integer.parseInt(video);
-                list.add(browseService.displayVideoDetails(videoId));
-            }catch(NumberFormatException e){
-                e.printStackTrace();
-            }catch(DataAccessException e){
-                e.printStackTrace();
-            }
+        public ShoppingCartControllerDataFrame(ShoppingCart.ShoppingCartKey key, VideoInfo videoInfo){
+            this.key = key;
+            this.videoInfo = videoInfo;
         }
-        
-        return list;
+
+        public ShoppingCartKey getKey() {
+            return key;
+        }
+
+        public VideoInfo getVideoInfo() {
+            return videoInfo;
+        }
     }
 }
