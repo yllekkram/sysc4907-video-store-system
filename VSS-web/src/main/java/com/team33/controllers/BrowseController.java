@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Samual
  */
 @Controller
-@RequestMapping("/browseView.htm")
+@RequestMapping("/browseView")
 public class BrowseController {
 
     @Autowired
@@ -40,8 +40,10 @@ public class BrowseController {
      *
      * @return
      */    
-    @RequestMapping(value = "/{videoId}", method=RequestMethod.GET)
+    @RequestMapping(value = "{videoId}", method=RequestMethod.GET)
     public String displayVideoInformation(@PathVariable("videoId")String videoId, Map<String, Object> map){
+        
+        System.out.println("Start Video Stuff");
         
         int vidId = Integer.parseInt(videoId);
         VideoInfo info = this.browseService.displayVideoDetails(vidId);
@@ -51,6 +53,6 @@ public class BrowseController {
         map.put("videoInfo", info);
         map.put("runningMin", runningTimeMin);
         map.put("runningHour", runningTimeHour);
-        return "redirect:/browseView";
+        return "/browseView";
     }
 }

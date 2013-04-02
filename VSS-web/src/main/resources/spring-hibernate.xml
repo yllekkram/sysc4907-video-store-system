@@ -46,6 +46,9 @@
                 <value>com.team33.entities.RentalPK</value>
                 <value>com.team33.entities.ScreenRating</value>
                 <value>com.team33.entities.VideoInfo</value>
+                <value>com.team33.entities.playback.VideoFile</value>
+                <value>com.team33.entities.playback.VideoPlayback</value>
+                <value>com.team33.entities.playback.VideoPlaybackPK</value>
             </list>
         </property>
         <property name="hibernateProperties">
