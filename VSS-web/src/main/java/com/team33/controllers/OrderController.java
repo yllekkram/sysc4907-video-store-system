@@ -65,7 +65,7 @@ public class OrderController {
             try {
                 orderService.addPurchase(videoID, newOrder, loginToken);
             } catch (AccountNotActivatedException ane) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Account Nt Activated");
+                redirectAttributes.addFlashAttribute("errorMessage", ane.getMessage());
                 return "redirect:" + refererOrHome;
             }
         }
@@ -77,7 +77,7 @@ public class OrderController {
                 c.add(Calendar.DAY_OF_MONTH, 5);
                 orderService.addRental(videoID, newOrder, loginToken, c.getTime());
             } catch (AccountNotActivatedException ane) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Account Nt Activated");
+                redirectAttributes.addFlashAttribute("errorMessage", ane.getMessage());
                 return "redirect:" + refererOrHome;
             }
         }
@@ -85,13 +85,13 @@ public class OrderController {
         try {
             orderService.confirmPayment(newOrder, loginToken, new Integer(orderRequest.getCreditCardVerification()), orderRequest.getTotalPrice());
         } catch (AccountNotActivatedException ane) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Account Nt Activated");
+                redirectAttributes.addFlashAttribute("errorMessage", ane.getMessage());
             return "redirect:" + refererOrHome;
         } catch (PaymentException pe) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Payment Exception");
+                redirectAttributes.addFlashAttribute("errorMessage", pe.getMessage());
             return "redirect:" + refererOrHome;
         } catch (InsufficientFundsException ife) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Insufficient Funds");
+                redirectAttributes.addFlashAttribute("errorMessage", ife.getMessage());
             return "redirect:" + refererOrHome;
         }
         
