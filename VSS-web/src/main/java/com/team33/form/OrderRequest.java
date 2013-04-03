@@ -12,7 +12,7 @@ import com.team33.entities.Account;
  */
 public class OrderRequest {
 
-    private Account account;
+    private Integer loginToken;
     private Integer totalPrice;
     private String paymentMethod;
     private String cardholderName;
@@ -20,14 +20,17 @@ public class OrderRequest {
     private String creditCardVerification;
 
     public OrderRequest() {
-        account = new Account();
-        account.setName("No User Logged In");
+        loginToken = null;
         totalPrice = 0;
         paymentMethod = "creditCard";
     }
     
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public void setLoginToken(Integer loginToken) {
+        this.loginToken = loginToken;
     }
 
     public void setCardholderName(String cardholderName) {
@@ -46,6 +49,10 @@ public class OrderRequest {
         return paymentMethod;
     }
 
+    public Integer getLoginToken() {
+        return loginToken;
+    }
+
     public String getCardholderName() {
         return cardholderName;
     }
@@ -58,16 +65,8 @@ public class OrderRequest {
         return creditCardVerification;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
     public void setTotalPrice(Integer totalPrice) {
         this.totalPrice = totalPrice;
-    }
-
-    public Account getAccount() {
-        return account;
     }
 
     public Integer getTotalPrice() {

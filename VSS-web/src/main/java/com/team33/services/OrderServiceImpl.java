@@ -289,4 +289,9 @@ public class OrderServiceImpl implements OrderService {
             this.getOrdersDao().removeRental(this.getOrdersDao().getOrder(orderId), rental);
         }
     }
+
+    @Override
+    public void saveOrder(Orders order) {
+        ordersDao.saveOrder(order);
+    }
 }

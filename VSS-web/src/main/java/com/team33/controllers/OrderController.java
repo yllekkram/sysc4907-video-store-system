@@ -6,22 +6,24 @@ package com.team33.controllers;
 
 import com.team33.entities.Account;
 import com.team33.entities.Orders;
-import com.team33.entities.Purchase;
-import com.team33.entities.VideoInfo;
 import com.team33.form.OrderRequest;
 import com.team33.services.AccountService;
 import com.team33.services.BrowseService;
 import com.team33.services.OrderService;
-import java.util.ArrayList;
+import com.team33.services.exception.AccountNotActivatedException;
+import com.team33.services.exception.InsufficientFundsException;
+import com.team33.services.exception.PaymentException;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,50 +44,70 @@ public class OrderController {
     @Autowired
     private AccountService accountService;
 
-    public void setOrderService(OrderService orderService) {
-        this.orderService = orderService;
-    }
+    @RequestMapping(value = "/order/create", method = RequestMethod.POST)
+    public String createOrder(@RequestHeader(value="referer", required=false)final String referer, @ModelAttribute("orderRequest") OrderRequest orderRequest, BindingResult result, HttpServletRequest request) {
+        String refererOrHome = StringUtils.hasText(referer) ? referer : "/";
+        ShoppingCart cart = getCart(request);
+        Integer loginToken = orderRequest.getLoginToken();
 
-    public OrderService getOrderService() {
-        return this.orderService;
-    }
+        if (cart == null) {
+            return "redirect:" + refererOrHome;
+        }
+        Orders newOrder = new Orders();
+        // Why do I need to do this manually?
+        newOrder.setAccount(accountService.getAccountByLoginToken(loginToken));
 
-    @RequestMapping(value = "order/create", method = RequestMethod.POST)
-    public String createOrder(@ModelAttribute("orderRequest") OrderRequest orderRequest, BindingResult result) {
+        for (Integer videoID : cart.getPurchaseList()) {
+            try {
+                orderService.addPurchase(videoID, newOrder.getOrdersPK().getId(), loginToken);
+            } catch (AccountNotActivatedException ane) {
+                return "redirect:" + refererOrHome;
+            }
+        }
+
+        for (Integer videoID : cart.getRentedList()) {
+            try {
+                Calendar c = Calendar.getInstance();
+                // The rental period arbitrary
+                c.add(Calendar.DAY_OF_MONTH, 5);
+                orderService.addRental(videoID, newOrder.getOrdersPK().getId(), loginToken, c.getTime());
+            } catch (AccountNotActivatedException ane) {
+                return "redirect:" + refererOrHome;
+            }
+        }
+
+        try {
+            orderService.confirmPayment(newOrder, loginToken, new Integer(orderRequest.getCreditCardVerification()), orderRequest.getTotalPrice());
+        } catch (AccountNotActivatedException ane) {
+            return "redirect:" + refererOrHome;
+        } catch (PaymentException pe) {
+            return "redirect:" + refererOrHome;
+        } catch (InsufficientFundsException ife) {
+            return "redirect:" + refererOrHome;
+        }
+        
         return "redirect:show.htm"; //?order=" + orderRequest.getVideotitle();
     }
 
     @RequestMapping("/order/new")
-    public ModelAndView newOrder(HttpServletRequest request) {
+    public String newOrder(@RequestHeader(value="referer", required=false)final String referer, Map<String,Object>map, HttpServletRequest request) {
+        String refererOrHome = StringUtils.hasText(referer) ? referer : "/";
         HashMap<String, Object> model = new HashMap<String, Object>();
         Integer totalPrice = 0;
 
         Integer tokenID = (Integer) request.getSession().getAttribute(LoginController.ACCOUNT_ATTRIBUTE);
 
-        Cookie cartCookie = null;
-        Cookie cookies[] = request.getCookies();
-        for (Cookie c : cookies) {
-            if (c.getName().equals(ShoppingCartController.SHOPPING_CART_COOKIE_NAME)) {
-                cartCookie = c;
-                break;
-            }
-        }
-
-        if (cartCookie != null) {
-            ShoppingCart cart = ShoppingCart.fromString(cartCookie.getValue());
-            for (Integer pid : cart.getPurchaseList()) {
-                totalPrice += browseService.displayVideoDetails(pid).getPurchasePrice();
-            }
-            for (Integer rid : cart.getRentedList()) {
-                totalPrice += browseService.displayVideoDetails(rid).getRentalPrice();
-            }
+        ShoppingCart cart = getCart(request);
+        
+        if (cart == null) {
+            return "redirect:" + refererOrHome;
         }
 
         Account a = null;
         if (tokenID != null) {
             a = accountService.getAccountByLoginToken(tokenID);
         }
-        
+
         if (a == null) {
             a = new Account();
             a.setName("No User Logged In");
@@ -93,11 +115,23 @@ public class OrderController {
         model.put("account", a);
         model.put("totalPrice", totalPrice);
 
-        return new ModelAndView("newOrder", model);
+        return "newOrder";
     }
 
     @RequestMapping("/order/show")
     public ModelAndView showOrder(@RequestParam("order") String order) {
         return new ModelAndView("showOrder", "order", order);
+    }
+
+    private ShoppingCart getCart(HttpServletRequest request) {
+        // Find the shopping cart cookie
+        Cookie cookies[] = request.getCookies();
+        for (Cookie c : cookies) {
+            if (c.getName().equals(ShoppingCartController.SHOPPING_CART_COOKIE_NAME)) {
+                return ShoppingCart.fromString(c.getValue());
+            }
+        }
+
+        return null;
     }
 }

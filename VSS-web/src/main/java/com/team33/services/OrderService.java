@@ -104,4 +104,12 @@ public interface OrderService {
      * @throws AccountNotActivatedException
      */
     public void removeRental(Integer videoInfoId, Integer orderId, int uuid, Date rentalExpiryDate) throws AccountNotActivatedException;
+    
+    /**
+     * Save an order
+     * 
+     * @author Mark
+     * @param order The order that will be saved to the database.
+     */
+    public void saveOrder(Orders order);
 }
