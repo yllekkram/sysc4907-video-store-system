@@ -35,8 +35,9 @@
             
             window.onbeforeunload = function(e){
                 console.log("Player Time is " + (myPlayer.currentTime()));
-                $.post("viewVideo.htm", {savedTime:myPlayer.currentTime()});
-                return null;
+                $.post("/VSS-web/viewVideo/${orderId}/${videoId}.htm", {savedTime:myPlayer.currentTime()});
+                console.log("Player Time is " + (myPlayer.currentTime()));
+                return 0;
             };
         </script>
     </body>

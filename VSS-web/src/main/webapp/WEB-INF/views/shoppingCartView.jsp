@@ -14,7 +14,7 @@
     <body>
         <%@include file="../jspf/banner.jspf" %>
         <h1>Shopping Cart</h1>
-        <c:if test="${not empty VideoList}">
+        <c:if test="${not empty Frame}">
             <form action="/VSS-web/orderVideoView">
                 <input type="submit" value="Checkout"/>
             </form>
@@ -22,19 +22,56 @@
         <table border="1">
             <tr>
                 <th>Video</th>
+                <th>Price</th>
                 <th>Status</th>
+                <th></th>
             </tr>
-            <c:forEach items="${VideoList}" var="videoItem">
+            <c:forEach items="${Frame}" var="videoItem">
                 <tr>
-                    <td><a href="/VSS-web/viewVideo.htm/${videoItem.getId()}"><c:out value="${videoItem.getTitle()}"/></a></td>
+                    <td><a href="/VSS-web/browseView/${videoItem.getKey().getVideoId()}.htm"><c:out value="${videoItem.getVideoInfo().getTitle()}"/></a></td>
                     <td>
-                        <form action="/VSS-web/shoppingCartView.htm" method="post">
-                            <input type="hidden" name="id" value="${videoItem.getId()}"/>
-                            <input type="submit" value="delete"/>
-                        </form>
+                        <c:choose>
+                            <c:when test = "${videoItem.getKey().getIsRented() eq true}">
+                                ${videoItem.getVideoInfo().getRentalPrice()}
+                            </c:when>
+                            <c:otherwise>
+                                ${videoItem.getVideoInfo().getPurchasePrice()}
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test = "${videoItem.getKey().getIsRented() eq true}">
+                                Rented
+                            </c:when>
+                            <c:otherwise>
+                                Purchase
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test = "${videoItem.getKey().getIsRented() eq true}">
+                                <form action="/VSS-web/shoppingCartView/rental/delete/${videoItem.getKey().getVideoId()}.htm" method="post">
+                                    <input type="hidden" name="id" />
+                                    <input type="submit" value="delete"/>
+                                </form>
+                            </c:when>
+                            <c:otherwise>
+                                <form action="/VSS-web/shoppingCartView/purchase/delete/${videoItem.getKey().getVideoId()}.htm" method="post">
+                                    <input type="hidden" name="id" />
+                                    <input type="submit" value="delete"/>
+                                </form>
+                            </c:otherwise>
+                        </c:choose>
+
                     </td>
                 </tr>
             </c:forEach>
+            <tr>
+                <td>Total Cost</td>
+                <td>${TotalCost}</td>
+            </tr>
         </table>
 
     </body>

@@ -15,7 +15,7 @@
         <c:otherwise>
             <c:forEach var="videoInfo" items="${videoInfoList}">
                 <tr>
-                    <td>${videoInfo.getTitle()}</td>
+                    <td><a href="/VSS-web/browseView/${videoInfo.getId()}.htm">${videoInfo.getTitle()}</a></td>
                     <td>${videoInfo.getDescription()}</td>
                     <td>${videoInfo.getScreenRatingid().getRatingType()}</td>
                     <td>${videoInfo.getGenreid().getCategory()}</td>

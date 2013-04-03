@@ -34,7 +34,7 @@ public class OrdersDaoImpl implements OrdersDao {
     public List<Orders> getOrders(LoginToken loginToken) throws DataAccessException {
         Session curSession = sessionFactory.getCurrentSession();
         Query orderQuery;
-        orderQuery = curSession.getNamedQuery("Orders.findByActiveAccount");
+        orderQuery = curSession.getNamedQuery("Orders.findByAccountid");
         orderQuery.setParameter("accountid", loginToken.getAccount().getId());
         return orderQuery.list();
     }
@@ -150,9 +150,11 @@ public class OrdersDaoImpl implements OrdersDao {
      */
     @Override
     public LoginToken getLoginToken(int uuid) throws DataAccessException {
-        if (sessionFactory.getCurrentSession().get(LoginToken.class, uuid) != null) {
-            return (LoginToken) sessionFactory.getCurrentSession().get(LoginToken.class, uuid);
+        Query query = sessionFactory.getCurrentSession().getNamedQuery("LoginToken.findById");
+        query.setParameter("id", uuid);
+        if (query.list().isEmpty()){
+            throw new DataAccessException("The activation key is invalid");
         }
-        throw new DataAccessException("The activation key is invalid");
+        return (LoginToken)query.list().get(0);
     }
 }
