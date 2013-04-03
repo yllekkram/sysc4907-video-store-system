@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Orders.findByAccountid", query = "SELECT o FROM Orders o WHERE o.ordersPK.accountid = :accountid"),
     @NamedQuery(name = "Orders.findByPendingCharge", query = "SELECT o FROM Orders o WHERE o.pendingCharge = :pendingCharge")})
 public class Orders implements Serializable {
-
+    private static Integer nextID = 0;
     private static final long serialVersionUID = 1L;
     /**
      *
@@ -63,6 +63,11 @@ public class Orders implements Serializable {
         this.ordersPK = ordersPK;
     }
 
+    public Orders(int accountID) {
+        this.pendingCharge = 0;
+        this.ordersPK = new OrdersPK(Orders.nextID++, accountID);
+    }
+    
     /**
      * Constructs the orders
      *

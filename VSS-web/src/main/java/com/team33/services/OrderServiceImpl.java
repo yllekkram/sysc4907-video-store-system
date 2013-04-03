@@ -4,6 +4,7 @@ import com.team33.entities.LoginToken;
 import com.team33.entities.Orders;
 import com.team33.entities.Purchase;
 import com.team33.entities.Rental;
+import com.team33.entities.dao.BrowseDao;
 import com.team33.entities.dao.OrdersDao;
 import com.team33.services.exception.*;
 import java.util.Date;
@@ -23,6 +24,9 @@ public class OrderServiceImpl implements OrderService {
     //tells Spring to inject the dependency
     @Autowired
     private OrdersDao ordersDao;
+    
+    @Autowired
+    private BrowseDao browseDao;
     
     private CreditCardValidator creditCardValidator;
     
@@ -137,8 +141,14 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void addPurchase(Integer videoInfoId, Orders order, int uuid) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
-            Purchase purchase = new Purchase(genPurchaseId(order.getOrdersPK().getId(), order.getAccount().getId()), order.getOrdersPK().getId(), order.getOrdersPK().getAccountid(), videoInfoId);
-            int newPrice = order.getPendingCharge() + purchase.getVideoInfo().getPurchasePrice();
+            Integer orderID = order.getOrdersPK().getId();
+            Integer accountID = order.getOrdersPK().getAccountid();
+            Purchase purchase = new Purchase(genPurchaseId(orderID, accountID), orderID, accountID, videoInfoId);
+            // This is just asking for inconsistencies, but hey, this isn't my layer.
+            purchase.setVideoInfo(browseDao.displayVideoDetails(videoInfoId));
+            
+            int purchasePrice = purchase.getVideoInfo().getPurchasePrice();
+            int newPrice = order.getPendingCharge() + purchasePrice;
             order.setPendingCharge(newPrice);
             this.getOrdersDao().savePurchase(order, purchase);
         }
@@ -157,12 +167,16 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     @Transactional
-    public void addRental(Integer videoInfoId, Integer orderId, int uuid, Date rentalExpiryDate) throws DataAccessException, AccountNotActivatedException {
+    public void addRental(Integer videoInfoId, Orders order, int uuid, Date rentalExpiryDate) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
-            Rental rental = new Rental(genRentalId(orderId, this.getOrdersDao().getOrder(orderId).getAccount().getId(), rentalExpiryDate), videoInfoId, orderId, this.getOrdersDao().getOrder(orderId).getOrdersPK().getAccountid(), rentalExpiryDate);
-            int newPrice = this.getOrdersDao().getOrder(orderId).getPendingCharge() + rental.getVideoInfo().getPurchasePrice();
-            this.getOrdersDao().getOrder(orderId).setPendingCharge(newPrice);
-            this.getOrdersDao().saveRental(this.getOrdersDao().getOrder(orderId), rental);
+            Integer orderId = order.getOrdersPK().getId();
+            Integer accountId = order.getOrdersPK().getId();
+            Rental rental = new Rental(genRentalId(orderId, accountId, rentalExpiryDate), videoInfoId, orderId, accountId, rentalExpiryDate);
+            rental.setVideoInfo(browseDao.displayVideoDetails(videoInfoId));
+            
+            int newPrice = order.getPendingCharge() + rental.getVideoInfo().getPurchasePrice();
+            order.setPendingCharge(newPrice);
+            this.getOrdersDao().saveRental(order, rental);
         }
     }
 

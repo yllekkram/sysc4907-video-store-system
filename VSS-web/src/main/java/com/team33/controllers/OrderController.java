@@ -59,9 +59,7 @@ public class OrderController {
         if (cart == null) {
             return "redirect:" + refererOrHome;
         }
-        Orders newOrder = new Orders();
-        // Why do I need to do this manually?
-        newOrder.setAccount(accountService.getAccountByLoginToken(loginToken));
+        Orders newOrder = new Orders(accountService.getAccountByLoginToken(loginToken).getId());
 
         for (Integer videoID : cart.getPurchaseList()) {
             try {
@@ -77,7 +75,7 @@ public class OrderController {
                 Calendar c = Calendar.getInstance();
                 // The rental period arbitrary
                 c.add(Calendar.DAY_OF_MONTH, 5);
-                orderService.addRental(videoID, newOrder.getOrdersPK().getId(), loginToken, c.getTime());
+                orderService.addRental(videoID, newOrder, loginToken, c.getTime());
             } catch (AccountNotActivatedException ane) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Account Nt Activated");
                 return "redirect:" + refererOrHome;

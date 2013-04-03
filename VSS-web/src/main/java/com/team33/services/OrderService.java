@@ -52,13 +52,13 @@ public interface OrderService {
      * Adds a rental to an order
      *
      * @param videoInfoId
-     * @param orderId
+     * @param order
      * @param uuid
      * @param rentalExpiryDate
      * @throws DataAccessException
      * @throws AccountNotActivatedException
      */
-    public void addRental(Integer videoInfoId, Integer orderId, int uuid, Date rentalExpiryDate) throws DataAccessException, AccountNotActivatedException;
+    public void addRental(Integer videoInfoId, Orders order, int uuid, Date rentalExpiryDate) throws DataAccessException, AccountNotActivatedException;
 
     /**
      * Confirms payment of an order
