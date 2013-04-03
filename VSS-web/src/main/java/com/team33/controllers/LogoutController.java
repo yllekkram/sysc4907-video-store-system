@@ -20,6 +20,7 @@ public class LogoutController {
     @RequestMapping(method = RequestMethod.GET)
     public String logout(HttpSession session){
         session.removeAttribute(LoginController.ACCOUNT_ATTRIBUTE);
+        session.removeAttribute(ShoppingCartController.SHOPPING_CART_ATTRIBUTE_NAME);
         return "redirect:/";
     }
 }
