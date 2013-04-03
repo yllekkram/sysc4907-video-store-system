@@ -105,6 +105,7 @@ public class OrderController {
         if (StringUtils.hasText(errorMessage)) {
             model.put("errorMessage", errorMessage);
         }
+        
         String refererOrHome = StringUtils.hasText(referer) ? referer : "/";
         Integer totalPrice = 0;
 
@@ -114,6 +115,14 @@ public class OrderController {
         
         if (cart == null) {
             return "redirect:" + refererOrHome;
+        }
+        
+        for (Integer videoID : cart.getPurchaseList()) {
+            totalPrice += browseService.displayVideoDetails(videoID).getPurchasePrice();
+        }
+        
+        for (Integer videoID : cart.getRentedList()) {
+            totalPrice += browseService.displayVideoDetails(videoID).getRentalPrice();
         }
 
         Account a = null;
@@ -127,6 +136,7 @@ public class OrderController {
         }
         model.put("account", a);
         model.put("totalPrice", totalPrice);
+        model.put("uuid", tokenID);
 
         return "newOrder";
     }

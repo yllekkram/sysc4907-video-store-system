@@ -50,6 +50,7 @@
                     <td><input type="text" name="creditCardVerification" /></td>
                 </tr>
             </table>
+            <input type="hidden" name="loginToken" value="${uuid}"/>
             <input type="submit" value="Confirm" />
         </form>
     </body>
