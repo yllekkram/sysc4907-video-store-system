@@ -95,7 +95,7 @@ public class OrderController {
             return "redirect:" + refererOrHome;
         }
         
-        return "redirect:show.htm"; //?order=" + orderRequest.getVideotitle();
+        return "redirect:show.htm?order=" + newOrder.getOrdersPK().getId();
     }
 
     @RequestMapping("/order/new")
