@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * This is the controller for the order feature
@@ -46,10 +47,14 @@ public class OrderController {
     private AccountService accountService;
 
     @RequestMapping(value = "/order/create", method = RequestMethod.POST)
-    public String createOrder(@RequestHeader(value="referer", required=false)final String referer, @ModelAttribute("orderRequest") OrderRequest orderRequest, BindingResult result, HttpSession session) {
+    public String createOrder(@RequestHeader(value="referer", required=false)final String referer, @ModelAttribute("orderRequest") OrderRequest orderRequest, BindingResult result, HttpSession session, final RedirectAttributes redirectAttributes) {
         String refererOrHome = StringUtils.hasText(referer) ? referer : "/";
         ShoppingCart cart = getCart(session);
         Integer loginToken = orderRequest.getLoginToken();
+        if (loginToken == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "No User Logged In");
+            return "redirect:" + refererOrHome;
+        }
 
         if (cart == null) {
             return "redirect:" + refererOrHome;
@@ -62,6 +67,7 @@ public class OrderController {
             try {
                 orderService.addPurchase(videoID, newOrder.getOrdersPK().getId(), loginToken);
             } catch (AccountNotActivatedException ane) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Account Nt Activated");
                 return "redirect:" + refererOrHome;
             }
         }
@@ -73,6 +79,7 @@ public class OrderController {
                 c.add(Calendar.DAY_OF_MONTH, 5);
                 orderService.addRental(videoID, newOrder.getOrdersPK().getId(), loginToken, c.getTime());
             } catch (AccountNotActivatedException ane) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Account Nt Activated");
                 return "redirect:" + refererOrHome;
             }
         }
@@ -80,10 +87,13 @@ public class OrderController {
         try {
             orderService.confirmPayment(newOrder, loginToken, new Integer(orderRequest.getCreditCardVerification()), orderRequest.getTotalPrice());
         } catch (AccountNotActivatedException ane) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Account Nt Activated");
             return "redirect:" + refererOrHome;
         } catch (PaymentException pe) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Payment Exception");
             return "redirect:" + refererOrHome;
         } catch (InsufficientFundsException ife) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Insufficient Funds");
             return "redirect:" + refererOrHome;
         }
         
@@ -91,7 +101,10 @@ public class OrderController {
     }
 
     @RequestMapping("/order/new")
-    public String newOrder(@RequestHeader(value="referer", required=false)final String referer, Map<String,Object>model, HttpSession session) {
+    public String newOrder(@ModelAttribute("errorMessage")String errorMessage, @RequestHeader(value="referer", required=false)final String referer, Map<String,Object>model, HttpSession session) {
+        if (StringUtils.hasText(errorMessage)) {
+            model.put("errorMessage", errorMessage);
+        }
         String refererOrHome = StringUtils.hasText(referer) ? referer : "/";
         Integer totalPrice = 0;
 
