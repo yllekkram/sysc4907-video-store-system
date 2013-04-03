@@ -65,7 +65,7 @@ public class OrderController {
 
         for (Integer videoID : cart.getPurchaseList()) {
             try {
-                orderService.addPurchase(videoID, newOrder.getOrdersPK().getId(), loginToken);
+                orderService.addPurchase(videoID, newOrder, loginToken);
             } catch (AccountNotActivatedException ane) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Account Nt Activated");
                 return "redirect:" + refererOrHome;

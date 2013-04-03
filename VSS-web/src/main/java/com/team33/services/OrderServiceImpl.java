@@ -135,12 +135,12 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     @Transactional
-    public void addPurchase(Integer videoInfoId, Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException {
+    public void addPurchase(Integer videoInfoId, Orders order, int uuid) throws DataAccessException, AccountNotActivatedException {
         if (this.isActivated(uuid)) {
-            Purchase purchase = new Purchase(genPurchaseId(orderId, this.getOrdersDao().getOrder(orderId).getAccount().getId()), orderId, this.getOrdersDao().getOrder(orderId).getOrdersPK().getAccountid(), videoInfoId);
-            int newPrice = this.getOrdersDao().getOrder(orderId).getPendingCharge() + purchase.getVideoInfo().getPurchasePrice();
-            this.getOrdersDao().getOrder(orderId).setPendingCharge(newPrice);
-            this.getOrdersDao().savePurchase(this.getOrdersDao().getOrder(orderId), purchase);
+            Purchase purchase = new Purchase(genPurchaseId(order.getOrdersPK().getId(), order.getAccount().getId()), order.getOrdersPK().getId(), order.getOrdersPK().getAccountid(), videoInfoId);
+            int newPrice = order.getPendingCharge() + purchase.getVideoInfo().getPurchasePrice();
+            order.setPendingCharge(newPrice);
+            this.getOrdersDao().savePurchase(order, purchase);
         }
     }
 

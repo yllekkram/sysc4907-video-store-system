@@ -41,12 +41,12 @@ public interface OrderService {
      * Adds a purchase to an order
      *
      * @param videoInfoId
-     * @param orderId
+     * @param order
      * @param uuid
      * @throws DataAccessException
      * @throws AccountNotActivatedException
      */
-    public void addPurchase(Integer videoInfoId, Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException;
+    public void addPurchase(Integer videoInfoId, Orders order, int uuid) throws DataAccessException, AccountNotActivatedException;
 
     /**
      * Adds a rental to an order
