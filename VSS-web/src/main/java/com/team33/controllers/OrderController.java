@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -45,9 +46,9 @@ public class OrderController {
     private AccountService accountService;
 
     @RequestMapping(value = "/order/create", method = RequestMethod.POST)
-    public String createOrder(@RequestHeader(value="referer", required=false)final String referer, @ModelAttribute("orderRequest") OrderRequest orderRequest, BindingResult result, HttpServletRequest request) {
+    public String createOrder(@RequestHeader(value="referer", required=false)final String referer, @ModelAttribute("orderRequest") OrderRequest orderRequest, BindingResult result, HttpSession session) {
         String refererOrHome = StringUtils.hasText(referer) ? referer : "/";
-        ShoppingCart cart = getCart(request);
+        ShoppingCart cart = getCart(session);
         Integer loginToken = orderRequest.getLoginToken();
 
         if (cart == null) {
@@ -90,14 +91,13 @@ public class OrderController {
     }
 
     @RequestMapping("/order/new")
-    public String newOrder(@RequestHeader(value="referer", required=false)final String referer, Map<String,Object>map, HttpServletRequest request) {
+    public String newOrder(@RequestHeader(value="referer", required=false)final String referer, Map<String,Object>model, HttpSession session) {
         String refererOrHome = StringUtils.hasText(referer) ? referer : "/";
-        HashMap<String, Object> model = new HashMap<String, Object>();
         Integer totalPrice = 0;
 
-        Integer tokenID = (Integer) request.getSession().getAttribute(LoginController.ACCOUNT_ATTRIBUTE);
+        Integer tokenID = (Integer) session.getAttribute(LoginController.ACCOUNT_ATTRIBUTE);
 
-        ShoppingCart cart = getCart(request);
+        ShoppingCart cart = getCart(session);
         
         if (cart == null) {
             return "redirect:" + refererOrHome;
@@ -123,15 +123,7 @@ public class OrderController {
         return new ModelAndView("showOrder", "order", order);
     }
 
-    private ShoppingCart getCart(HttpServletRequest request) {
-        // Find the shopping cart cookie
-        Cookie cookies[] = request.getCookies();
-        for (Cookie c : cookies) {
-            if (c.getName().equals(ShoppingCartController.SHOPPING_CART_COOKIE_NAME)) {
-                return ShoppingCart.fromString(c.getValue());
-            }
-        }
-
-        return null;
+    private ShoppingCart getCart(HttpSession session) {
+        return (ShoppingCart)session.getAttribute(ShoppingCartController.SHOPPING_CART_COOKIE_NAME);
     }
 }

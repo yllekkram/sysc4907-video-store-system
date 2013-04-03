@@ -291,6 +291,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void saveOrder(Orders order) {
         ordersDao.saveOrder(order);
     }
