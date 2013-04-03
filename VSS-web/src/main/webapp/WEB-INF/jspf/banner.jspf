@@ -18,7 +18,7 @@
     .bannerNavLink{
         display: block;
         width: 100px;
-        background-color: red;
+        background-color: buttonface;
         text-align: center;
         padding-left: 5px;
         padding-right: 5px;
@@ -68,15 +68,6 @@
             </li>
             <li>
                 <a href="/VSS-web/browseVideos.htm" class="bannerNavLink">Browse Videos</a>
-            </li>
-            <li>
-                <a href="/VSS-web/viewVideo.htm" class="bannerNavLink">Watch Video</a>
-            </li>
-            <li>
-                <a href="/VSS-web/order/new.htm" class="bannerNavLink">Order</a>
-            </li>
-            <li>
-                <a href="/VSS-web/adminView.htm" class="bannerNavLink">Admin View</a>
             </li>
         </ul>
     </div>

@@ -10,11 +10,10 @@
     </head>
     <body>
         <%@include file="WEB-INF/jspf/banner.jspf" %>
-        <h1>Welcome to our On-Line Video Store!!!</h1>
-        <a href="login.htm">Account Login</a>
+        <h1>Welcome to our On-Line Video Store</h1>
         <br>
-        <a href="registerAccountView.htm">Register Account</a><br>
-        <a href="browseVideos.htm">Browse Videos</a><br>
-        <a href="viewVideo.htm">Watch Video</a>
+        <h3>Current updates:</h3>
+        New Test Video Added<br>
+        Now able to login successfully
     </body>
 </html>
