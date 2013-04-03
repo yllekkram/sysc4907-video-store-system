@@ -4,6 +4,7 @@
  */
 package com.team33.controllers;
 
+import com.team33.services.exception.DataAccessException;
 import com.team33.services.playback.VideoPlaybackService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SessionAttributes("alreadyLogin")
 public class VideoViewController {
     
+    private static final String DEFAULT_WEB_PREFIX = "/VSS-web/";
+    
     @Autowired
     private VideoPlaybackService playbackService;
     
@@ -34,11 +37,18 @@ public class VideoViewController {
         System.out.println("------ Loading Video -------");
         // Load video location from DB
         
-        String videoLocation = playbackService.getVideoFileInformation(tokenId.intValue(), Integer.parseInt(videoId));
-        int currentTime = playbackService.getInformation(tokenId.intValue(), Integer.parseInt(orderId), Integer.parseInt(videoId));
+        String videoLocation = DEFAULT_WEB_PREFIX + playbackService.getVideoFileInformation(tokenId.intValue(), Integer.parseInt(videoId));
+        
+        int currentTime = 0;
+        try{
+            currentTime = playbackService.getInformation(tokenId.intValue(), Integer.parseInt(orderId), Integer.parseInt(videoId));
+        }catch(DataAccessException e){
+            System.out.println("No Playback Info Found");
+        }
         
         // Tmp Until Service Layer added in
-        //String videoLocation = "big_buck_bunny_480p_stereo";
+        //String videoLocation = "/VSS-web/big_buck_bunny_480p_stereo";
+        System.out.println("Video Location : " + videoLocation);
         map.put("currentTime", currentTime);
         map.put("vidLocation_ogg", videoLocation + ".ogg");
         //map.put("vidLocation_mp4", videoLocation_mp4);
@@ -55,6 +65,6 @@ public class VideoViewController {
         System.out.println("--------------------------------- Current Time is : " + currentTime);
         System.out.println("Order : " + orderId + ", Video : " + videoId + ", Login : " + tokenId);        
         
-        playbackService.saveInformation(tokenId.intValue(), Integer.parseInt(orderId), Integer.parseInt(videoId), Integer.parseInt(currentTime));        
+        playbackService.saveInformation(tokenId.intValue(), Integer.parseInt(orderId), Integer.parseInt(videoId), (int)Double.parseDouble(currentTime));        
     }
 }
