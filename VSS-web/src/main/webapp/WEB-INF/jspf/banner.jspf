@@ -18,7 +18,7 @@
     .bannerNavLink{
         display: block;
         width: 100px;
-        background-color: red;
+        background-color: buttonface;
         text-align: center;
         padding-left: 5px;
         padding-right: 5px;
@@ -46,9 +46,9 @@
     <h1>On-Line Video Store !!!!</h1>
     <div id="searchLogin">
         <div id="bannerLogin">
-            <form action="" id="bannerSearch">
-                <input name="keyword" type="text"/>
-                <input type="button" value="Search"/>
+            <form action="browseVideos.htm" id="bannerSearch" method="get">
+                <input name="keyword" type="search"/>
+                <input type="submit" value="Search"/>
             </form>
             <c:if test="${alreadyLogin ne null}">
                 <a href="/VSS-web/shoppingCartView.htm">Shopping Cart</a>
@@ -68,15 +68,6 @@
             </li>
             <li>
                 <a href="/VSS-web/browseVideos.htm" class="bannerNavLink">Browse Videos</a>
-            </li>
-            <li>
-                <a href="/VSS-web/viewVideo.htm" class="bannerNavLink">Watch Video</a>
-            </li>
-            <li>
-                <a href="/VSS-web/order/new.htm" class="bannerNavLink">Order</a>
-            </li>
-            <li>
-                <a href="/VSS-web/adminView.htm" class="bannerNavLink">Admin View</a>
             </li>
         </ul>
     </div>

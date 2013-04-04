@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ShoppingCartController {
     
-    public static final String SHOPPING_CART_COOKIE_NAME = "VIDEO_LIST";
+    public static final String SHOPPING_CART_ATTRIBUTE_NAME = "VIDEO_LIST";
     
     @Autowired
     private BrowseService browseService;
@@ -36,7 +36,7 @@ public class ShoppingCartController {
     @RequestMapping(value = "/shoppingCartView.htm", method = RequestMethod.GET)
     public String viewCart(Map<String, Object> map, HttpSession session){
         ArrayList<VideoInfo> info = new ArrayList<VideoInfo>();
-        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_COOKIE_NAME);
+        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_ATTRIBUTE_NAME);
         if (cart == null){
             map.put("VideoList", info);
             return "/shoppingCartView"; 
@@ -66,47 +66,47 @@ public class ShoppingCartController {
     
     @RequestMapping(value = "/shoppingCartView/purchase/delete/{videoId}", method = RequestMethod.POST)
     public String deletePurchaseOrder(@PathVariable("videoId")String videoId, HttpSession session){
-        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_COOKIE_NAME);
+        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_ATTRIBUTE_NAME);
         if (cart == null){
             return "redirect:/shoppingCartView.htm";
         }
         cart.removeFromCart(Integer.parseInt(videoId), false);
-        session.setAttribute(SHOPPING_CART_COOKIE_NAME, cart);
+        session.setAttribute(SHOPPING_CART_ATTRIBUTE_NAME, cart);
         return "redirect:/shoppingCartView.htm";
     }
     
     @RequestMapping(value = "/shoppingCartView/rental/delete/{videoId}", method = RequestMethod.POST)
     public String deleteRentalOrder(@PathVariable("videoId")String videoId, HttpSession session){
-        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_COOKIE_NAME);
+        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_ATTRIBUTE_NAME);
         if (cart == null){
             return "redirect:/shoppingCartView.htm";
         }
         cart.removeFromCart(Integer.parseInt(videoId), true);
-        session.setAttribute(SHOPPING_CART_COOKIE_NAME, cart);
+        session.setAttribute(SHOPPING_CART_ATTRIBUTE_NAME, cart);
         return "redirect:/shoppingCartView.htm";
     }
     
     @RequestMapping(value = "/shoppingCartView/purchase/{videoId}", method = RequestMethod.GET)
     public String addPurchaseToCart(@PathVariable("videoId")String videoId, HttpSession session){
         System.out.println("----------------------- Add Purchase To Cart ----------------------------------");
-        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_COOKIE_NAME);
+        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_ATTRIBUTE_NAME);
         if (cart == null){
             cart = new ShoppingCart();
         }
         cart.addToCart(Integer.parseInt(videoId), false);
-        session.setAttribute(SHOPPING_CART_COOKIE_NAME, cart);
+        session.setAttribute(SHOPPING_CART_ATTRIBUTE_NAME, cart);
         return "redirect:/browseView/" + videoId + ".htm";
     }
     
     @RequestMapping(value = "/shoppingCartView/rental/{videoId}", method = RequestMethod.GET)
     public String addrentalToCart(@PathVariable("videoId")String videoId, HttpSession session){
         System.out.println("----------------------- Add Rental To Cart ----------------------------------");
-        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_COOKIE_NAME);
+        ShoppingCart cart = (ShoppingCart)session.getAttribute(SHOPPING_CART_ATTRIBUTE_NAME);
         if (cart == null){
             cart = new ShoppingCart();
         }
         cart.addToCart(Integer.parseInt(videoId), true);
-        session.setAttribute(SHOPPING_CART_COOKIE_NAME, cart);
+        session.setAttribute(SHOPPING_CART_ATTRIBUTE_NAME, cart);
         return "redirect:/browseView/" + videoId + ".htm";
     }
     

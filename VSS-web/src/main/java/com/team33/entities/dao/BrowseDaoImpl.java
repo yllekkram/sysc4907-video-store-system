@@ -95,4 +95,11 @@ public class BrowseDaoImpl implements BrowseDao {
         videoQuery.setParameter("genre", genre);
         return videoQuery.list();
     }
+    @Override
+    public List<VideoInfo> searchLikeVideos(String title){
+        Session curSession = sessionFactory.getCurrentSession();
+        Query videoQuery = curSession.getNamedQuery("VideoInfo.findByLike");
+        videoQuery.setParameter("title","%" + title + "%");
+        return videoQuery.list();
+    }
 }
