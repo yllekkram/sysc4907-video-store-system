@@ -92,4 +92,9 @@ public class BrowseServiceImpl implements BrowseService {
         return this.browseDao.searchVideos(title);
     }
 
+    @Override
+    @Transactional
+    public List<VideoInfo> searchLikeVideos(String title){
+        return this.browseDao.searchLikeVideos(title);
+    }
 }

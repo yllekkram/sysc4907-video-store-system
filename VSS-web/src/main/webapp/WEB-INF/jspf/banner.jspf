@@ -46,9 +46,9 @@
     <h1>On-Line Video Store !!!!</h1>
     <div id="searchLogin">
         <div id="bannerLogin">
-            <form action="" id="bannerSearch">
-                <input name="keyword" type="text"/>
-                <input type="button" value="Search"/>
+            <form action="browseVideos.htm" id="bannerSearch" method="get">
+                <input name="keyword" type="search"/>
+                <input type="submit" value="Search"/>
             </form>
             <c:if test="${alreadyLogin ne null}">
                 <a href="/VSS-web/shoppingCartView.htm">Shopping Cart</a>

@@ -49,4 +49,6 @@ public interface BrowseDao {
      * @return List<VideoInfo>
      */
     public List<VideoInfo> searchVideos(String title);
+    
+    public List<VideoInfo> searchLikeVideos(String title);
 }
