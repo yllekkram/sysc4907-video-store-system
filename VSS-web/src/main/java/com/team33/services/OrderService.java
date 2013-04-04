@@ -104,4 +104,7 @@ public interface OrderService {
      * @throws AccountNotActivatedException
      */
     public void removeRental(Integer videoInfoId, Integer orderId, int uuid, Date rentalExpiryDate) throws AccountNotActivatedException;
+    
+    
+    public boolean validateOrder(int videoId, int orderId, int loginTokenId) throws AccountNotActivatedException, DataAccessException;
 }
