@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "VideoInfo.findAll", query = "SELECT v FROM VideoInfo v"),
     @NamedQuery(name = "VideoInfo.findById", query = "SELECT v FROM VideoInfo v WHERE v.id = :id"),
+    @NamedQuery(name = "VideoInfo.findByLike", query = "SELECT v FROM VideoInfo v WHERE v.title LIKE :title"),
     @NamedQuery(name = "VideoInfo.findByTitle", query = "SELECT v FROM VideoInfo v WHERE v.title = :title"),
     @NamedQuery(name = "VideoInfo.findByPurchasePrice", query = "SELECT v FROM VideoInfo v WHERE v.purchasePrice = :purchasePrice"),
     @NamedQuery(name = "VideoInfo.findByRentalPrice", query = "SELECT v FROM VideoInfo v WHERE v.rentalPrice = :rentalPrice"),

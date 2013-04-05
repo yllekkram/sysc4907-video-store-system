@@ -120,4 +120,6 @@ public interface OrderService {
      * @param order The order that will be saved to the database.
      */
     public void saveOrUpdateOrder(Orders order);
+    
+    public boolean validateOrder(int videoId, int orderId, int loginTokenId) throws AccountNotActivatedException, DataAccessException;
 }

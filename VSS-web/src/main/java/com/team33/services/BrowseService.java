@@ -55,4 +55,7 @@ public interface BrowseService {
      * @return
      */
     public List<VideoInfo> searchVideos(String title);
+    
+    
+    public List<VideoInfo> searchLikeVideos(String title);
 }

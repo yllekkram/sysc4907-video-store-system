@@ -190,10 +190,10 @@ public class OrderController {
     }
 
     private ShoppingCart getCart(HttpSession session) {
-        return (ShoppingCart)session.getAttribute(ShoppingCartController.SHOPPING_CART_COOKIE_NAME);
+        return (ShoppingCart)session.getAttribute(ShoppingCartController.SHOPPING_CART_ATTRIBUTE_NAME);
     }
     
     private void clearCart(HttpSession session) {
-        session.removeAttribute(ShoppingCartController.SHOPPING_CART_COOKIE_NAME);
+        session.removeAttribute(ShoppingCartController.SHOPPING_CART_ATTRIBUTE_NAME);
     }
 }

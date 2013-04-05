@@ -16,8 +16,11 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -45,13 +48,13 @@ public class MyAccountController {
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public String displayAccountInfo(Map<String, Object> map, HttpSession session){
-        
+    public String displayAccountInfo(@RequestHeader(value="referer", required=false)final String referer, final RedirectAttributes redirectAttributes, Map<String, Object> map, HttpSession session){
+        String refererOrHome = StringUtils.hasText(referer) ? referer : "/";
         Integer token = (Integer)session.getAttribute(LoginController.ACCOUNT_ATTRIBUTE);
         System.out.println("TOKEN : " + token);
         
         if (token == null){
-            return "redirect:/myAccountView.htm";
+            return "redirect:/registerAccountView.htm";
         }
         
         int uuid = token.intValue();        
@@ -59,18 +62,17 @@ public class MyAccountController {
         try{
             Account account = this.accountService.getAccount(uuid);
             List<Orders> orders = this.orderService.getOrders(uuid);
-           
-            //Account account = new Account();
-            //account.setName("Jim");
+
             if (account != null){
                 map.put("Name", account.getName());
                 map.put("Orders", orders);
             }
         }catch(DataAccessException e){
-            //redirect.addFlashAttribute("exception", e);
-            return "redirect:/myAccountView.htm";
+            redirectAttributes.addFlashAttribute("errorMessage", e.getLocalizedMessage());
+            return "redirect:" + refererOrHome;
         }catch(AccountNotActivatedException e){
-            return "redirect:/myAccountView.htm";
+            redirectAttributes.addFlashAttribute("errorMessage", e.getLocalizedMessage());
+            return "redirect:" + refererOrHome;
         }            
         return "/myAccountView";
     }

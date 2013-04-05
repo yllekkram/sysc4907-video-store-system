@@ -326,4 +326,24 @@ public class OrderServiceImpl implements OrderService {
     public void saveOrUpdateOrder(Orders order) {
         ordersDao.saveOrUpdateOrder(order);
     }
+    
+    @Override
+    @Transactional
+    public boolean validateOrder(int videoId, int orderId, int loginTokenId) throws AccountNotActivatedException, DataAccessException{
+        if (!this.isActivated(loginTokenId)){
+            throw new AccountNotActivatedException("Account Not Activated");
+        }
+        Orders order = this.getOrder(orderId, loginTokenId);
+        for (Purchase p : order.getPurchaseCollection()){
+            if (p.getPurchasePK().getVideoInfoid() == videoId){
+                return true;
+            }
+        }
+        for (Rental r : order.getRentalCollection()){
+            if (r.getRentalPK().getVideoInfoid() == videoId){
+                return true;
+            }
+        }
+        return false;
+    }
 }
