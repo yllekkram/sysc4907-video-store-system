@@ -106,7 +106,7 @@ public class OrderController {
         
         clearCart(session);
         
-        return "redirect:show.htm?orderID=" + newOrder.getOrdersPK().getId();
+        return "redirect:/myAccountView.htm";
     }
 
     @RequestMapping("/order/new")
@@ -148,45 +148,6 @@ public class OrderController {
         model.put("uuid", tokenID);
 
         return "newOrder";
-    }
-
-    @RequestMapping("/order/show")
-    public String showOrder(
-            @RequestHeader(value="referer", required=false)final String referer,
-            @RequestParam("orderID") Integer orderID,
-            Map<String,Object> model,
-            HttpSession session,
-            final RedirectAttributes redirectAttributes)
-    {
-        String refererOrHome = StringUtils.hasText(referer) ? referer : "/";
-        Integer loginToken = (Integer)session.getAttribute(LoginController.ACCOUNT_ATTRIBUTE);
-        
-        if (loginToken == null) {
-            redirectAttributes.addFlashAttribute("errorMessage", "You must be logged in to view an order.");
-            return "redirect:" + refererOrHome;
-        }
-        
-        Orders order;
-        try {
-            order = orderService.getOrder(orderID, loginToken);
-        } catch (DataAccessException ex) {
-            Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
-            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
-            return "redirect:" + refererOrHome;
-        } catch (AccountNotActivatedException ex) {
-            Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
-            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
-            return "redirect:" + refererOrHome;
-        }
-        
-        if (order == null) {
-            model.put("errorMessage", "The order is null.");
-        }
-        
-        model.put("order", order);
-        model.put("orderID", orderID);
-        
-        return "showOrder";
     }
 
     private ShoppingCart getCart(HttpSession session) {
