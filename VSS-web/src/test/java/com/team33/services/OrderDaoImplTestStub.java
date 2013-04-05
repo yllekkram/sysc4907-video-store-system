@@ -38,7 +38,7 @@ public class OrderDaoImplTestStub extends OrdersDaoImpl{
     }
     
     @Override
-    public Orders getOrder(Integer orderId) throws DataAccessException {
+    public Orders getOrder(Integer orderId, Integer accountID) throws DataAccessException {
         if (orderId == null){
             throw new DataAccessException("Dummy Message");
         }else if(orderId.intValue() == -1){

@@ -25,10 +25,11 @@ public interface OrdersDao {
     /**
      * Return a particular order associated with an account
      * @param orderId
+     * @param accountId
      * @return
      * @throws DataAccessException
      */
-    public Orders getOrder(Integer orderId) throws DataAccessException;
+    public Orders getOrder(Integer orderId, Integer accountId) throws DataAccessException;
 
     /**
      * Retrieves the login token

@@ -2,6 +2,7 @@ package com.team33.entities.dao;
 
 import com.team33.entities.Orders;
 import com.team33.entities.LoginToken;
+import com.team33.entities.OrdersPK;
 import com.team33.entities.Purchase;
 import com.team33.entities.Rental;
 import java.util.List;
@@ -47,8 +48,8 @@ public class OrdersDaoImpl implements OrdersDao {
      * @throws DataAccessException
      */
     @Override
-    public Orders getOrder(Integer orderId) throws DataAccessException {
-        return (Orders) sessionFactory.getCurrentSession().get(Orders.class, orderId);
+    public Orders getOrder(Integer orderId, Integer accountID) throws DataAccessException {
+        return (Orders) sessionFactory.getCurrentSession().get(Orders.class, new OrdersPK(orderId, accountID));
     }
 
     /**
