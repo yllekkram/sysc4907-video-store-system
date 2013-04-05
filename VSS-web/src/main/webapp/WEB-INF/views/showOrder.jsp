@@ -12,6 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Showing Order for ${order}!</h1>
+        <%@include file="../jspf/banner.jspf" %>
+        <h1>Showing Order ${order.getOrdersPK().getId()}!</h1>
     </body>
 </html>
