@@ -48,7 +48,7 @@
                 <c:forEach items="${ordersItem.getRentalCollection()}" var="rental">
                     <tr>
                         <td><a href="viewVideo/${purchase.getOrders().getOrdersPK().getId()}/${rental.getVideoInfo().getId()}.htm"><c:out value="${rental.getVideoInfo().getTitle()}"/></a></td>
-                        <td>${purchase.getVideoInfo().getRentalPrice()}</td>
+                        <td>${rental.getVideoInfo().getRentalPrice()}</td>
                         <td>${rental.getRentalPK().getRentalExpiryDate().toString()}</td>
                     </tr>
                 </c:forEach>
