@@ -60,7 +60,9 @@ public class OrderController {
             return "redirect:" + refererOrHome;
         }
         Orders newOrder = new Orders(accountService.getAccountByLoginToken(loginToken).getId());
-
+        // This should (hopefully) force the id to be generated
+        orderService.saveOrder(newOrder);
+        
         for (Integer videoID : cart.getPurchaseList()) {
             try {
                 orderService.addPurchase(videoID, newOrder, loginToken);

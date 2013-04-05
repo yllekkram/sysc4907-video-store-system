@@ -65,7 +65,8 @@ public class Orders implements Serializable {
 
     public Orders(int accountID) {
         this.pendingCharge = 0;
-        this.ordersPK = new OrdersPK(Orders.nextID++, accountID);
+        this.ordersPK = new OrdersPK();
+        this.ordersPK.setAccountid(accountID);
     }
     
     /**
