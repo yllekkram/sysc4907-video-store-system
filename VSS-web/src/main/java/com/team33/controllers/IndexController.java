@@ -4,16 +4,13 @@
  */
 package com.team33.controllers;
 
-import com.team33.entities.Account;
-import com.team33.services.exception.AccountNotActivatedException;
-import com.team33.services.exception.AccountNotFoundException;
-import com.team33.services.exception.AuthenticationException;
+import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -27,8 +24,9 @@ public class IndexController {
      * @return
      */
     @RequestMapping(value = "/index")
-    public ModelAndView indexPage() {
-        return new ModelAndView("index");
+    public String indexPage(@ModelAttribute(value="errorMessage")String errorMessage, Map<String,Object>model) {
+        model.put("errorMessage", errorMessage);
+        return "index";
     }
     /**
      *
