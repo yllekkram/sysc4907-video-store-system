@@ -141,10 +141,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public Account getAccountByLoginToken(Integer loginTokenId) {
-        if (loginTokenId == null) {
-            return null;
-        }
-        return accountDao.getLoginToken(loginTokenId).getAccount();
+        return accountDao.getAccountByLoginToken(loginTokenId);
     }
 
     /**

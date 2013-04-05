@@ -40,6 +40,7 @@ public interface AccountService {
      * @param loginTokenId The id of the Account's LoginToken
      * @return the account with the given LoginToken
      * @throws DataAccess Exception
+     * @author Mark
      */
     public Account getAccountByLoginToken(Integer loginTokenId) throws DataAccessException;
 
