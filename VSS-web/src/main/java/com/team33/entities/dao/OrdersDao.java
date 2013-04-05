@@ -46,6 +46,15 @@ public interface OrdersDao {
     public void saveOrder(Orders order) throws DataAccessException;
 
     /**
+     * Saves an updated version of an order
+     * 
+     * @param oder The updated order
+     * @throws DataAccessException
+     * @author Mark
+     */
+    public void saveOrUpdateOrder(Orders order) throws DataAccessException;
+    
+    /**
      * Persists a rental in the order
      * @param order
      * @param rental

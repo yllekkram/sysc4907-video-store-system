@@ -112,4 +112,12 @@ public interface OrderService {
      * @param order The order that will be saved to the database.
      */
     public void saveOrder(Orders order);
+    
+    /**
+     * Save a new order or update an existing order
+     * 
+     * @author Mark
+     * @param order The order that will be saved to the database.
+     */
+    public void saveOrUpdateOrder(Orders order);
 }

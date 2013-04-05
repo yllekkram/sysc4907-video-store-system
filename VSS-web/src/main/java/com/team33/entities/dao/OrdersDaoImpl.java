@@ -157,4 +157,9 @@ public class OrdersDaoImpl implements OrdersDao {
         }
         return (LoginToken)query.list().get(0);
     }
+
+    @Override
+    public void saveOrUpdateOrder(Orders order) throws org.springframework.dao.DataAccessException {
+        sessionFactory.getCurrentSession().saveOrUpdate(order);
+    }
 }
