@@ -24,7 +24,6 @@ public class AccountServiceImpl implements AccountService {
     //be sure to include setter method
     @Autowired
     private AccountDao accountDao;
-    
     private List<Orders> orders;
 
     /**
@@ -104,7 +103,7 @@ public class AccountServiceImpl implements AccountService {
      * @param password
      * @throws RegistrationException
      */
-    @Transactional(rollbackFor=RegistrationException.class)
+    @Transactional(rollbackFor = RegistrationException.class)
     @Override
     public void registerAccount(String username, String password) throws RegistrationException {
         //if username already exists in system throw exception
@@ -137,6 +136,12 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account getAccount(Integer accountId) throws DataAccessException {
         return accountDao.getAccount(accountId);
+    }
+
+    @Override
+    @Transactional
+    public Account getAccountByLoginToken(Integer loginTokenId) {
+        return accountDao.getAccountByLoginToken(loginTokenId);
     }
 
     /**

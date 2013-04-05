@@ -39,6 +39,16 @@ public interface AccountDao {
     public Account getAccount(String username) throws DataAccessException;
 
     /**
+     * Gets an account using its login token.
+     * 
+     * @param loginTokenId The id of the Account's LoginToken
+     * @return the account with the given LoginToken
+     * @throws DataAccess Exception
+     * @author Mark
+     */
+    public Account getAccountByLoginToken(Integer loginTokenId) throws DataAccessException;
+    
+    /**
      * Persists an account
      *
      * @param account

@@ -163,4 +163,12 @@ public class AccountDaoImpl implements AccountDao, LoginTokenDao {
             sessionFactory.getCurrentSession().delete(token);
         }
     }
+
+    @Override
+    public Account getAccountByLoginToken(Integer loginTokenId) throws DataAccessException {
+        if (loginTokenId == null) {
+            return null;
+        }
+        return getLoginToken(loginTokenId).getAccount();
+    }
 }

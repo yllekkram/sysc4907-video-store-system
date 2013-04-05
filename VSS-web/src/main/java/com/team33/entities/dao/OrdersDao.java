@@ -25,10 +25,11 @@ public interface OrdersDao {
     /**
      * Return a particular order associated with an account
      * @param orderId
+     * @param accountId
      * @return
      * @throws DataAccessException
      */
-    public Orders getOrder(Integer orderId) throws DataAccessException;
+    public Orders getOrder(Integer orderId, Integer accountId) throws DataAccessException;
 
     /**
      * Retrieves the login token
@@ -45,6 +46,15 @@ public interface OrdersDao {
      */
     public void saveOrder(Orders order) throws DataAccessException;
 
+    /**
+     * Saves an updated version of an order
+     * 
+     * @param oder The updated order
+     * @throws DataAccessException
+     * @author Mark
+     */
+    public void saveOrUpdateOrder(Orders order) throws DataAccessException;
+    
     /**
      * Persists a rental in the order
      * @param order

@@ -4,37 +4,72 @@
  */
 package com.team33.form;
 
+import com.team33.entities.Account;
+
 /**
  *
  * @author Mark
  */
 public class OrderRequest {
-    private String videotitle;
-    private Integer videoid;
-    private String orderType;
 
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
-    }
+    private Integer loginToken;
+    private Integer totalPrice;
+    private String paymentMethod;
+    private String cardholderName;
+    private String creditCardNumber;
+    private String creditCardVerification;
 
-    public String getOrderType() {
-        return orderType;
+    public OrderRequest() {
+        loginToken = null;
+        totalPrice = 0;
+        paymentMethod = "creditCard";
     }
     
-
-    public void setVideoid(Integer videoid) {
-        this.videoid = videoid;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
-    public Integer getVideoid() {
-        return videoid;
+    public void setLoginToken(Integer loginToken) {
+        this.loginToken = loginToken;
     }
 
-    public void setVideotitle(String videotitle) {
-        this.videotitle = videotitle;
+    public void setCardholderName(String cardholderName) {
+        this.cardholderName = cardholderName;
     }
 
-    public String getVideotitle() {
-        return videotitle;
+    public void setCreditCardNumber(String creditCardNumber) {
+        this.creditCardNumber = creditCardNumber;
+    }
+
+    public void setCreditCardVerification(String creditCardVerification) {
+        this.creditCardVerification = creditCardVerification;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public Integer getLoginToken() {
+        return loginToken;
+    }
+
+    public String getCardholderName() {
+        return cardholderName;
+    }
+
+    public String getCreditCardNumber() {
+        return creditCardNumber;
+    }
+
+    public String getCreditCardVerification() {
+        return creditCardVerification;
+    }
+
+    public void setTotalPrice(Integer totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Integer getTotalPrice() {
+        return totalPrice;
     }
 }
