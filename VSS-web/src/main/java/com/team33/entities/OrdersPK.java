@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
 
 /**
  * Represents the primary key for orders
@@ -15,6 +16,7 @@ public class OrdersPK implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "id")
+    @GeneratedValue
     private int id;
     @Basic(optional = false)
     @Column(name = "Account_id")

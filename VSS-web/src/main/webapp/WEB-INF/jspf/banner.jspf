@@ -72,3 +72,8 @@
         </ul>
     </div>
 </div>
+<c:if test="${errorMessage ne null}">
+    <div id="errorMessage">
+        ### ${errorMessage} ###
+    </div>
+</c:if>

@@ -2,6 +2,7 @@ package com.team33.entities.dao;
 
 import com.team33.entities.Orders;
 import com.team33.entities.LoginToken;
+import com.team33.entities.OrdersPK;
 import com.team33.entities.Purchase;
 import com.team33.entities.Rental;
 import java.util.List;
@@ -47,8 +48,8 @@ public class OrdersDaoImpl implements OrdersDao {
      * @throws DataAccessException
      */
     @Override
-    public Orders getOrder(Integer orderId) throws DataAccessException {
-        return (Orders) sessionFactory.getCurrentSession().get(Orders.class, orderId);
+    public Orders getOrder(Integer orderId, Integer accountID) throws DataAccessException {
+        return (Orders) sessionFactory.getCurrentSession().get(Orders.class, new OrdersPK(orderId, accountID));
     }
 
     /**
@@ -156,5 +157,10 @@ public class OrdersDaoImpl implements OrdersDao {
             throw new DataAccessException("The activation key is invalid");
         }
         return (LoginToken)query.list().get(0);
+    }
+
+    @Override
+    public void saveOrUpdateOrder(Orders order) throws org.springframework.dao.DataAccessException {
+        sessionFactory.getCurrentSession().saveOrUpdate(order);
     }
 }

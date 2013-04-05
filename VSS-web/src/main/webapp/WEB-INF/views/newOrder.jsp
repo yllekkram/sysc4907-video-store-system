@@ -11,28 +11,47 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>New Order</title>
+        <title>Order</title>
     </head>
     <body>
-        <form:form method="post" action="create.htm">
+        <%@include file="../jspf/banner.jspf" %>
+        <table>
+            <tr>
+                <td>Account:</td>
+                <td>${account.getName()}</td>
+            </tr>
+            <tr>
+                <td>Price:</td>
+                <td>&#36;${totalPrice}</td>
+            </tr>
+        </table>
+
+        <form method="post" action="create.htm">
             <table>
                 <tr>
-                    <td><form:label path="videotitle">Video Title</form:label></td>
-                    <td><form:input path="videotitle"/></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <form:radiobutton path="orderType" value="purchase" />Purchase <br/>
-                        <form:radiobutton path="orderType" value="rental" /> Rental
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input type="submit" value="Confirm" />
-                    </td>
+                    <td>Payment Method:</td>
+                    <td><input type="radio" name="paymentMethod" value="creditCard" checked />Credit Card</td>
                 </tr>
             </table>
-            <input type="hidden" name="videoid" value="${param.videoid}" />
-        </form:form>
+            <table>
+                <tr>
+                    <th colspan="2">Credit Card Info</th>
+                </tr>
+                <tr>
+                    <td>Cardholder Name:</td>
+                    <td><input type="text" name="cardholderName" /></td>
+                </tr>
+                <tr>
+                    <td>Card Number:</td>
+                    <td><input type="text" name="creditCardNumber" /></td>
+                </tr>
+                <tr>
+                    <td>Verification Number:</td>
+                    <td><input type="text" name="creditCardVerification" /></td>
+                </tr>
+            </table>
+            <input type="hidden" name="loginToken" value="${uuid}"/>
+            <input type="submit" value="Confirm" />
+        </form>
     </body>
 </html>

@@ -41,24 +41,24 @@ public interface OrderService {
      * Adds a purchase to an order
      *
      * @param videoInfoId
-     * @param orderId
+     * @param order
      * @param uuid
      * @throws DataAccessException
      * @throws AccountNotActivatedException
      */
-    public void addPurchase(Integer videoInfoId, Integer orderId, int uuid) throws DataAccessException, AccountNotActivatedException;
+    public void addPurchase(Integer videoInfoId, Orders order, int uuid) throws DataAccessException, AccountNotActivatedException;
 
     /**
      * Adds a rental to an order
      *
      * @param videoInfoId
-     * @param orderId
+     * @param order
      * @param uuid
      * @param rentalExpiryDate
      * @throws DataAccessException
      * @throws AccountNotActivatedException
      */
-    public void addRental(Integer videoInfoId, Integer orderId, int uuid, Date rentalExpiryDate) throws DataAccessException, AccountNotActivatedException;
+    public void addRental(Integer videoInfoId, Orders order, int uuid, Date rentalExpiryDate) throws DataAccessException, AccountNotActivatedException;
 
     /**
      * Confirms payment of an order
@@ -105,6 +105,21 @@ public interface OrderService {
      */
     public void removeRental(Integer videoInfoId, Integer orderId, int uuid, Date rentalExpiryDate) throws AccountNotActivatedException;
     
+    /**
+     * Save an order
+     * 
+     * @author Mark
+     * @param order The order that will be saved to the database.
+     */
+    public void saveOrder(Orders order);
+    
+    /**
+     * Save a new order or update an existing order
+     * 
+     * @author Mark
+     * @param order The order that will be saved to the database.
+     */
+    public void saveOrUpdateOrder(Orders order);
     
     public boolean validateOrder(int videoId, int orderId, int loginTokenId) throws AccountNotActivatedException, DataAccessException;
 }
