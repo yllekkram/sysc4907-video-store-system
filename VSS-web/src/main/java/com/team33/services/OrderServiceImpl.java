@@ -209,8 +209,10 @@ public class OrderServiceImpl implements OrderService {
                 //if the charge can be processed create an invoice for the customer and charge him
                 if (this.getCreditCardValidator().isChargeValid(totalCost) && this.getCreditCardValidator().isUnderLOC(allCharges, totalCost)) {
                     //Persists the order after payment is confirmed
-                    Orders transactionOrder = new Orders(order.getOrdersPK().getId(), this.getOrdersDao().getLoginToken(uuid).getAccount().getId());
-                    this.getOrdersDao().saveOrder(transactionOrder);
+                    /* Why!!!
+                     * Orders transactionOrder = new Orders(order.getOrdersPK().getId(), this.getOrdersDao().getLoginToken(uuid).getAccount().getId());
+                     */
+                    this.getOrdersDao().saveOrder(order);
                     this.getCreditCardValidator().charge();
                 }
             }
