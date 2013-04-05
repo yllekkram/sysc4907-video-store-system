@@ -81,7 +81,7 @@
         </ul>
     </div>
 </div>
-<c:if test="${not empty errorMessage}">
+<c:if test="${errorMessage ne null}">
     <div id="errorMessage">
         ### ${errorMessage} ###
     </div>
